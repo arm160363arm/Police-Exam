@@ -11,12 +11,34 @@
 </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between">
-  :root {
-    --primary: #800000;       /* สีแดงเลือดหมูหลัก */
-    --primary-hover: #5a0000; /* สีแดงเลือดหมูเข้มสำหรับ Hover */
-    --bg-color: #f4f4f9;
-    --text-color: #333;
-}
+<style>
+    :root {
+        --primary: #800000;       /* สีแดงเลือดหมูหลัก */
+        --primary-hover: #5a0000; /* สีแดงเลือดหมูเข้มสำหรับ Hover */
+        --bg-color: #f4f4f9;
+        --text-color: #333;
+    }
+
+    body { 
+        font-family: 'Sarabun', sans-serif; 
+    }
+</style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <!-- Header Bar -->
+    <header class="bg-[#800000] text-white shadow">
+        <div class="max-w-4xl mx-auto px-4 py-3">
+            <div>
+                <h1 class="font-bold text-base md:text-lg">POLICEWITHARM - ข้อสอบตำรวจ</h1>
+                <p class="text-[11px] md:text-xs text-red-100">ระบบทดสอบออนไลน์</p>
+            </div>
+            <div id="timer" class="bg-[#5a0000] px-3 py-1 rounded text-sm font-mono">
+                03:00:00
+            </div>
+        </div>
+    </header>
+
 
 
 <!-- Header Bar -->
