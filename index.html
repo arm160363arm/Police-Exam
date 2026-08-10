@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>POLICEWITHARM - ชุดจำลองสอบนายสิบตำรวจ</title>
 
-<!-- PWA / Add to Home Screen Meta Tags -->
+<!-- PWA / Add to Home Screen Meta Tags (ใช้รูป logo.png) -->
 <meta name="theme-color" content="#800000">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="PolicewithArm">
 
-<!-- Embed SVG App Icon (Base64) -->
-<link rel="icon" type="image/svg+xml" id="favicon">
-<link rel="apple-touch-icon" id="apple-icon">
+<!-- เรียกใช้ไฟล์รูป PNG โดยตรง -->
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 <link rel="manifest" id="manifest-placeholder">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
@@ -39,35 +39,8 @@
 </style>
 
 <script>
-  // สร้าง SVG โลโก้ PolicewithArm ตามรูปภาพ
-  const logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-    <rect width="512" height="512" fill="#ffffff"/>
-    <path d="M 130 270 A 180 180 0 0 1 382 270" fill="none" stroke="#500000" stroke-width="6" stroke-linecap="round"/>
-    <g transform="translate(256, 140)">
-      <polygon points="0,-65 14,-20 55,-40 20,-12 60,10 18,14 25,58 0,18 -25,58 -18,14 -60,10 -20,-12 -55,-40 -14,-20" fill="#111625"/>
-      <polygon points="0,-65 0,0 55,-40" fill="#ffffff" opacity="0.15"/>
-      <polygon points="0,-65 0,0 -55,-40" fill="#111625"/>
-      <polygon points="60,10 0,0 25,58" fill="#ffffff" opacity="0.15"/>
-      <polygon points="-60,10 0,0 -25,58" fill="#111625"/>
-    </g>
-    <g fill="#111625">
-      <path d="M 218 190 L 140 330 L 175 330 L 195 290 L 255 290 L 245 270 L 205 270 L 235 220 Z"/>
-      <path d="M 245 195 L 300 195 C 335 195 348 215 348 238 C 348 265 328 280 295 280 L 270 280 L 270 300 C 270 318 280 322 300 322 L 305 330 L 270 330 C 248 330 240 315 240 295 L 240 195 Z M 270 215 L 270 260 L 295 260 C 315 260 324 250 324 238 C 324 223 312 215 295 215 Z"/>
-    </g>
-    <text x="256" y="380" font-family="'Sarabun', 'Arial', sans-serif" font-weight="800" font-size="34" fill="#111625" text-anchor="middle" letter-spacing="9">POLICE</text>
-    <line x1="100" y1="404" x2="130" y2="404" stroke="#500000" stroke-width="4" stroke-linecap="round"/>
-    <text x="256" y="412" font-family="'Sarabun', 'Arial', sans-serif" font-weight="700" font-size="20" fill="#111625" text-anchor="middle" letter-spacing="7">WITH ARM</text>
-    <line x1="382" y1="404" x2="412" y2="404" stroke="#500000" stroke-width="4" stroke-linecap="round"/>
-  </svg>`;
-
-  const svgUrl = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(logoSvg)));
-
   window.addEventListener('DOMContentLoaded', () => {
-    // 1. ตั้งค่า Icon สำหรับ Browser และ iOS
-    document.getElementById('favicon').href = svgUrl;
-    document.getElementById('apple-icon').href = svgUrl;
-
-    // 2. สร้าง Dynamic Manifest สำหรับ PWA (Add to Home Screen)
+    // สร้าง Dynamic Manifest อ้างอิงไฟล์ logo.png
     const manifestData = {
       "name": "POLICEWITHARM - ชุดจำลองสอบนายสิบตำรวจ",
       "short_name": "PolicewithArm",
@@ -77,9 +50,9 @@
       "theme_color": "#800000",
       "icons": [
         {
-          "src": svgUrl,
+          "src": "logo.png",
           "sizes": "512x512",
-          "type": "image/svg+xml",
+          "type": "image/png",
           "purpose": "any maskable"
         }
       ]
@@ -95,19 +68,8 @@
 <header class="bg-maroon text-white shadow-md sticky top-0 z-50">
   <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center gap-2.5">
-      <!-- Logo Icon บน Header Bar -->
-      <div class="w-9 h-9 bg-white rounded-lg p-0.5 flex items-center justify-center shadow-sm">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-full h-full">
-          <path d="M 130 270 A 180 180 0 0 1 382 270" fill="none" stroke="#500000" stroke-width="12"/>
-          <g transform="translate(256, 140)">
-            <polygon points="0,-65 14,-20 55,-40 20,-12 60,10 18,14 25,58 0,18 -25,58 -18,14 -60,10 -20,-12 -55,-40 -14,-20" fill="#111625"/>
-          </g>
-          <g fill="#111625">
-            <path d="M 218 190 L 140 330 L 175 330 L 195 290 L 255 290 L 245 270 L 205 270 L 235 220 Z"/>
-            <path d="M 245 195 L 300 195 C 335 195 348 215 348 238 C 348 265 328 280 295 280 L 270 280 L 270 300 C 270 318 280 322 300 322 L 305 330 L 270 330 C 248 330 240 315 240 295 L 240 195 Z M 270 215 L 270 260 L 295 260 C 315 260 324 250 324 238 C 324 223 312 215 295 215 Z"/>
-          </g>
-        </svg>
-      </div>
+      <!-- รูปโลโก้ PNG บน Header Bar -->
+      <img src="logo.png" alt="PolicewithArm Logo" class="w-9 h-9 object-contain bg-white rounded-lg p-0.5 shadow-sm">
       <div>
         <h1 class="font-bold text-base md:text-xl leading-tight">POLICEWITHARM</h1>
         <p class="text-[11px] md:text-xs text-red-100">ชุดจำลองสอบนายสิบตำรวจ</p>
@@ -124,18 +86,9 @@
 
   <!-- Welcome / Start Screen -->
   <section id="start-screen" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 text-center max-w-xl mx-auto my-4">
-    <div class="w-20 h-20 bg-white border border-slate-200 rounded-2xl flex items-center justify-center mx-auto mb-4 p-2 shadow-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-full h-full">
-        <path d="M 130 270 A 180 180 0 0 1 382 270" fill="none" stroke="#500000" stroke-width="12"/>
-        <g transform="translate(256, 140)">
-          <polygon points="0,-65 14,-20 55,-40 20,-12 60,10 18,14 25,58 0,18 -25,58 -18,14 -60,10 -20,-12 -55,-40 -14,-20" fill="#111625"/>
-        </g>
-        <g fill="#111625">
-          <path d="M 218 190 L 140 330 L 175 330 L 195 290 L 255 290 L 245 270 L 205 270 L 235 220 Z"/>
-          <path d="M 245 195 L 300 195 C 335 195 348 215 348 238 C 348 265 328 280 295 280 L 270 280 L 270 300 C 270 318 280 322 300 322 L 305 330 L 270 330 C 248 330 240 315 240 295 L 240 195 Z M 270 215 L 270 260 L 295 260 C 315 260 324 250 324 238 C 324 223 312 215 295 215 Z"/>
-        </g>
-      </svg>
-    </div>
+    <!-- รูปโลโก้ PNG บนหน้าจอเริ่มต้น -->
+    <img src="logo.png" alt="PolicewithArm Logo" class="w-24 h-24 object-contain mx-auto mb-4 p-1 bg-white border border-slate-200 rounded-2xl shadow-sm">
+    
     <h2 class="text-xl font-bold text-slate-900 mb-2">PolicewithArm คลังข้อสอบตำรวจ (150 ข้อ)</h2>
     <p class="text-slate-600 text-xs md:text-sm mb-4 leading-relaxed">
       จัดเรียงตามหมวดวิชาสอบจริง 6 วิชา พร้อมระบบคำนวณคะแนนและเฉลยรายละเอียด
