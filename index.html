@@ -95,7 +95,8 @@
         <button id="btn-prev" onclick="prevQ()" class="px-3.5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 text-xs md:text-sm disabled:opacity-40">
           ◀ ก่อนหน้า
         </button>
-        <button id="btn-mark" onclick="toggleMark()" class="px-3.5 py-2 bg-amber-50 text-amber-600 border border-amber-200 font-bold rounded-xl hover:bg-amber-100 text-xs md:text-sm">
+        <!-- ปุ่มทำเครื่องหมาย (สีเหลือง) -->
+        <button id="btn-mark" onclick="toggleMark()" class="px-3.5 py-2 bg-yellow-400 hover:bg-yellow-500 text-amber-950 font-bold rounded-xl shadow-sm hover:shadow transition active:scale-95 text-xs md:text-sm border border-yellow-500">
           🚩 ทำเครื่องหมาย
         </button>
         <!-- ปุ่มถัดไป -->
@@ -357,11 +358,11 @@ function renderQ() {
   
   var markBtn = document.getElementById('btn-mark');
   if (markedList[currIdx]) {
-    markBtn.classList.add('bg-amber-500', 'text-white');
-    markBtn.classList.remove('bg-amber-50', 'text-amber-600');
+    // เมื่อกดเลือกปุ่มทำเครื่องหมายแล้ว (เน้นเป็นสีเหลืองเข้มพร้อมวงขอบ)
+    markBtn.className = "px-3.5 py-2 bg-yellow-500 hover:bg-yellow-600 text-amber-950 font-black rounded-xl shadow transition active:scale-95 text-xs md:text-sm border-2 border-amber-700 ring-2 ring-yellow-300";
   } else {
-    markBtn.classList.remove('bg-amber-500', 'text-white');
-    markBtn.classList.add('bg-amber-50', 'text-amber-600');
+    // สถานะปกติ ปุ่มทำเครื่องหมายเป็นสีเหลืองสว่าง
+    markBtn.className = "px-3.5 py-2 bg-yellow-400 hover:bg-yellow-500 text-amber-950 font-bold rounded-xl shadow-sm hover:shadow transition active:scale-95 text-xs md:text-sm border border-yellow-500";
   }
 
   updateGridHighlight();
@@ -406,7 +407,7 @@ function updateGridHighlight() {
       btn.classList.add("bg-white", "text-slate-600", "border-slate-200");
     }
     if (markedList[i]) {
-      btn.classList.add("border-b-4", "border-b-amber-500");
+      btn.classList.add("border-b-4", "border-b-yellow-500");
     }
   }
 }
