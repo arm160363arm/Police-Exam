@@ -89,9 +89,9 @@
     <!-- รูปโลโก้ PNG บนหน้าจอเริ่มต้น -->
     <img src="logo.PNG" alt="PolicewithArm Logo" class="w-24 h-24 object-contain mx-auto mb-4 p-1 bg-white border border-slate-200 rounded-2xl shadow-sm">
     
-    <h2 class="text-xl font-bold text-slate-900 mb-2">PolicewithArm คลังข้อสอบตำรวจ (150 ข้อ)</h2>
+    <h2 class="text-xl font-bold text-slate-900 mb-2">PolicewithArm คลังข้อสอบตำรวจ</h2>
     <p class="text-slate-600 text-xs md:text-sm mb-4 leading-relaxed">
-      จัดเรียงตามหมวดวิชาสอบจริง 6 วิชา พร้อมระบบคำนวณคะแนนและเฉลยรายละเอียด
+      จัดเรียงตามหมวดวิชาสอบจริง พร้อมระบบคำนวณคะแนนและเฉลยรายละเอียด
     </p>
 
     <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3.5 mb-5 text-center">
@@ -100,21 +100,26 @@
       </p>
     </div>
 
+    <!-- ตัวเลือกโหมดการทำข้อสอบ -->
+    <div class="mb-6 text-left bg-slate-50 p-4 rounded-xl border border-slate-200">
+      <label class="block text-xs font-bold text-slate-700 mb-2">🎯 เลือกโหมด/วิชาที่ต้องการทดสอบ:</label>
+      <select id="mode-select" class="w-full p-2.5 bg-white border border-slate-300 rounded-lg text-xs md:text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-maroon focus:outline-none">
+        <option value="ALL">รวมทุกวิชา (150 ข้อ - 3 ชั่วโมง)</option>
+        <option value="1. ความสามารถทั่วไป">1. ความสามารถทั่วไป (30 ข้อ)</option>
+        <option value="2. ภาษาไทย">2. ภาษาไทย (25 ข้อ)</option>
+        <option value="3. คอมพิวเตอร์">3. คอมพิวเตอร์ (25 ข้อ)</option>
+        <option value="4. ภาษาอังกฤษ">4. ภาษาอังกฤษ (30 ข้อ)</option>
+        <option value="5. สังคม/อาเซียน">5. สังคม/อาเซียน (20 ข้อ)</option>
+        <option value="6. กฎหมายควรรู้">6. กฎหมายควรรู้ (20 ข้อ)</option>
+      </select>
+    </div>
+
     <div class="bg-amber-50 border border-amber-200 rounded-xl p-3.5 mb-6 max-w-xs mx-auto">
       <span class="text-xs text-amber-800 font-bold block">🎯 เกณฑ์การผ่าน</span>
-      <span class="text-2xl font-black text-amber-600">80% (120 ข้อขึ้นไป)</span>
+      <span class="text-2xl font-black text-amber-600">80% ขึ้นไป</span>
     </div>
 
-    <div class="grid grid-cols-2 gap-2 mb-6 text-xs font-semibold text-slate-600 text-left">
-      <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">1. ความสามารถทั่วไป (1-30)</div>
-      <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">2. ภาษาไทย (31-55)</div>
-      <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">3. คอมพิวเตอร์ (56-80)</div>
-      <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">4. ภาษาอังกฤษ (81-110)</div>
-      <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">5. สังคม/อาเซียน (111-130)</div>
-      <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">6. กฎหมายควรรู้ (131-150)</div>
-    </div>
-
-    <button id="btn-start" onclick="startExam()" class="w-full sm:w-auto px-8 py-3 bg-maroon text-white font-bold rounded-xl shadow-lg transition active:scale-95 text-sm border-0">
+    <button id="btn-start" onclick="startExam()" class="w-full sm:w-auto px-8 py-3 bg-maroon text-white font-bold rounded-xl shadow-lg transition active:scale-95 text-sm border-0 cursor-pointer">
       เริ่มทำข้อสอบ
     </button>
   </section>
@@ -179,7 +184,7 @@
       <h2 class="text-xl font-bold text-slate-800 mb-1">ผลการทดสอบของคุณ (PolicewithArm)</h2>
       <div id="score-main" class="text-5xl font-black text-indigo-600 my-3">0 / 150</div>
       <div id="score-pct" class="text-base font-bold text-slate-500">คิดเป็น 0%</div>
-      <p class="text-xs text-slate-400 mt-1">(เกณฑ์การผ่าน 80% หรือ 120 ข้อขึ้นไป)</p>
+      <p class="text-xs text-slate-400 mt-1">(เกณฑ์การผ่าน 80% ขึ้นไป)</p>
     </div>
 
     <div id="subject-breakdown" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6"></div>
@@ -199,7 +204,7 @@
 </main>
 
 <script>
-var Q = [
+var Q_ALL = [
   {"id":1,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 2, 5, 10, 17, 26, ... ตัวเลขถัดไปคืออะไร?","choices":["33","35","37","39"],"answer":2,"explain":"ผลต่างเพิ่มทีละคี่: +3, +5, +7, +9, ตัวถัดไป +11 -> 26 + 11 = 37"},
   {"id":2,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 3, 6, 12, 24, 48, ... ตัวเลขถัดไปคืออะไร?","choices":["60","72","96","108"],"answer":2,"explain":"คูณด้วย 2 ทุกครั้ง -> 48 * 2 = 96"},
   {"id":3,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 100, 95, 85, 70, 50, ... ตัวเลขถัดไปคืออะไร?","choices":["25","30","20","15"],"answer":0,"explain":"ผลต่างลบเพิ่มขึ้น: -5, -10, -15, -20, ตัวถัดไป -25 -> 50 - 25 = 25"},
@@ -335,7 +340,7 @@ var Q = [
   {"id":133,"subject":"6. กฎหมายควรรู้","q":"ผู้แทนโดยชอบธรรมของผู้เยาว์คือใคร?","choices":["บิดามารดา","ครู","เพื่อน","ญาติพี่น้อง"],"answer":0,"explain":"บิดามารดาเป็นผู้ใช้อำนาจปกครองและผู้แทนโดยชอบธรรม"},
   {"id":134,"subject":"6. กฎหมายควรรู้","q":"การหมั้นจะทำได้ต่อเมื่อชายและหญิงมีอายุเท่าใดขึ้นไป?","choices":["15 ปี","17 ปี","18 ปี","20 ปี"],"answer":1,"explain":"กฎหมายกำหนดให้ชายหญิงต้องมีอายุ 17 ปีบริบูรณ์ขึ้นไปจึงจะหมั้นได้"},
   {"id":135,"subject":"6. กฎหมายควรรู้","q":"การจดทะเบียนสมรสต้องทำ ณ ที่ใด?","choices":["สถานีตำรวจ","นายทะเบียน ณ อำเภอ/เขต","ศาล","โรงพยาบาล"],"answer":1,"explain":"ทำต่อหน้านายทะเบียน ณ สำนักงานเขตหรือที่ว่าการอำเภอ"},
-  {"id":136,"subject":"6. กฎหมายควรรู้","q":"โทษทางอาญาตามประมวลกฎหมายอาญามีกี่สถาน?","choices":["3 สถาน","4 สถาน","5 สถาน","6 สถาน"],"answer":2,"explain":"5 สถาน ได้แก่ ประหารชีวิต, จำคุก, กักขัง, ปรับ, ริบทรัพย์สิน"},
+  {"id":136,"subject":"6. กฎหมายควรรู้","q":"โทษทางอาญาตามประมวลกฎหมายอาญามีกี่สถาน?","choices":["3 สถาน","4 สถาน","5 สถาน","6 สถาน"],"answer":2,"explain":"5 สถาน ได้แก่ ประหารชีวิต, จำคุก, กักขัง, ปรับ, ริบททรัพยสิน"},
   {"id":137,"subject":"6. กฎหมายควรรู้","q":"โทษทางอาญาที่หนักที่สุดคือข้อใด?","choices":["จำคุกตลอดชีวิต","ประหารชีวิต","ปรับ","กักขัง"],"answer":1,"explain":"ประหารชีวิตเป็นโทษสูงสุดทางอาญา"},
   {"id":138,"subject":"6. กฎหมายควรรู้","q":"ความผิดฐาน 'ลักทรัพย์' หมายถึงข้อใด?","choices":["เอาทรัพย์ผู้อื่นไปโดยทุจริต","ใช้อุบายหลอกลวงเอาทรัพย์","ขู่เข็ญว่าจะทำร้ายเอาทรัพย์","ใช้กำลังประทุษร้ายเอาทรัพย์"],"answer":0,"explain":"การเอาทรัพย์ของผู้อื่นไปโดยทุจริต คือการลักทรัพย์"},
   {"id":139,"subject":"6. กฎหมายควรรู้","q":"การแย่งชิงทรัพย์โดยใช้กำลังประทุษร้ายเรียกว่าความผิดใด?","choices":["ลักทรัพย์","วิ่งโฉกทรัพย์","ชิงทรัพย์","ปล้นทรัพย์"],"answer":2,"explain":"ลักทรัพย์ + ใช้กำลังประทุษร้ายหรือขู่เข็ญ = ชิงทรัพย์"},
@@ -352,19 +357,39 @@ var Q = [
   {"id":150,"subject":"6. กฎหมายควรรู้","q":"ข้าราชการตำรวจอยู่ใต้บังคับบัญชาของหน่วยงานใดขึ้นตรงต่อนายกรัฐมนตรี?","choices":["กระทรวงมหาดไทย","กระทรวงยุติธรรม","สำนักงานตำรวจแห่งชาติ","กระทรวงกลาโหม"],"answer":2,"explain":"สำนักงานตำรวจแห่งชาติ (สตช.) เป็นส่วนราชการไม่สังกัดกระทรวง ขึ้นตรงต่อนายกรัฐมนตรี"}
 ];
 
+var Q = [];
 var labels = ["ก", "ข", "ค", "ง"];
 var currIdx = 0;
-var userAnswers = new Array(150).fill(null);
-var markedList = new Array(150).fill(false);
+var userAnswers = [];
+var markedList = [];
 var timeLeft = 10800;
 var timerInterval = null;
 
 function startExam() {
+  var selectedSubject = document.getElementById('mode-select').value;
+  
+  if (selectedSubject === "ALL") {
+    Q = Q_ALL;
+    timeLeft = 10800; // 3 ชั่วโมง
+  } else {
+    Q = Q_ALL.filter(function(item) {
+      return item.subject === selectedSubject;
+    });
+    timeLeft = Q.length * 72; // คำนวณเวลาตามสัดส่วนข้อสอบ
+  }
+
+  currIdx = 0;
+  userAnswers = new Array(Q.length).fill(null);
+  markedList = new Array(Q.length).fill(false);
+
   document.getElementById('start-screen').classList.add('hidden');
   document.getElementById('exam-screen').classList.remove('hidden');
+  
   renderGrid();
   renderQ();
+  updateTimerDisplay();
   
+  clearInterval(timerInterval);
   timerInterval = setInterval(function() {
     timeLeft--;
     updateTimerDisplay();
@@ -487,7 +512,7 @@ function submitExam() {
   document.getElementById('score-pct').textContent = "คิดเป็น " + pct + "%";
 
   var passStatus = document.getElementById('pass-status');
-  if (correctCount >= 120) {
+  if (parseFloat(pct) >= 80.0) {
     passStatus.textContent = "🎉 ยินดีด้วยครับ! คุณสอบผ่านเกณฑ์มาตรฐาน PolicewithArm แล้ว!";
     passStatus.className = "inline-block px-4 py-2 rounded-full text-xs md:text-sm font-bold mb-3 bg-emerald-100 text-emerald-800 border border-emerald-300";
   } else {
@@ -550,4 +575,3 @@ function toggleReview() {
 </script>
 </body>
 </html>
-
