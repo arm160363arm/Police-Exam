@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>POLICEWITHARM - ระบบเตรียมสอบตำรวจครบวงจร</title>
+<title>POLICEWITHARM - ชุดจำลองสอบนายสิบตำรวจ</title>
 
 <!-- PWA Meta Tags -->
 <meta name="theme-color" id="meta-theme-color" content="#dc2626">
@@ -20,12 +20,18 @@
 <style>
   body { font-family: 'Sarabun', sans-serif; transition: background-color 0.3s, color 0.3s; }
   
-  /* Dynamic Theme Classes */
+  /* Dynamic Themes */
   .theme-red .bg-app-header { background-color: #dc2626; }
   .theme-red .bg-app-btn { background-color: #dc2626; color: #ffffff; }
   .theme-red .bg-app-btn:hover { background-color: #b91c1c; }
   .theme-red .text-app { color: #dc2626; }
   .theme-red .nav-active { background-color: #ffffff; color: #dc2626; font-weight: bold; border-radius: 9999px; }
+
+  .theme-maroon .bg-app-header { background-color: #800000; }
+  .theme-maroon .bg-app-btn { background-color: #800000; color: #ffffff; }
+  .theme-maroon .bg-app-btn:hover { background-color: #600000; }
+  .theme-maroon .text-app { color: #800000; }
+  .theme-maroon .nav-active { background-color: #ffffff; color: #800000; font-weight: bold; border-radius: 9999px; }
 
   .theme-navy .bg-app-header { background-color: #1e3a8a; }
   .theme-navy .bg-app-btn { background-color: #1e3a8a; color: #ffffff; }
@@ -86,7 +92,7 @@
       <img src="logo.PNG" alt="PolicewithArm Logo" class="w-9 h-9 object-contain bg-white rounded-lg p-0.5 shadow-sm">
       <div>
         <h1 class="font-bold text-base leading-tight">POLICEWITHARM</h1>
-        <p class="text-[11px] text-red-100">ระบบเตรียมสอบนายสิบตำรวจ</p>
+        <p class="text-[11px] text-red-100">ชุดจำลองสอบนายสิบตำรวจ</p>
       </div>
     </div>
     
@@ -101,52 +107,74 @@
   </div>
 </header>
 
-<!-- Main App Container -->
+<!-- Main App Area -->
 <main class="max-w-md mx-auto w-full px-4 pt-4 flex-grow">
 
   <!-- ================= Tab 1: หน้าแรก ================= -->
   <div id="page-home" class="page-content hidden space-y-4">
-    <div class="bg-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm text-center">
+    <div class="bg-card bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center">
       <img src="logo.PNG" alt="Logo" class="w-20 h-20 object-contain mx-auto mb-3">
       <h2 class="text-lg font-bold text-main text-slate-800">ยินดีต้อนรับสู่ PolicewithArm</h2>
-      <p class="text-xs text-sub text-slate-500 mt-1">แอปพลิเคชันรวมข้อสอบและเตรียมความพร้อมสอบนายสิบตำรวจ</p>
+      <p class="text-xs text-sub text-slate-500 mt-1 mb-4 leading-relaxed">
+        ระบบฝึกทำข้อสอบตำรวจออนไลน์ พร้อมระบบคำนวณคะแนนและจับเวลาเสมือนจริง
+      </p>
+      <div class="bg-inner bg-indigo-50 border border-indigo-100 p-3 rounded-xl text-xs text-app font-bold mb-4">
+        💙 "ตั้งสติให้ดี ค่อยๆ อ่านโจทย์ ฝึกฝนอย่างต่อเนื่อง สอบผ่านแน่นอน!"
+      </div>
+      <button onclick="switchTab('page-exam')" class="w-full py-3 bg-app-btn font-bold rounded-xl shadow text-xs">
+        ไปยังคลังข้อสอบ ▶
+      </button>
     </div>
   </div>
 
   <!-- ================= Tab 2: ติวหนังสือ ================= -->
   <div id="page-study" class="page-content hidden space-y-4">
     <div class="flex justify-between items-center mb-1">
-      <h2 class="text-lg font-bold text-main text-slate-800">หมวดหมู่วิชาเรียน</h2>
-      <span class="text-xs text-sub text-slate-500">เลือกวิชาเพื่อติว</span>
+      <h2 class="text-base font-bold text-main text-slate-800">หมวดหมู่วิชาเรียน</h2>
+      <span class="text-xs text-sub text-slate-500">เลือกวิชาเพื่อทบทวน</span>
     </div>
     <div class="grid grid-cols-2 gap-3">
       <div class="bg-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm text-center">
         <div class="h-24 bg-inner bg-slate-50 rounded-xl flex items-center justify-center mb-2">
           <span class="text-3xl">📐</span>
         </div>
-        <div class="bg-red-700 text-white font-bold py-1 px-3 rounded-lg text-xs">คณิตศาสตร์</div>
-        <div class="text-[11px] text-sub text-slate-400 mt-1">1 รายการ</div>
-      </div>
-      <div class="bg-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm text-center">
-        <div class="h-24 bg-inner bg-slate-50 rounded-xl flex items-center justify-center mb-2">
-          <span class="text-3xl">🇬🇧</span>
-        </div>
-        <div class="bg-blue-900 text-white font-bold py-1 px-3 rounded-lg text-xs">ภาษาอังกฤษ</div>
-        <div class="text-[11px] text-sub text-slate-400 mt-1">ยังไม่มี</div>
+        <div class="bg-red-700 text-white font-bold py-1 px-2 rounded-lg text-xs">1. ความสามารถทั่วไป</div>
+        <div class="text-[10px] text-sub text-slate-400 mt-1">30 ข้อ</div>
       </div>
       <div class="bg-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm text-center">
         <div class="h-24 bg-inner bg-slate-50 rounded-xl flex items-center justify-center mb-2">
           <span class="text-3xl">📖</span>
         </div>
-        <div class="bg-emerald-700 text-white font-bold py-1 px-3 rounded-lg text-xs">ภาษาไทย</div>
-        <div class="text-[11px] text-sub text-slate-400 mt-1">ยังไม่มี</div>
+        <div class="bg-emerald-700 text-white font-bold py-1 px-2 rounded-lg text-xs">2. ภาษาไทย</div>
+        <div class="text-[10px] text-sub text-slate-400 mt-1">25 ข้อ</div>
       </div>
       <div class="bg-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm text-center">
         <div class="h-24 bg-inner bg-slate-50 rounded-xl flex items-center justify-center mb-2">
           <span class="text-3xl">💻</span>
         </div>
-        <div class="bg-indigo-700 text-white font-bold py-1 px-3 rounded-lg text-xs">คอมพิวเตอร์</div>
-        <div class="text-[11px] text-sub text-slate-400 mt-1">ยังไม่มี</div>
+        <div class="bg-indigo-700 text-white font-bold py-1 px-2 rounded-lg text-xs">3. คอมพิวเตอร์</div>
+        <div class="text-[10px] text-sub text-slate-400 mt-1">25 ข้อ</div>
+      </div>
+      <div class="bg-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm text-center">
+        <div class="h-24 bg-inner bg-slate-50 rounded-xl flex items-center justify-center mb-2">
+          <span class="text-3xl">🇬🇧</span>
+        </div>
+        <div class="bg-blue-900 text-white font-bold py-1 px-2 rounded-lg text-xs">4. ภาษาอังกฤษ</div>
+        <div class="text-[10px] text-sub text-slate-400 mt-1">30 ข้อ</div>
+      </div>
+      <div class="bg-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm text-center">
+        <div class="h-24 bg-inner bg-slate-50 rounded-xl flex items-center justify-center mb-2">
+          <span class="text-3xl">🌏</span>
+        </div>
+        <div class="bg-amber-700 text-white font-bold py-1 px-2 rounded-lg text-xs">5. สังคม/อาเซียน</div>
+        <div class="text-[10px] text-sub text-slate-400 mt-1">20 ข้อ</div>
+      </div>
+      <div class="bg-card bg-white p-3 rounded-2xl border border-slate-200 shadow-sm text-center">
+        <div class="h-24 bg-inner bg-slate-50 rounded-xl flex items-center justify-center mb-2">
+          <span class="text-3xl">⚖️</span>
+        </div>
+        <div class="bg-purple-800 text-white font-bold py-1 px-2 rounded-lg text-xs">6. กฎหมายควรรู้</div>
+        <div class="text-[10px] text-sub text-slate-400 mt-1">20 ข้อ</div>
       </div>
     </div>
   </div>
@@ -154,12 +182,12 @@
   <!-- ================= Tab 3: ทำข้อสอบ (Main Dashboard) ================= -->
   <div id="page-exam" class="page-content space-y-4">
     
-    <!-- Status Progress Card -->
+    <!-- Overall Status Bar -->
     <div class="grid grid-cols-2 gap-3">
       <div class="bg-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
         <div class="text-3xl font-black text-red-600">0%</div>
         <div class="text-xs font-bold text-main text-slate-700 mt-1">ความรู้</div>
-        <span class="inline-block text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full mt-1">ต้องเร่ง</span>
+        <span class="inline-block text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full mt-1">เกณฑ์ผ่าน 80%</span>
       </div>
       <div class="bg-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm text-center">
         <div class="text-3xl font-black text-emerald-600">0%</div>
@@ -168,16 +196,15 @@
       </div>
     </div>
 
-    <!-- Exam Simulation Banner -->
+    <!-- Full 150 Question Exam Banner -->
     <div class="bg-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
       <h3 class="font-bold text-sm text-main text-slate-800 flex items-center gap-1.5">
         🎯 ทำข้อสอบเสมือนจริง 150 ข้อ
       </h3>
       
-      <!-- สายปราบปราม Card (คลิกเพื่อเริ่มสอบได้ทันที) -->
       <div onclick="startExam(150)" class="cursor-pointer bg-gradient-to-r from-red-900 to-amber-900 text-white p-4 rounded-xl relative overflow-hidden shadow transition active:scale-[0.98]">
-        <div class="font-bold text-base">สายปราบปราม 150 ข้อ</div>
-        <p class="text-xs text-red-100 mt-0.5">คลิกเพื่อเริ่มทำข้อสอบจำลองสนามจริงทันที</p>
+        <div class="font-bold text-base">สายปราบปราม / อำนวยการ (150 ข้อ)</div>
+        <p class="text-xs text-red-100 mt-0.5">จัดเรียง 6 วิชาตามสนามสอบจริง</p>
         <div class="mt-3 flex justify-between items-center text-xs">
           <span class="bg-white/20 px-2 py-0.5 rounded text-[10px]">150 ข้อ • 3 ชั่วโมง</span>
           <span class="bg-amber-400 text-amber-950 font-bold px-3 py-1 rounded-full shadow text-[11px]">เริ่มทำข้อสอบ ▶</span>
@@ -185,33 +212,33 @@
       </div>
     </div>
 
-    <!-- Subject Specific Quiz Categories -->
+    <!-- Individual Practice Quiz Cards -->
     <div class="bg-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-      <h4 class="font-bold text-xs text-main text-slate-800 uppercase tracking-wider">สังคม / จริยธรรม / อาเซียน</h4>
+      <h4 class="font-bold text-xs text-main text-slate-800 uppercase tracking-wider">ทดสอบย่อยรายวิชา (10 ข้อ)</h4>
       
       <div class="space-y-2 text-xs">
         <div class="flex items-center justify-between py-2 border-b border-slate-100">
           <div>
-            <div class="font-bold text-main text-slate-700">1. สังคมและวัฒนธรรม</div>
-            <div class="text-[10px] text-sub text-slate-400">ยังไม่ได้ทดสอบ • คลัง 50 ข้อ</div>
+            <div class="font-bold text-main text-slate-700">1. ความสามารถทั่วไป</div>
+            <div class="text-[10px] text-sub text-slate-400">คลัง 30 ข้อ</div>
           </div>
-          <button onclick="startExam(10)" class="text-app font-bold bg-inner bg-slate-50 border px-3 py-1.5 rounded-lg hover:bg-slate-100">
-            ทำข้อสอบ 10 ข้อ ›
+          <button onclick="startExam(10)" class="text-app font-bold bg-inner bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+            ทดสอบ 10 ข้อ ›
           </button>
         </div>
         <div class="flex items-center justify-between py-2 border-b border-slate-100">
           <div>
-            <div class="font-bold text-main text-slate-700">2. หลักศีลธรรมและจริยธรรม</div>
-            <div class="text-[10px] text-sub text-slate-400">ยังไม่ได้ทดสอบ • คลัง 50 ข้อ</div>
+            <div class="font-bold text-main text-slate-700">2. ภาษาไทย & กฎหมาย</div>
+            <div class="text-[10px] text-sub text-slate-400">คลัง 45 ข้อ</div>
           </div>
-          <button onclick="startExam(10)" class="text-app font-bold bg-inner bg-slate-50 border px-3 py-1.5 rounded-lg hover:bg-slate-100">
-            ทำข้อสอบ 10 ข้อ ›
+          <button onclick="startExam(10)" class="text-app font-bold bg-inner bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg hover:bg-slate-100">
+            ทดสอบ 10 ข้อ ›
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Physical Fitness Checklist -->
+    <!-- Fitness Checklist -->
     <div class="bg-card bg-white p-4 rounded-2xl border border-slate-200 shadow-sm space-y-3">
       <h4 class="font-bold text-xs text-main text-slate-800">เช็กลิสต์ร่างกาย</h4>
       <div class="space-y-2 text-xs">
@@ -250,7 +277,7 @@
     </div>
   </div>
 
-  <!-- ================= Exam Interface Screen (จะซ้อนขึ้นมาเมื่อเริ่มสอบ) ================= -->
+  <!-- ================= Exam Interface Screen ================= -->
   <section id="exam-screen" class="hidden space-y-4">
     <div class="bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
       <div class="flex justify-between items-center mb-3">
@@ -269,7 +296,7 @@
           ◀ ก่อนหน้า
         </button>
         <button id="btn-mark" onclick="toggleMark()" class="px-3 py-2 bg-yellow-400 hover:bg-yellow-500 text-amber-950 font-bold rounded-xl text-xs border border-yellow-500">
-          🚩 ปักหมุด
+          🚩 ทำเครื่องหมาย
         </button>
         <button id="btn-next" onclick="nextQ()" class="px-3 py-2 bg-app-btn font-bold rounded-xl text-xs border-0">
           ถัดไป ▶
@@ -277,10 +304,10 @@
       </div>
     </div>
 
-    <!-- Grid View & Submit -->
+    <!-- Exam Grid View & Progress Bar -->
     <div class="bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-4">
       <div class="flex justify-between items-center mb-2">
-        <span class="font-bold text-main text-slate-700 text-xs">ภาพรวมการตอบ</span>
+        <span class="font-bold text-main text-slate-700 text-xs">ภาพรวมการทำข้อสอบ</span>
         <span id="progress-text" class="text-[11px] text-sub text-slate-500">ตอบแล้ว 0/150</span>
       </div>
       <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-3">
@@ -289,7 +316,7 @@
       <div id="q-grid" class="grid grid-cols-7 gap-1 max-h-48 overflow-y-auto p-1 mb-3 border rounded-xl bg-inner bg-slate-50"></div>
 
       <button onclick="confirmSubmit()" class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow transition text-xs border-0">
-        ส่งข้อสอบเพื่อตรวจผล
+        ส่งข้อสอบ
       </button>
     </div>
   </section>
@@ -325,7 +352,7 @@
   <button onclick="switchTab('page-fitness')" id="nav-page-fitness" class="flex-1 py-2 text-center rounded-full">ฝึกพละ</button>
 </nav>
 
-<!-- Settings Modal (ปรับสี/โทน) -->
+<!-- Settings Modal -->
 <div id="settings-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
   <div class="bg-card bg-white rounded-2xl shadow-2xl max-w-xs w-full p-5 border border-slate-200">
     <div class="flex justify-between items-center mb-3 pb-2 border-b">
@@ -336,6 +363,9 @@
     <div class="space-y-2">
       <button onclick="setTheme('theme-red', '#dc2626')" class="w-full p-2.5 rounded-xl border flex items-center gap-2 text-xs font-bold text-slate-700 hover:bg-slate-50">
         <span class="w-3.5 h-3.5 rounded-full bg-red-600 inline-block"></span> แดงสว่าง (Default)
+      </button>
+      <button onclick="setTheme('theme-maroon', '#800000')" class="w-full p-2.5 rounded-xl border flex items-center gap-2 text-xs font-bold text-slate-700 hover:bg-slate-50">
+        <span class="w-3.5 h-3.5 rounded-full bg-red-900 inline-block"></span> แดงเลือดหมู
       </button>
       <button onclick="setTheme('theme-navy', '#1e3a8a')" class="w-full p-2.5 rounded-xl border flex items-center gap-2 text-xs font-bold text-slate-700 hover:bg-slate-50">
         <span class="w-3.5 h-3.5 rounded-full bg-blue-900 inline-block"></span> กรมท่า / น้ำเงิน
@@ -355,7 +385,7 @@
 </div>
 
 <script>
-// คลังข้อสอบครบ 150 ข้อ
+// คลังข้อสอบครบ 150 ข้อ ครอบคลุม 6 วิชา
 var Q = [];
 (function generateFull150Questions() {
   var subjects = [
@@ -520,7 +550,7 @@ function updateProgress() {
 
 function confirmSubmit() {
   var unanswered = userAnswers.filter(x => x === null).length;
-  var msg = unanswered > 0 ? "ยังไม่ได้ตอบอีก " + unanswered + " ข้อ ยืนยันการส่งข้อสอบหรือไม่?" : "ยืนยันการส่งข้อสอบหรือไม่?";
+  var msg = unanswered > 0 ? "คุณยังไม่ได้ตอบอีก " + unanswered + " ข้อ ยืนยันการส่งข้อสอบหรือไม่?" : "คุณต้องการส่งข้อสอบเพื่อตรวจผลใช่หรือไม่?";
   if (confirm(msg)) submitExam();
 }
 
@@ -541,12 +571,31 @@ function submitExam() {
 
   var passStatus = document.getElementById('pass-status');
   if (pct >= 80) {
-    passStatus.textContent = "🎉 ผ่านเกณฑ์การทดสอบ!";
-    passStatus.className = "inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 bg-emerald-100 text-emerald-800";
+    passStatus.textContent = "🎉 ยินดีด้วย! คุณสอบผ่านเกณฑ์มาตรฐาน 80%";
+    passStatus.className = "inline-block px-3 py-1.5 rounded-full text-xs font-bold mb-2 bg-emerald-100 text-emerald-800 border border-emerald-300";
   } else {
-    passStatus.textContent = "✌️ ยังไม่ผ่านเกณฑ์ พยายามอีกนิดนะ!";
-    passStatus.className = "inline-block px-3 py-1 rounded-full text-xs font-bold mb-2 bg-rose-100 text-rose-800";
+    passStatus.textContent = "✌️ พยายามอีกนิด! ลองทบทวนแล้วฝึกทำใหม่อีกครั้ง";
+    passStatus.className = "inline-block px-3 py-1.5 rounded-full text-xs font-bold mb-2 bg-rose-100 text-rose-800 border border-rose-300";
   }
+
+  var stats = {};
+  for (var j = 0; j < totalExamQ; j++) {
+    var item = Q[j];
+    if (!stats[item.subject]) stats[item.subject] = { correct: 0, total: 0 };
+    stats[item.subject].total++;
+    if (userAnswers[j] === item.answer) stats[item.subject].correct++;
+  }
+
+  var breakdownHtml = "";
+  for (var subjName in stats) {
+    var data = stats[subjName];
+    breakdownHtml += '<div class="bg-inner border border-slate-200 p-2.5 rounded-xl flex justify-between items-center text-xs">' +
+      '<span class="font-bold text-main">' + subjName + '</span>' +
+      '<span class="font-bold text-app">' + data.correct + ' / ' + data.total + '</span>' +
+    '</div>';
+  }
+
+  document.getElementById('subject-breakdown').innerHTML = breakdownHtml;
 }
 
 function toggleReview() {
@@ -563,9 +612,18 @@ function toggleReview() {
     var isCorrect = (userAns === item.answer);
 
     reviewHtml += '<div class="p-3 rounded-xl border text-xs ' + (isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-red-50/50 border-red-200') + '">' +
-      '<div class="font-bold text-slate-800 mb-1">ข้อ ' + (i + 1) + '. ' + item.q + '</div>' +
-      '<div class="text-[11px] mb-1 ' + (isCorrect ? 'text-emerald-700' : 'text-red-600') + '">ตอบ: ' + (userAns !== null ? labels[userAns] : 'ไม่ได้ตอบ') + '</div>' +
-      '<div class="text-[11px] text-emerald-700 font-semibold">เฉลย: ' + labels[item.answer] + '</div>' +
+      '<div class="flex items-center justify-between mb-1">' +
+        '<span class="font-bold ' + (isCorrect ? 'text-emerald-700' : 'text-red-700') + '">ข้อที่ ' + (i + 1) + ' • ' + (isCorrect ? 'ถูกต้อง' : 'ตอบผิด') + '</span>' +
+        '<span class="text-[10px] text-slate-400 font-semibold">' + item.subject + '</span>' +
+      '</div>' +
+      '<p class="font-bold text-main mb-2">' + item.q + '</p>' +
+      '<div class="space-y-1 mb-2 text-[11px]">' +
+        '<div class="' + (userAns === item.answer ? 'text-emerald-700 font-semibold' : 'text-red-600') + '">คำตอบของคุณ: ' + (userAns !== null ? labels[userAns] + '. ' + item.choices[userAns] : 'ไม่ได้ตอบ') + '</div>' +
+        '<div class="text-emerald-700 font-semibold">เฉลยที่ถูกต้อง: ' + labels[item.answer] + '. ' + item.choices[item.answer] + '</div>' +
+      '</div>' +
+      '<div class="bg-inner p-2 rounded-lg border border-slate-200 text-[11px] text-sub leading-relaxed">' +
+        '<span class="font-bold text-app">คำอธิบาย:</span> ' + item.explain +
+      '</div>' +
     '</div>';
   }
 
