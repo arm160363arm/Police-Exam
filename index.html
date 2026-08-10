@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   body { font-family: 'Sarabun', sans-serif; }
-  /* กำหนดสีแดงเลือดหมูไว้ใช้ทั่วเว็บ */
   .bg-maroon { background-color: maroon; }
   .bg-darkmaroon { background-color: #500000; }
   .text-maroon { color: maroon; }
@@ -43,20 +42,17 @@
       จัดเรียงตามหมวดวิชาสอบจริง 6 วิชา พร้อมระบบคำนวณคะแนนและเฉลยรายละเอียด
     </p>
 
-    <!-- Encouragement Box -->
     <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3.5 mb-5 text-center">
       <p class="text-xs md:text-sm text-indigo-900 font-bold">
         💙 "ตั้งสติให้ดี ค่อยๆ อ่านโจทย์ ฝึกฝนอย่างต่อเนื่องกับ PolicewithArm สอบผ่านแน่นอน!" 💙
       </p>
     </div>
 
-    <!-- Passing Criteria -->
     <div class="bg-amber-50 border border-amber-200 rounded-xl p-3.5 mb-6 max-w-xs mx-auto">
       <span class="text-xs text-amber-800 font-bold block">🎯 เกณฑ์การผ่าน</span>
       <span class="text-2xl font-black text-amber-600">80% (120 ข้อขึ้นไป)</span>
     </div>
 
-    <!-- Subjects List -->
     <div class="grid grid-cols-2 gap-2 mb-6 text-xs font-semibold text-slate-600 text-left">
       <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">1. ความสามารถทั่วไป (1-30)</div>
       <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">2. ภาษาไทย (31-55)</div>
@@ -66,7 +62,6 @@
       <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">6. กฎหมายควรรู้ (131-150)</div>
     </div>
 
-    <!-- ปุ่มเริ่มทำข้อสอบ -->
     <button id="btn-start" onclick="startExam()" class="w-full sm:w-auto px-8 py-3 bg-maroon text-white font-bold rounded-xl shadow-lg transition active:scale-95 text-sm border-0">
       เริ่มทำข้อสอบ
     </button>
@@ -95,11 +90,9 @@
         <button id="btn-prev" onclick="prevQ()" class="px-3.5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 text-xs md:text-sm disabled:opacity-40">
           ◀ ก่อนหน้า
         </button>
-        <!-- ปุ่มทำเครื่องหมาย (สีเหลือง) -->
         <button id="btn-mark" onclick="toggleMark()" class="px-3.5 py-2 bg-yellow-400 hover:bg-yellow-500 text-amber-950 font-bold rounded-xl shadow-sm hover:shadow transition active:scale-95 text-xs md:text-sm border border-yellow-500">
           🚩 ทำเครื่องหมาย
         </button>
-        <!-- ปุ่มถัดไป -->
         <button id="btn-next" onclick="nextQ()" class="px-3.5 py-2 bg-maroon text-white font-bold rounded-xl text-xs md:text-sm disabled:opacity-40 transition active:scale-95 border-0">
           ถัดไป ▶
         </button>
@@ -358,10 +351,8 @@ function renderQ() {
   
   var markBtn = document.getElementById('btn-mark');
   if (markedList[currIdx]) {
-    // เมื่อกดเลือกปุ่มทำเครื่องหมายแล้ว (เน้นเป็นสีเหลืองเข้มพร้อมวงขอบ)
     markBtn.className = "px-3.5 py-2 bg-yellow-500 hover:bg-yellow-600 text-amber-950 font-black rounded-xl shadow transition active:scale-95 text-xs md:text-sm border-2 border-amber-700 ring-2 ring-yellow-300";
   } else {
-    // สถานะปกติ ปุ่มทำเครื่องหมายเป็นสีเหลืองสว่าง
     markBtn.className = "px-3.5 py-2 bg-yellow-400 hover:bg-yellow-500 text-amber-950 font-bold rounded-xl shadow-sm hover:shadow transition active:scale-95 text-xs md:text-sm border border-yellow-500";
   }
 
@@ -386,7 +377,7 @@ function toggleMark() {
 function renderGrid() {
   var gridHtml = "";
   for (var i = 0; i < Q.length; i++) {
-    gridHtml += '<button id="grid-btn-' + i + '" onclick="goToQ(' + i + ')" class="h-7 text-[10px] font-bold rounded flex items-center justify-center transition border">' + (i + 1) + '</button>';
+    gridHtml += '<button id="grid-btn-' + i + '" onclick="goToQ(' + i + ')" class="h-7 text-[10px] font-bold rounded flex items-center justify-center transition border relative overflow-hidden">' + (i + 1) + '</button>';
   }
   document.getElementById('q-grid').innerHTML = gridHtml;
   updateProgress();
@@ -397,23 +388,24 @@ function updateGridHighlight() {
     var btn = document.getElementById('grid-btn-' + i);
     if (!btn) continue;
     
-    btn.className = "h-7 text-[10px] font-bold rounded flex items-center justify-center transition border ";
+    // ตั้งค่าคลาสพื้นฐาน
+    btn.className = "h-7 text-[10px] font-bold rounded flex items-center justify-center transition border relative ";
     
-    // ไฮไลต์ขอบสีน้ำเงินสำหรับข้อที่กำลังเปิดดูอยู่
-    if (i === currIdx) {
-      btn.classList.add("ring-2", "ring-indigo-600", "ring-offset-1");
-    }
-
-    // กำหนดสีพื้นหลังตามสถานะของข้อนั้นๆ
-    if (markedList[i]) {
-      // ทำเครื่องหมาย: เปลี่ยนเป็นพื้นหลังสีเหลือง ตัวอักษรสีดำ ขอบสีเหลืองเข้ม
-      btn.classList.add("bg-yellow-400", "text-amber-950", "border-yellow-500", "font-black");
-    } else if (userAnswers[i] !== null) {
-      // ตอบแล้ว: เปลี่ยนเป็นพื้นหลังสีน้ำเงิน ตัวอักษรสีขาว
+    // 1. สถานะตอบแล้ว/ยังไม่ได้ตอบ (กำหนดสีพื้นหลัง)
+    if (userAnswers[i] !== null) {
       btn.classList.add("bg-indigo-600", "text-white", "border-indigo-600");
     } else {
-      // ยังไม่ได้ตอบ/ยังไม่ได้ทำเครื่องหมาย: พื้นหลังสีขาว ตัวอักษรสีเทา
       btn.classList.add("bg-white", "text-slate-600", "border-slate-200");
+    }
+
+    // 2. สถานะทำเครื่องหมายไว้ (เน้นขีดสีเหลืองสว่างขอบล่างหนา 4px)
+    if (markedList[i]) {
+      btn.classList.add("border-b-4", "border-b-yellow-400");
+    }
+
+    // 3. ไฮไลต์ข้อที่กำลังเปิดดูอยู่ปัจจุบัน
+    if (i === currIdx) {
+      btn.classList.add("ring-2", "ring-indigo-600", "ring-offset-1");
     }
   }
 }
