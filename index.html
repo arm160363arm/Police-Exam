@@ -528,8 +528,17 @@ async function verifyLicenseKey() {
   verifyBtn.textContent = "กำลังตรวจสอบ...";
   
   try {
-    const url = `${SCRIPT_URL}?action=verifyKey&key=${encodeURIComponent(keyInput)}&userAgent=${encodeURIComponent(navigator.userAgent)}`;
-    const res = await fetch(url);
+    // ปรับเปลี่ยนมาใช้ POST พร้อม Content-Type: text/plain ป้องกันปัญหา CORS
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'verifyKey',
+        key: keyInput,
+        userAgent: navigator.userAgent
+      })
+    });
+    
     const result = await res.json();
 
     if (result.status === "success") {
@@ -537,10 +546,11 @@ async function verifyLicenseKey() {
       document.getElementById('activation-screen').classList.add('hidden');
       document.getElementById('start-screen').classList.remove('hidden');
     } else {
-      errorMsg.textContent = "รหัสไม่ถูกต้อง หรือถูกใช้งานไปแล้ว";
+      errorMsg.textContent = result.message || "รหัสไม่ถูกต้อง หรือถูกใช้งานไปแล้ว";
       errorMsg.classList.remove('hidden');
     }
   } catch (err) {
+    console.error("Connection Error:", err);
     alert("เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง");
   } finally {
     verifyBtn.disabled = false;
@@ -761,7 +771,7 @@ function submitExam() {
   const savedKey = localStorage.getItem('activated_key') || 'UNKNOWN';
   fetch(SCRIPT_URL, {
     method: 'POST',
-    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({
       action: 'saveResult',
       key: savedKey,
@@ -769,7 +779,7 @@ function submitExam() {
       percentage: `${pct}%`,
       userAgent: navigator.userAgent
     })
-  });
+  }).catch(err => console.error("Save result error:", err));
 }
 
 function toggleReview() {
