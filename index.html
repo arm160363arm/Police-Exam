@@ -342,10 +342,51 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzjM6Mt1Qqfl2UIVflEK
 function getOrCreateDeviceId() {
   let deviceId = localStorage.getItem('app_device_id');
   if (!deviceId) {
-    deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    deviceId = 'dev_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
     localStorage.setItem('app_device_id', deviceId);
   }
   return deviceId;
+}
+
+// ฟังก์ชันตรวจสอบสถานะสิทธิ์การใช้งาน
+async function checkActivationState() {
+  const savedKey = localStorage.getItem('activated_key');
+  const deviceId = getOrCreateDeviceId();
+
+  if (!savedKey) {
+    document.getElementById('activation-screen').classList.remove('hidden');
+    document.getElementById('start-screen').classList.add('hidden');
+    return;
+  }
+
+  try {
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'checkStatus',
+        key: savedKey,
+        deviceId: deviceId
+      })
+    });
+    
+    const result = await response.json();
+
+    if (result.status === "success") {
+      document.getElementById('activation-screen').classList.add('hidden');
+      document.getElementById('start-screen').classList.remove('hidden');
+    } else {
+      localStorage.removeItem('activated_key');
+      document.getElementById('activation-screen').classList.remove('hidden');
+      document.getElementById('start-screen').classList.add('hidden');
+      alert("รหัสนี้ถูกรีเซ็ตออกจากระบบแล้ว");
+    }
+  } catch (error) {
+    console.error("Connection error:", error);
+    // กรณีเชื่อมต่อไม่ได้ ยอมให้เข้าใช้งานหน้าเปิดตามข้อมูลเดิมที่มี
+    document.getElementById('activation-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+  }
 }
 
 // คลังข้อสอบ 150 ข้อ
@@ -510,17 +551,6 @@ var timeLeft = 180 * 60;
 var timerInterval = null;
 var currentThemeClass = 'theme-maroon';
 var currentThemeHex = '#800000';
-
-function checkActivationState() {
-  const savedKey = localStorage.getItem('activated_key');
-  if (savedKey) {
-    document.getElementById('activation-screen').classList.add('hidden');
-    document.getElementById('start-screen').classList.remove('hidden');
-  } else {
-    document.getElementById('activation-screen').classList.remove('hidden');
-    document.getElementById('start-screen').classList.add('hidden');
-  }
-}
 
 async function verifyLicenseKey() {
   const keyInput = document.getElementById('input-license-key').value.trim();
