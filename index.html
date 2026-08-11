@@ -21,7 +21,6 @@
   body { font-family: 'Sarabun', sans-serif; transition: background-color 0.3s, color 0.3s; }
   
   /* Dynamic Theme Classes */
-  /* Maroon (Default) */
   .theme-maroon .bg-header { background-color: #800000; }
   .theme-maroon .bg-subtheme { background-color: #500000; }
   .theme-maroon .bg-primary-btn { background-color: #800000; color: #ffffff; }
@@ -29,7 +28,6 @@
   .theme-maroon .text-theme { color: #800000; }
   .theme-maroon .border-theme { border-color: #800000; }
 
-  /* Navy Blue */
   .theme-navy .bg-header { background-color: #1e3a8a; }
   .theme-navy .bg-subtheme { background-color: #172554; }
   .theme-navy .bg-primary-btn { background-color: #1e3a8a; color: #ffffff; }
@@ -37,7 +35,6 @@
   .theme-navy .text-theme { color: #1e3a8a; }
   .theme-navy .border-theme { border-color: #1e3a8a; }
 
-  /* Emerald Green */
   .theme-emerald .bg-header { background-color: #065f46; }
   .theme-emerald .bg-subtheme { background-color: #022c22; }
   .theme-emerald .bg-primary-btn { background-color: #065f46; color: #ffffff; }
@@ -45,14 +42,12 @@
   .theme-emerald .text-theme { color: #065f46; }
   .theme-emerald .border-theme { border-color: #065f46; }
 
-  /* Grid Button Unselected */
   .grid-btn-unselected {
     background-color: #ffffff !important;
     color: #1e293b !important;
     border-color: #cbd5e1 !important;
   }
 
-  /* Dark Mode Adjustments */
   body.dark-mode {
     background-color: #0f172a !important;
     color: #f8fafc !important;
@@ -98,6 +93,7 @@
 </style>
 
 <script>
+  // โหลดหน้าเว็บทันที ไม่รอเช็คสิทธิ์เครือข่ายบล็อกการเรนเดอร์ (Optimized Instant Load)
   window.addEventListener('DOMContentLoaded', () => {
     const manifestData = {
       "name": "POLICEWITHARM - ชุดจำลองสอบนายสิบตำรวจ",
@@ -112,13 +108,13 @@
     document.getElementById('manifest-placeholder').href = URL.createObjectURL(manifestBlob);
     
     initSavedSettings();
-    checkActivationState();
+    fastCheckActivationState();
   });
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       const swCode = `
-        const CACHE_NAME = 'pwa-police-v1';
+        const CACHE_NAME = 'pwa-police-v2';
         self.addEventListener('install', e => {
           e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
         });
@@ -289,7 +285,7 @@
     <div id="review-container" class="hidden mt-6 pt-6 border-t border-slate-200 space-y-4"></div>
   </section>
 
-  <!-- Settings Modal (ปรับสี/โทน) -->
+  <!-- Settings Modal -->
   <div id="settings-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-card bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200">
       <div class="flex justify-between items-center mb-4 pb-2 border-b">
@@ -335,10 +331,8 @@
 </main>
 
 <script>
-// Web Apps Script URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpEcURwWvI05DmVauO5Yfl2GMMs6vcG0XyKYHOUR8Pj8DpNCV8KzDFOS4Jaj6oPLGbmA/exec";
 
-// ฟังก์ชันสร้างหรือดึง Device ID ประจำเครื่องผู้ใช้งานเก็บไว้ใน localStorage แบบถาวร
 function getOrCreateDeviceId() {
   let deviceId = localStorage.getItem('app_device_id');
   if (!deviceId) {
@@ -348,45 +342,42 @@ function getOrCreateDeviceId() {
   return deviceId;
 }
 
-// ฟังก์ชันตรวจสอบสถานะสิทธิ์การใช้งาน (จำสถานะถาวรจนกว่าเจ้าของเว็บจะรีเซ็ตผ่าน Server)
-async function checkActivationState() {
+// โหลดหน้าทันทีจาก LocalStorage แบบ Non-Blocking เพื่อความเร็วสูงสุด (Speed Optimization)
+function fastCheckActivationState() {
   const savedKey = localStorage.getItem('activated_key');
-  const deviceId = getOrCreateDeviceId();
-
   if (!savedKey) {
     document.getElementById('activation-screen').classList.remove('hidden');
     document.getElementById('start-screen').classList.add('hidden');
     return;
   }
 
+  // เปิดใช้งานทันที ไม่รอเช็คเน็ตค้าง (Instant Render)
+  document.getElementById('activation-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+
+  // ตรวจสอบสิทธิ์แบบ Background (Async Non-Blocking)
+  setTimeout(() => {
+    backgroundVerifyKey(savedKey);
+  }, 500);
+}
+
+async function backgroundVerifyKey(savedKey) {
   try {
+    const deviceId = getOrCreateDeviceId();
     const response = await fetch(SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'checkStatus',
-        key: savedKey,
-        deviceId: deviceId
-      })
+      body: JSON.stringify({ action: 'checkStatus', key: savedKey, deviceId: deviceId })
     });
-    
     const result = await response.json();
-
-    if (result.status === "success") {
-      document.getElementById('activation-screen').classList.add('hidden');
-      document.getElementById('start-screen').classList.remove('hidden');
-    } else {
-      // กรณีถูกรีเซ็ตสิทธิ์จากฝั่งเจ้าของเว็บ
+    if (result.status !== "success") {
       localStorage.removeItem('activated_key');
       document.getElementById('activation-screen').classList.remove('hidden');
       document.getElementById('start-screen').classList.add('hidden');
       alert("รหัสนี้ถูกรีเซ็ตออกจากระบบโดยเจ้าของเว็บแล้ว");
     }
   } catch (error) {
-    console.error("Connection error:", error);
-    // กรณีเชื่อมต่อไม่ได้ แต่เคยยืนยันตัวตนแล้ว ให้เข้าใช้งานต่อได้ปกติ (ไม่ต้องกรอกใหม่)
-    document.getElementById('activation-screen').classList.add('hidden');
-    document.getElementById('start-screen').classList.remove('hidden');
+    console.error("Background check skipped:", error);
   }
 }
 
@@ -602,8 +593,7 @@ async function verifyLicenseKey() {
 }
 
 function toggleSettingsModal() {
-  const modal = document.getElementById('settings-modal');
-  modal.classList.toggle('hidden');
+  document.getElementById('settings-modal').classList.toggle('hidden');
 }
 
 function initSavedSettings() {
