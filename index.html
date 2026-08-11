@@ -45,6 +45,13 @@
   .theme-emerald .text-theme { color: #065f46; }
   .theme-emerald .border-theme { border-color: #065f46; }
 
+  /* บังคับสีปุ่ม Grid ที่ยังไม่ได้เลือกให้เห็นชัดเจนเสมอ */
+  .grid-btn-unselected {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border-color: #cbd5e1 !important;
+  }
+
   /* Dark Mode Adjustments */
   body.dark-mode {
     background-color: #0f172a !important;
@@ -104,7 +111,28 @@
     };
     const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
     document.getElementById('manifest-placeholder').href = URL.createObjectURL(manifestBlob);
+    
+    // โหลดการตั้งค่าธีมและโหมดมืดที่เคยบันทึกไว้
+    initSavedSettings();
   });
+
+  // ลงทะเบียน Service Worker แบบไดนามิกเพื่อรองรับการทำงาน Offline
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const swCode = `
+        const CACHE_NAME = 'pwa-police-v1';
+        self.addEventListener('install', e => {
+          e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
+        });
+        self.addEventListener('fetch', e => {
+          e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+        });
+      `;
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl).catch(err => console.log('SW registration failed: ', err));
+    });
+  }
 </script>
 </head>
 <body class="theme-maroon bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between">
@@ -453,30 +481,62 @@ var markedList = new Array(Q.length).fill(false);
 var timeLeft = 180 * 60;
 var timerInterval = null;
 var currentThemeClass = 'theme-maroon';
+var currentThemeHex = '#800000';
 
 function toggleSettingsModal() {
   const modal = document.getElementById('settings-modal');
   modal.classList.toggle('hidden');
 }
 
-// 1. ระบบปรับเปลี่ยนธีมสี
-function setTheme(themeName, themeColorHex) {
+// ระบบจดจำสไตล์ที่บันทึกไว้ใน LocalStorage
+function initSavedSettings() {
+  var savedTheme = localStorage.getItem('app_theme');
+  var savedHex = localStorage.getItem('app_theme_hex');
+  var savedDarkMode = localStorage.getItem('app_dark_mode');
+
+  if (savedTheme && savedHex) {
+    setTheme(savedTheme, savedHex, false);
+  }
+  if (savedDarkMode === 'true') {
+    applyDarkMode(true);
+  }
+}
+
+// 1. ระบบปรับเปลี่ยนธีมสี (พร้อมบันทึกค่า)
+function setTheme(themeName, themeColorHex, save = true) {
   currentThemeClass = themeName;
+  currentThemeHex = themeColorHex;
   var isDark = document.body.classList.contains('dark-mode');
   document.body.className = themeName + (isDark ? ' dark-mode' : '') + " bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between";
   document.getElementById('meta-theme-color').setAttribute('content', themeColorHex);
+
+  if (save) {
+    localStorage.setItem('app_theme', themeName);
+    localStorage.setItem('app_theme_hex', themeColorHex);
+  }
 }
 
-// 2. ระบบปรับเปลี่ยนโหมดมืด / โหมดสว่าง
+// 2. ระบบปรับเปลี่ยนโหมดมืด / โหมดสว่าง (พร้อมบันทึกค่า)
 function toggleDarkMode() {
-  var isDark = document.body.classList.toggle('dark-mode');
+  var isDark = !document.body.classList.contains('dark-mode');
+  applyDarkMode(isDark);
+  localStorage.setItem('app_dark_mode', isDark);
+}
+
+function applyDarkMode(isDark) {
   var btn = document.getElementById('dark-mode-toggle');
   if (isDark) {
-    btn.innerHTML = '🌙 มืด';
-    btn.className = "px-4 py-2 bg-indigo-900 text-indigo-100 font-bold rounded-lg text-xs transition";
+    document.body.classList.add('dark-mode');
+    if (btn) {
+      btn.innerHTML = '🌙 มืด';
+      btn.className = "px-4 py-2 bg-indigo-900 text-indigo-100 font-bold rounded-lg text-xs transition";
+    }
   } else {
-    btn.innerHTML = '☀️ สว่าง';
-    btn.className = "px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-lg text-xs transition";
+    document.body.classList.remove('dark-mode');
+    if (btn) {
+      btn.innerHTML = '☀️ สว่าง';
+      btn.className = "px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-lg text-xs transition";
+    }
   }
   updateGridHighlight();
 }
@@ -566,7 +626,7 @@ function updateGridHighlight() {
     if (userAnswers[i] !== null) {
       btn.classList.add("bg-indigo-600", "text-white", "border-indigo-600");
     } else {
-      btn.classList.add("grid-btn-unselected", "bg-white", "text-slate-800", "border-slate-300");
+      btn.classList.add("grid-btn-unselected");
     }
     if (markedList[i]) btn.classList.add("grid-marked");
     if (i === currIdx) btn.classList.add("ring-2", "ring-indigo-600", "ring-offset-1");
