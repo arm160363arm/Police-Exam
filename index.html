@@ -529,16 +529,11 @@ async function verifyLicenseKey() {
   verifyBtn.textContent = "กำลังตรวจสอบ...";
   
   try {
-    const res = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify({
-        action: 'verifyKey',
-        key: keyInput,
-        userAgent: navigator.userAgent
-      })
-    });
-    
+    // ส่งข้อมูลผ่าน GET Query String เพื่อเลี่ยงปัญหา CORS
+    const url = `${SCRIPT_URL}?action=verifyKey&key=${encodeURIComponent(keyInput)}&userAgent=${encodeURIComponent(navigator.userAgent)}`;
+    const res = await fetch(url);
     const result = await res.json();
+
     if (result.status === "success") {
       localStorage.setItem('activated_key', keyInput);
       document.getElementById('activation-screen').classList.add('hidden');
