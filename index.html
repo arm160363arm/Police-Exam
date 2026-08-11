@@ -338,6 +338,16 @@
 // Web Apps Script URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvhVerBL8j8hjBtkBg2gxyADMNZlLRTauMJfh_Y4JLlxkuDXSShzMvrpRi2XskoBOC/exec";
 
+// ฟังก์ชันสร้างหรือดึง Device ID ประจำเครื่องผู้ใช้งานเก็บไว้ใน localStorage
+function getOrCreateDeviceId() {
+  let deviceId = localStorage.getItem('app_device_id');
+  if (!deviceId) {
+    deviceId = 'DEV-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('app_device_id', deviceId);
+  }
+  return deviceId;
+}
+
 // คลังข้อสอบ 150 ข้อ
 var Q = [
   {"id":1,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 2, 5, 10, 17, 26, ... ตัวเลขถัดไปคืออะไร?","choices":["33","35","37","39"],"answer":2,"explain":"ผลต่างเพิ่มทีละคี่: +3, +5, +7, +9, ตัวถัดไป +11 -> 26 + 11 = 37"},
@@ -527,14 +537,16 @@ async function verifyLicenseKey() {
   verifyBtn.disabled = true;
   verifyBtn.textContent = "กำลังตรวจสอบ...";
   
+  const deviceId = getOrCreateDeviceId();
+
   try {
-    // ปรับเปลี่ยนมาใช้ POST พร้อม Content-Type: text/plain ป้องกันปัญหา CORS
     const res = await fetch(SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         action: 'verifyKey',
         key: keyInput,
+        deviceId: deviceId,
         userAgent: navigator.userAgent
       })
     });
