@@ -57,6 +57,7 @@
   body.dark-mode .bg-inner {
     background-color: #0f172a !important;
     border-color: #334155 !important;
+    color: #f8fafc !important;
   }
   body.dark-mode .text-main {
     color: #f8fafc !important;
@@ -70,6 +71,12 @@
   }
   body.dark-mode .bg-slate-100 {
     background-color: #1e293b !important;
+  }
+  /* แก้ปัญหาปุ่ม Grid และสีตัวอักษรใน Dark Mode */
+  body.dark-mode .grid-btn-unselected {
+    background-color: #334155 !important;
+    color: #f8fafc !important;
+    border-color: #475569 !important;
   }
 
   .grid-marked::after {
@@ -157,7 +164,6 @@
       <div class="bg-inner bg-slate-50 p-2.5 rounded-lg border border-slate-200">6. กฎหมายควรรู้ (131-150)</div>
     </div>
 
-    <!-- เอาปุ่มตั้งค่าข้างปุ่มเริ่มทำข้อสอบออกแล้ว -->
     <div class="flex justify-center">
       <button id="btn-start" onclick="startExam()" class="px-8 py-3 bg-primary-btn font-bold rounded-xl shadow-lg transition active:scale-95 text-sm border-0">
         เริ่มทำข้อสอบ
@@ -472,6 +478,7 @@ function toggleDarkMode() {
     btn.innerHTML = '☀️ สว่าง';
     btn.className = "px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-lg text-xs transition";
   }
+  updateGridHighlight();
 }
 
 function startExam() {
@@ -559,7 +566,7 @@ function updateGridHighlight() {
     if (userAnswers[i] !== null) {
       btn.classList.add("bg-indigo-600", "text-white", "border-indigo-600");
     } else {
-      btn.classList.add("bg-white", "text-slate-600", "border-slate-200");
+      btn.classList.add("grid-btn-unselected", "bg-white", "text-slate-800", "border-slate-300");
     }
     if (markedList[i]) btn.classList.add("grid-marked");
     if (i === currIdx) btn.classList.add("ring-2", "ring-indigo-600", "ring-offset-1");
