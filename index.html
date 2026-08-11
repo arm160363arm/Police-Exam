@@ -501,7 +501,6 @@ var timerInterval = null;
 var currentThemeClass = 'theme-maroon';
 var currentThemeHex = '#800000';
 
-// ระบบตรวจสอบการเปิดใช้งาน Key
 function checkActivationState() {
   const savedKey = localStorage.getItem('activated_key');
   if (savedKey) {
@@ -529,7 +528,6 @@ async function verifyLicenseKey() {
   verifyBtn.textContent = "กำลังตรวจสอบ...";
   
   try {
-    // ส่งข้อมูลผ่าน GET Query String เพื่อเลี่ยงปัญหา CORS
     const url = `${SCRIPT_URL}?action=verifyKey&key=${encodeURIComponent(keyInput)}&userAgent=${encodeURIComponent(navigator.userAgent)}`;
     const res = await fetch(url);
     const result = await res.json();
@@ -636,11 +634,20 @@ function renderQ() {
 
   var choicesHtml = "";
   for (var i = 0; i < item.choices.length; i++) {
-    var isSelected = userAnswers[currIdx] === i;
-    choicesHtml += '<div onclick="selectChoice(' + i + ')" class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 cursor-pointer transition ' + (isSelected ? 'bg-indigo-50 border-indigo-500 text-indigo-900 font-bold' : 'hover:bg-slate-50 text-slate-700 bg-inner') + '">' +
-      '<div class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs ' + (isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-600') + '">' + labels[i] + '</div>' +
-      '<div class="text-xs md:text-sm">' + item.choices[i] + '</div>' +
-    '</div>';
+    var isSelected = (userAnswers[currIdx] === i);
+    
+    var containerClass = isSelected 
+      ? "bg-indigo-50 border-indigo-500 text-indigo-900 font-bold ring-2 ring-indigo-400" 
+      : "hover:bg-slate-50 text-slate-700 bg-inner border-slate-200";
+
+    var labelClass = isSelected 
+      ? "bg-indigo-600 text-white font-black" 
+      : "bg-slate-200 text-slate-600";
+
+    choicesHtml += '<button type="button" onclick="selectChoice(' + i + ')" class="w-full text-left flex items-center gap-3 p-3.5 rounded-xl border transition active:scale-[0.99] ' + containerClass + '">' +
+      '<span class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs transition-colors ' + labelClass + '">' + labels[i] + '</span>' +
+      '<span class="text-xs md:text-sm leading-relaxed">' + item.choices[i] + '</span>' +
+    '</button>';
   }
   
   document.getElementById('q-choices').innerHTML = choicesHtml;
@@ -751,7 +758,6 @@ function submitExam() {
 
   document.getElementById('subject-breakdown').innerHTML = breakdownHtml;
 
-  // ส่งผลการสอบไปยัง Google Sheet
   const savedKey = localStorage.getItem('activated_key') || 'UNKNOWN';
   fetch(SCRIPT_URL, {
     method: 'POST',
