@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>POLICEWITHARM - ชุดจำลองสอบนายสิบตำรวจ</title>
+<title>POLICEWITHARM - ชุดจำลองสอบนายสิบตำรวจ (นสต.รุ่น 18)</title>
 
 <!-- PWA / Add to Home Screen Meta Tags -->
 <meta name="theme-color" id="meta-theme-color" content="#800000">
@@ -16,7 +16,7 @@
 <link rel="manifest" id="manifest-placeholder">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   body { font-family: 'Sarabun', sans-serif; transition: background-color 0.3s, color 0.3s; }
   
@@ -45,7 +45,7 @@
   .theme-emerald .text-theme { color: #065f46; }
   .theme-emerald .border-theme { border-color: #065f46; }
 
-  /* บังคับสีปุ่ม Grid ที่ยังไม่ได้เลือกให้เห็นชัดเจนเสมอ */
+  /* Grid Button Unselected */
   .grid-btn-unselected {
     background-color: #ffffff !important;
     color: #1e293b !important;
@@ -79,7 +79,6 @@
   body.dark-mode .bg-slate-100 {
     background-color: #1e293b !important;
   }
-  /* แก้ปัญหาปุ่ม Grid และสีตัวอักษรใน Dark Mode */
   body.dark-mode .grid-btn-unselected {
     background-color: #334155 !important;
     color: #f8fafc !important;
@@ -112,11 +111,10 @@
     const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
     document.getElementById('manifest-placeholder').href = URL.createObjectURL(manifestBlob);
     
-    // โหลดการตั้งค่าธีมและโหมดมืดที่เคยบันทึกไว้
     initSavedSettings();
+    checkActivationState();
   });
 
-  // ลงทะเบียน Service Worker แบบไดนามิกเพื่อรองรับการทำงาน Offline
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       const swCode = `
@@ -144,7 +142,7 @@
       <img src="logo.PNG" alt="PolicewithArm Logo" class="w-9 h-9 object-contain bg-white rounded-lg p-0.5 shadow-sm">
       <div>
         <h1 class="font-bold text-base md:text-xl leading-tight">POLICEWITHARM</h1>
-        <p class="text-[11px] md:text-xs text-red-100">ชุดจำลองสอบนายสิบตำรวจ</p>
+        <p class="text-[11px] md:text-xs text-red-100">ชุดจำลองสอบนายสิบตำรวจ (นสต.รุ่น 18)</p>
       </div>
     </div>
     
@@ -152,7 +150,6 @@
       <div id="timer" class="bg-subtheme px-3 py-1 rounded-lg text-sm md:text-base font-mono font-bold tracking-wider text-yellow-400 border border-black/20">
         03:00:00
       </div>
-      <!-- ปุ่มตั้งค่า -->
       <button onclick="toggleSettingsModal()" class="p-1.5 bg-subtheme rounded-lg hover:bg-black/20 border border-black/20 transition" title="ตั้งค่า">
         ⚙️
       </button>
@@ -163,8 +160,28 @@
 <!-- Main Area -->
 <main class="max-w-4xl mx-auto px-4 py-6 flex-grow w-full">
 
-  <!-- Welcome / Start Screen -->
-  <section id="start-screen" class="bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 text-center max-w-xl mx-auto my-4">
+  <!-- 0. หน้าเปิดใช้งานแอป (Activation Screen) -->
+  <section id="activation-screen" class="max-w-md mx-auto my-4 bg-card bg-white p-6 rounded-3xl shadow-sm text-center border border-slate-200">
+    <img src="logo.PNG" alt="นสต.รุ่น 18" class="w-28 h-28 mx-auto rounded-3xl shadow-md border-2 border-red-900 object-cover mb-4">
+    <h2 class="text-2xl font-black text-main text-slate-800 mb-1">เปิดใช้งานแอป</h2>
+    <p class="text-xs text-sub text-slate-500 mb-6">กรอกรหัสที่ได้รับจากสถาบัน<br>กรอกครั้งเดียว ใช้ได้ตลอด ไม่ต้องกรอกซ้ำ</p>
+
+    <input type="text" id="input-license-key" placeholder="NST18-XXXXX-XXXXX" 
+           class="w-full text-center px-4 py-3 rounded-2xl border border-slate-200 text-lg font-bold tracking-wider uppercase focus:outline-none focus:border-red-800 mb-2 bg-inner text-main">
+    
+    <p id="key-error-msg" class="text-xs text-red-500 font-bold mb-4 hidden">กรอกรหัสก่อนนะครับ</p>
+
+    <button id="btn-verify" onclick="verifyLicenseKey()" class="w-full py-3.5 bg-primary-btn font-bold rounded-2xl shadow-lg transition active:scale-95 text-sm border-0 mb-4">
+      ตรวจสอบและเปิดใช้งาน
+    </button>
+
+    <p class="text-[11px] text-sub text-slate-400 leading-relaxed">
+      รหัสนี้ผูกกับเครื่องนี้หลังเปิดใช้งาน<br>ถ้ารหัสมีปัญหา ติดต่อสถาบันที่ซื้อมา
+    </p>
+  </section>
+
+  <!-- 1. Welcome / Start Screen -->
+  <section id="start-screen" class="hidden bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 text-center max-w-xl mx-auto my-4">
     <img src="logo.PNG" alt="PolicewithArm Logo" class="w-24 h-24 object-contain mx-auto mb-4 p-1 bg-white border border-slate-200 rounded-2xl shadow-sm">
     
     <h2 class="text-xl font-bold text-main text-slate-900 mb-2">PolicewithArm คลังข้อสอบตำรวจ (150 ข้อ)</h2>
@@ -199,7 +216,7 @@
     </div>
   </section>
 
-  <!-- Testing Screen -->
+  <!-- 2. Testing Screen -->
   <section id="exam-screen" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
     <div class="lg:col-span-2 bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6 flex flex-col justify-between">
       <div>
@@ -248,7 +265,7 @@
     </div>
   </section>
 
-  <!-- Result Screen -->
+  <!-- 3. Result Screen -->
   <section id="result-screen" class="hidden max-w-2xl mx-auto bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
     <div class="text-center mb-6">
       <div id="pass-status" class="inline-block px-4 py-2 rounded-full text-xs md:text-sm font-bold mb-3 shadow-sm"></div>
@@ -281,7 +298,6 @@
       </div>
 
       <div class="space-y-6">
-        <!-- 1. ปุ่มปรับสี (ธีมหลัก) -->
         <div>
           <label class="block text-xs font-bold text-sub text-slate-700 mb-2">1. ปุ่มปรับสี (Theme)</label>
           <div class="grid grid-cols-3 gap-2">
@@ -297,7 +313,6 @@
           </div>
         </div>
 
-        <!-- 2. ปุ่มปรับโทน (โหมดมืด / โหมดสว่าง) -->
         <div>
           <label class="block text-xs font-bold text-sub text-slate-700 mb-2">2. ปุ่มปรับโทน (Dark / Light Mode)</label>
           <div class="flex items-center justify-between p-3 bg-inner bg-slate-50 rounded-xl border border-slate-200">
@@ -320,7 +335,10 @@
 </main>
 
 <script>
-// ข้อมูลคลังข้อสอบครบ 150 ข้อ
+// Web Apps Script URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxx0qhntRBnGmi_A3UK3TWEFAzGi6so-hs97fhh__yos2h_DM1B1oZB2H72JJPcQx_I/exec";
+
+// คลังข้อสอบ 150 ข้อ
 var Q = [
   {"id":1,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 2, 5, 10, 17, 26, ... ตัวเลขถัดไปคืออะไร?","choices":["33","35","37","39"],"answer":2,"explain":"ผลต่างเพิ่มทีละคี่: +3, +5, +7, +9, ตัวถัดไป +11 -> 26 + 11 = 37"},
   {"id":2,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 3, 6, 12, 24, 48, ... ตัวเลขถัดไปคืออะไร?","choices":["60","72","96","108"],"answer":2,"explain":"คูณด้วย 2 ทุกครั้ง -> 48 * 2 = 96"},
@@ -483,12 +501,65 @@ var timerInterval = null;
 var currentThemeClass = 'theme-maroon';
 var currentThemeHex = '#800000';
 
+// ระบบตรวจสอบการเปิดใช้งาน Key
+function checkActivationState() {
+  const savedKey = localStorage.getItem('activated_key');
+  if (savedKey) {
+    document.getElementById('activation-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+  } else {
+    document.getElementById('activation-screen').classList.remove('hidden');
+    document.getElementById('start-screen').classList.add('hidden');
+  }
+}
+
+async function verifyLicenseKey() {
+  const keyInput = document.getElementById('input-license-key').value.trim();
+  const errorMsg = document.getElementById('key-error-msg');
+  const verifyBtn = document.getElementById('btn-verify');
+  
+  if (!keyInput) {
+    errorMsg.textContent = "กรอกรหัสก่อนนะครับ";
+    errorMsg.classList.remove('hidden');
+    return;
+  }
+
+  errorMsg.classList.add('hidden');
+  verifyBtn.disabled = true;
+  verifyBtn.textContent = "กำลังตรวจสอบ...";
+  
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'verifyKey',
+        key: keyInput,
+        userAgent: navigator.userAgent
+      })
+    });
+    
+    const result = await res.json();
+    if (result.status === "success") {
+      localStorage.setItem('activated_key', keyInput);
+      document.getElementById('activation-screen').classList.add('hidden');
+      document.getElementById('start-screen').classList.remove('hidden');
+    } else {
+      errorMsg.textContent = "รหัสไม่ถูกต้อง หรือถูกใช้งานไปแล้ว";
+      errorMsg.classList.remove('hidden');
+    }
+  } catch (err) {
+    alert("เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง");
+  } finally {
+    verifyBtn.disabled = false;
+    verifyBtn.textContent = "ตรวจสอบและเปิดใช้งาน";
+  }
+}
+
 function toggleSettingsModal() {
   const modal = document.getElementById('settings-modal');
   modal.classList.toggle('hidden');
 }
 
-// ระบบจดจำสไตล์ที่บันทึกไว้ใน LocalStorage
 function initSavedSettings() {
   var savedTheme = localStorage.getItem('app_theme');
   var savedHex = localStorage.getItem('app_theme_hex');
@@ -502,7 +573,6 @@ function initSavedSettings() {
   }
 }
 
-// 1. ระบบปรับเปลี่ยนธีมสี (พร้อมบันทึกค่า)
 function setTheme(themeName, themeColorHex, save = true) {
   currentThemeClass = themeName;
   currentThemeHex = themeColorHex;
@@ -516,7 +586,6 @@ function setTheme(themeName, themeColorHex, save = true) {
   }
 }
 
-// 2. ระบบปรับเปลี่ยนโหมดมืด / โหมดสว่าง (พร้อมบันทึกค่า)
 function toggleDarkMode() {
   var isDark = !document.body.classList.contains('dark-mode');
   applyDarkMode(isDark);
@@ -686,6 +755,20 @@ function submitExam() {
   }
 
   document.getElementById('subject-breakdown').innerHTML = breakdownHtml;
+
+  // ส่งผลการสอบไปยัง Google Sheet
+  const savedKey = localStorage.getItem('activated_key') || 'UNKNOWN';
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: JSON.stringify({
+      action: 'saveResult',
+      key: savedKey,
+      score: `${correctCount}/${Q.length}`,
+      percentage: `${pct}%`,
+      userAgent: navigator.userAgent
+    })
+  });
 }
 
 function toggleReview() {
