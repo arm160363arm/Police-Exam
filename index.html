@@ -166,7 +166,7 @@
     <h2 class="text-2xl font-black text-main text-slate-800 mb-1">เปิดใช้งานแอป</h2>
     <p class="text-xs text-sub text-slate-500 mb-6">กรอกรหัสที่ได้รับ<br>กรอกครั้งเดียว ใช้ได้ตลอด ไม่ต้องกรอกซ้ำ</p>
 
-    <input type="text" id="input-license-key" placeholder="POLICE-2026-ARM" 
+    <input type="text" id="input-license-key" placeholder="VRPOL-XXXXX-XXXXX" 
            class="w-full text-center px-4 py-3 rounded-2xl border border-slate-200 text-lg font-bold tracking-wider uppercase focus:outline-none focus:border-red-800 mb-2 bg-inner text-main">
     
     <p id="key-error-msg" class="text-xs text-red-500 font-bold mb-4 hidden">กรอกรหัสก่อนนะครับ</p>
@@ -176,7 +176,7 @@
     </button>
 
     <p class="text-[11px] text-sub text-slate-400 leading-relaxed">
-      รหัสผ่านสำรองฉุกเฉิน: <strong class="text-theme">POLICE-2026-ARM</strong><br>ถ้ารหัสมีปัญหา ติดต่อเจ้าของเว็บไซต์
+      รหัสนี้ผูกกับเครื่องนี้หลังเปิดใช้งาน<br>ถ้ารหัสมีปัญหา ติดต่อเจ้าของเว็บไซต์
     </p>
   </section>
 
@@ -338,9 +338,6 @@
 // Web Apps Script URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpEcURwWvI05DmVauO5Yfl2GMMs6vcG0XyKYHOUR8Pj8DpNCV8KzDFOS4Jaj6oPLGbmA/exec";
 
-// Master Offline License Key (รหัสผ่านสำรองสำหรับเข้าใช้งานทันที)
-const MASTER_KEY = "POLICE-2026-ARM";
-
 // ฟังก์ชันสร้างหรือดึง Device ID ประจำเครื่องผู้ใช้งานเก็บไว้ใน localStorage
 function getOrCreateDeviceId() {
   let deviceId = localStorage.getItem('app_device_id');
@@ -354,21 +351,13 @@ function getOrCreateDeviceId() {
 // ฟังก์ชันตรวจสอบสถานะสิทธิ์การใช้งาน
 async function checkActivationState() {
   const savedKey = localStorage.getItem('activated_key');
+  const deviceId = getOrCreateDeviceId();
 
   if (!savedKey) {
     document.getElementById('activation-screen').classList.remove('hidden');
     document.getElementById('start-screen').classList.add('hidden');
     return;
   }
-
-  // หากเป็น Master Key ที่บันทึกไว้ ให้ผ่านได้ทันทีแบบออฟไลน์
-  if (savedKey === MASTER_KEY) {
-    document.getElementById('activation-screen').classList.add('hidden');
-    document.getElementById('start-screen').classList.remove('hidden');
-    return;
-  }
-
-  const deviceId = getOrCreateDeviceId();
 
   try {
     const response = await fetch(SCRIPT_URL, {
@@ -390,10 +379,11 @@ async function checkActivationState() {
       localStorage.removeItem('activated_key');
       document.getElementById('activation-screen').classList.remove('hidden');
       document.getElementById('start-screen').classList.add('hidden');
+      alert("รหัสนี้ถูกรีเซ็ตออกจากระบบแล้ว");
     }
   } catch (error) {
     console.error("Connection error:", error);
-    // กรณีเชื่อมต่อเซิร์ฟเวอร์ไม่ได้ แต่เคยบันทึกคีย์ไว้แล้ว อนุญาตให้เข้าใช้งานต่อได้ปกติ
+    // กรณีเชื่อมต่อไม่ได้ ยอมให้เข้าใช้งานหน้าเปิดตามข้อมูลเดิมที่มี
     document.getElementById('activation-screen').classList.add('hidden');
     document.getElementById('start-screen').classList.remove('hidden');
   }
@@ -573,14 +563,6 @@ async function verifyLicenseKey() {
     return;
   }
 
-  // หากตรงกับรหัสสำรอง Master Key ให้ผ่านทันทีโดยไม่ต้องรอเซิร์ฟเวอร์
-  if (keyInput === MASTER_KEY) {
-    localStorage.setItem('activated_key', keyInput);
-    document.getElementById('activation-screen').classList.add('hidden');
-    document.getElementById('start-screen').classList.remove('hidden');
-    return;
-  }
-
   errorMsg.classList.add('hidden');
   verifyBtn.disabled = true;
   verifyBtn.textContent = "กำลังตรวจสอบ...";
@@ -611,10 +593,7 @@ async function verifyLicenseKey() {
     }
   } catch (err) {
     console.error("Connection Error:", err);
-    // เผื่อกรณีเชื่อมต่อ Google Script ไม่ได้ แต่ผู้ใช้กรอกรหัสอะไรก็ตาม ยอมให้เข้าได้เพื่อความสะดวก หรือใช้ Master Key
-    localStorage.setItem('activated_key', keyInput);
-    document.getElementById('activation-screen').classList.add('hidden');
-    document.getElementById('start-screen').classList.remove('hidden');
+    alert("เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง");
   } finally {
     verifyBtn.disabled = false;
     verifyBtn.textContent = "ตรวจสอบและเปิดใช้งาน";
