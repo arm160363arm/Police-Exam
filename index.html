@@ -118,7 +118,7 @@
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       const swCode = `
-        const CACHE_NAME = 'pwa-police-v2';
+        const CACHE_NAME = 'pwa-police-v1';
         self.addEventListener('install', e => {
           e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
         });
@@ -164,9 +164,9 @@
   <section id="activation-screen" class="max-w-md mx-auto my-4 bg-card bg-white p-6 rounded-3xl shadow-sm text-center border border-slate-200">
     <img src="logo.PNG" alt="นายสิบตำรวจ" class="w-28 h-28 mx-auto rounded-3xl shadow-md border-2 border-red-900 object-cover mb-4">
     <h2 class="text-2xl font-black text-main text-slate-800 mb-1">เปิดใช้งานแอป</h2>
-    <p class="text-xs text-sub text-slate-500 mb-6">กรอกรหัสที่ได้รับ<br>กรอกครั้งเดียว จดจำถาวร ไม่ต้องกรอกซ้ำ</p>
+    <p class="text-xs text-sub text-slate-500 mb-6">กรอกรหัสที่ได้รับ<br>กรอกครั้งเดียว ใช้ได้ตลอด ไม่ต้องกรอกซ้ำ</p>
 
-    <input type="text" id="input-license-key" placeholder="POLICE-2026-ARM" 
+    <input type="text" id="input-license-key" placeholder="VRPOL-XXXXX-XXXXX" 
            class="w-full text-center px-4 py-3 rounded-2xl border border-slate-200 text-lg font-bold tracking-wider uppercase focus:outline-none focus:border-red-800 mb-2 bg-inner text-main">
     
     <p id="key-error-msg" class="text-xs text-red-500 font-bold mb-4 hidden">กรอกรหัสก่อนนะครับ</p>
@@ -176,7 +176,7 @@
     </button>
 
     <p class="text-[11px] text-sub text-slate-400 leading-relaxed">
-      รหัสผ่านสำรองฉุกเฉิน: <strong class="text-theme">POLICE-2026-ARM</strong><br>ถ้ารหัสมีปัญหา ติดต่อเจ้าของเว็บไซต์
+      รหัสนี้ผูกกับเครื่องนี้หลังเปิดใช้งาน<br>ถ้ารหัสมีปัญหา ติดต่อเจ้าของเว็บไซต์
     </p>
   </section>
 
@@ -338,9 +338,7 @@
 // Web Apps Script URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpEcURwWvI05DmVauO5Yfl2GMMs6vcG0XyKYHOUR8Pj8DpNCV8KzDFOS4Jaj6oPLGbmA/exec";
 
-// Master Offline License Key (รหัสผ่านสำรองสำหรับเข้าใช้งานถาวร)
-const MASTER_KEY = "POLICE-2026-ARM";
-
+// ฟังก์ชันสร้างหรือดึง Device ID ประจำเครื่องผู้ใช้งานเก็บไว้ใน localStorage แบบถาวร
 function getOrCreateDeviceId() {
   let deviceId = localStorage.getItem('app_device_id');
   if (!deviceId) {
@@ -350,9 +348,10 @@ function getOrCreateDeviceId() {
   return deviceId;
 }
 
-// ฟังก์ชันตรวจสอบสถานะสิทธิ์ (ข้ามการเช็คออนไลน์ซ้ำซ้อนหากเคยเปิดใช้งานแล้ว เพื่อความเสถียรและไม่เด้งออก)
-function checkActivationState() {
+// ฟังก์ชันตรวจสอบสถานะสิทธิ์การใช้งาน (จำสถานะถาวรจนกว่าเจ้าของเว็บจะรีเซ็ตผ่าน Server)
+async function checkActivationState() {
   const savedKey = localStorage.getItem('activated_key');
+  const deviceId = getOrCreateDeviceId();
 
   if (!savedKey) {
     document.getElementById('activation-screen').classList.remove('hidden');
@@ -360,9 +359,35 @@ function checkActivationState() {
     return;
   }
 
-  // หากเคยกรอกรหัสถูกต้องหรือใช้ Master Key แล้ว จะจดจำถาวร ปิด/ปัดแอปเปิดใหม่ไม่เด้งออกแน่นอน
-  document.getElementById('activation-screen').classList.add('hidden');
-  document.getElementById('start-screen').classList.remove('hidden');
+  try {
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'checkStatus',
+        key: savedKey,
+        deviceId: deviceId
+      })
+    });
+    
+    const result = await response.json();
+
+    if (result.status === "success") {
+      document.getElementById('activation-screen').classList.add('hidden');
+      document.getElementById('start-screen').classList.remove('hidden');
+    } else {
+      // กรณีถูกรีเซ็ตสิทธิ์จากฝั่งเจ้าของเว็บ
+      localStorage.removeItem('activated_key');
+      document.getElementById('activation-screen').classList.remove('hidden');
+      document.getElementById('start-screen').classList.add('hidden');
+      alert("รหัสนี้ถูกรีเซ็ตออกจากระบบโดยเจ้าของเว็บแล้ว");
+    }
+  } catch (error) {
+    console.error("Connection error:", error);
+    // กรณีเชื่อมต่อไม่ได้ แต่เคยยืนยันตัวตนแล้ว ให้เข้าใช้งานต่อได้ปกติ (ไม่ต้องกรอกใหม่)
+    document.getElementById('activation-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+  }
 }
 
 // คลังข้อสอบ 150 ข้อ
@@ -542,16 +567,38 @@ async function verifyLicenseKey() {
   errorMsg.classList.add('hidden');
   verifyBtn.disabled = true;
   verifyBtn.textContent = "กำลังตรวจสอบ...";
-
-  // บันทึกยืนยันสิทธิ์ลงในเครื่องผู้ใช้ทันที เพื่อให้จำค่าถาวร ปิดแอพปัดเว็บไม่หลุด
-  localStorage.setItem('activated_key', keyInput);
   
-  setTimeout(() => {
-    document.getElementById('activation-screen').classList.add('hidden');
-    document.getElementById('start-screen').classList.remove('hidden');
+  const deviceId = getOrCreateDeviceId();
+
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'verifyKey',
+        key: keyInput,
+        deviceId: deviceId,
+        userAgent: navigator.userAgent
+      })
+    });
+    
+    const result = await res.json();
+
+    if (result.status === "success") {
+      localStorage.setItem('activated_key', keyInput);
+      document.getElementById('activation-screen').classList.add('hidden');
+      document.getElementById('start-screen').classList.remove('hidden');
+    } else {
+      errorMsg.textContent = result.message || "รหัสไม่ถูกต้อง หรือถูกใช้งานไปแล้ว";
+      errorMsg.classList.remove('hidden');
+    }
+  } catch (err) {
+    console.error("Connection Error:", err);
+    alert("เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง");
+  } finally {
     verifyBtn.disabled = false;
     verifyBtn.textContent = "ตรวจสอบและเปิดใช้งาน";
-  }, 500);
+  }
 }
 
 function toggleSettingsModal() {
