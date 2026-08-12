@@ -1,315 +1,927 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>POLICEWITHARM - ระบบฝึกสอบออนไลน์</title>
+<title>POLICEWITHARM - ชุดจำลองสอบนายสิบตำรวจ</title>
 
-<!-- Tailwind CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<!-- PWA / Add to Home Screen Meta Tags -->
+<meta name="theme-color" id="meta-theme-color" content="#800000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PolicewithArm">
 
+<link rel="icon" type="image/png" href="logo.PNG">
+<link rel="apple-touch-icon" href="logo.PNG">
+<link rel="manifest" id="manifest-placeholder">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'Sarabun', sans-serif; }
-  .transition-all { transition-property: all; transition-duration: 300ms; }
+  body { font-family: 'Sarabun', sans-serif; transition: background-color 0.3s, color 0.3s; }
   
-  :root { --primary-color: #800000; }
-  .bg-theme { background-color: var(--primary-color); }
-  .text-theme { color: var(--primary-color); }
-  
-  .scrollbar-hide::-webkit-scrollbar { display: none; }
-  .grid-marked { position: relative; }
-  .grid-marked::after { content: '🚩'; position: absolute; top: -5px; right: -5px; font-size: 8px; }
-</style>
-</head>
-<body class="bg-slate-50 text-slate-800 transition-all">
+  /* Dynamic Theme Classes */
+  .theme-maroon .bg-header { background-color: #800000; }
+  .theme-maroon .bg-subtheme { background-color: #500000; }
+  .theme-maroon .bg-primary-btn { background-color: #800000; color: #ffffff; }
+  .theme-maroon .bg-primary-btn:hover { background-color: #600000; }
+  .theme-maroon .text-theme { color: #800000; }
+  .theme-maroon .border-theme { border-color: #800000; }
 
-<!-- Header -->
-<header class="bg-theme text-white p-4 shadow-lg sticky top-0 z-50">
-  <div class="max-w-4xl mx-auto flex justify-between items-center">
-    <div>
-      <h1 class="font-bold text-lg leading-tight">POLICEWITHARM</h1>
-      <p class="text-[10px] opacity-80">จำลองสอบนายสิบตำรวจ</p>
+  .theme-navy .bg-header { background-color: #1e3a8a; }
+  .theme-navy .bg-subtheme { background-color: #172554; }
+  .theme-navy .bg-primary-btn { background-color: #1e3a8a; color: #ffffff; }
+  .theme-navy .bg-primary-btn:hover { background-color: #1e40af; }
+  .theme-navy .text-theme { color: #1e3a8a; }
+  .theme-navy .border-theme { border-color: #1e3a8a; }
+
+  .theme-emerald .bg-header { background-color: #065f46; }
+  .theme-emerald .bg-subtheme { background-color: #022c22; }
+  .theme-emerald .bg-primary-btn { background-color: #065f46; color: #ffffff; }
+  .theme-emerald .bg-primary-btn:hover { background-color: #047857; }
+  .theme-emerald .text-theme { color: #065f46; }
+  .theme-emerald .border-theme { border-color: #065f46; }
+
+  .grid-btn-unselected {
+    background-color: #ffffff !important;
+    color: #1e293b !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  body.dark-mode {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+  }
+  body.dark-mode .bg-card {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+  }
+  body.dark-mode .bg-inner {
+    background-color: #0f172a !important;
+    border-color: #334155 !important;
+    color: #f8fafc !important;
+  }
+  body.dark-mode .text-main {
+    color: #f8fafc !important;
+  }
+  body.dark-mode .text-sub {
+    color: #94a3b8 !important;
+  }
+  body.dark-mode .bg-slate-200 {
+    background-color: #334155 !important;
+    color: #e2e8f0 !important;
+  }
+  body.dark-mode .bg-slate-100 {
+    background-color: #1e293b !important;
+  }
+  body.dark-mode .grid-btn-unselected {
+    background-color: #334155 !important;
+    color: #f8fafc !important;
+    border-color: #475569 !important;
+  }
+
+  .grid-marked::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 20%;
+    width: 60%;
+    height: 3px;
+    background-color: #f59e0b;
+    border-radius: 2px;
+  }
+</style>
+
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const manifestData = {
+      "name": "POLICEWITHARM - ชุดจำลองสอบนายสิบตำรวจ",
+      "short_name": "PolicewithArm",
+      "start_url": "./",
+      "display": "standalone",
+      "background_color": "#ffffff",
+      "theme_color": "#800000",
+      "icons": [{ "src": "logo.PNG", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }]
+    };
+    const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+    document.getElementById('manifest-placeholder').href = URL.createObjectURL(manifestBlob);
+    
+    initSavedSettings();
+    fastCheckActivationState();
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const swCode = `
+        const CACHE_NAME = 'pwa-police-v2';
+        self.addEventListener('install', e => {
+          e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(['./'])));
+        });
+        self.addEventListener('fetch', e => {
+          e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+        });
+      `;
+      const blob = new Blob([swCode], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl).catch(err => console.log('SW registration failed: ', err));
+    });
+  }
+</script>
+</head>
+<body class="theme-maroon bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between">
+
+<!-- Header Bar -->
+<header class="bg-header text-white shadow-md sticky top-0 z-50 transition-colors duration-300">
+  <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center gap-2.5">
+      <img src="logo.PNG" alt="PolicewithArm Logo" class="w-9 h-9 object-contain bg-white rounded-lg p-0.5 shadow-sm">
+      <div>
+        <h1 class="font-bold text-base md:text-xl leading-tight">POLICEWITHARM</h1>
+        <p class="text-[11px] md:text-xs text-red-100">ชุดจำลองสอบนายสิบตำรวจ</p>
+      </div>
     </div>
-    <div id="timer" class="bg-black/20 px-3 py-1 rounded-lg font-mono font-bold text-sm hidden">03:00:00</div>
+    
+    <div class="flex items-center gap-2">
+      <div id="timer" class="bg-subtheme px-3 py-1 rounded-lg text-sm md:text-base font-mono font-bold tracking-wider text-yellow-400 border border-black/20">
+        03:00:00
+      </div>
+      <button onclick="toggleSettingsModal()" class="p-1.5 bg-subtheme rounded-lg hover:bg-black/20 border border-black/20 transition" title="ตั้งค่า">
+        ⚙️
+      </button>
+    </div>
   </div>
 </header>
 
-<main class="max-w-4xl mx-auto px-4 py-6">
-  <!-- Activation Section -->
-  <section id="activation-screen" class="card bg-white p-6 rounded-3xl shadow-sm border text-center max-w-sm mx-auto mt-10">
-    <div class="mb-4 text-4xl">🔐</div>
-    <h2 class="text-xl font-bold mb-2">เปิดใช้งานแอป</h2>
-    <p class="text-xs text-slate-500 mb-4">กรุณากรอกรหัสผ่านเพื่อเข้าสู่ระบบทดสอบ</p>
-    <input type="text" id="input-license-key" placeholder="รหัสผ่านเข้าใช้งาน" class="w-full text-center p-3 rounded-xl border mb-4 bg-slate-50 uppercase font-bold tracking-widest focus:outline-none focus:border-red-800">
-    <button onclick="verifyLicenseKey()" class="w-full py-3 bg-theme text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition-all">ตรวจสอบ</button>
+<!-- Main Area -->
+<main class="max-w-4xl mx-auto px-4 py-6 flex-grow w-full">
+
+  <!-- 0. หน้าเปิดใช้งานแอป (Activation Screen) -->
+  <section id="activation-screen" class="max-w-md mx-auto my-4 bg-card bg-white p-6 rounded-3xl shadow-sm text-center border border-slate-200">
+    <img src="logo.PNG" alt="นายสิบตำรวจ" class="w-28 h-28 mx-auto rounded-3xl shadow-md border-2 border-red-900 object-cover mb-4">
+    <h2 class="text-2xl font-black text-main text-slate-800 mb-1">เปิดใช้งานแอป</h2>
+    <p class="text-xs text-sub text-slate-500 mb-6">กรอกรหัสที่ได้รับ<br>กรอกครั้งเดียว ใช้ได้ตลอด ไม่ต้องกรอกซ้ำ</p>
+
+    <input type="text" id="input-license-key" placeholder="VRPOL-XXXXX-XXXXX" 
+           class="w-full text-center px-4 py-3 rounded-2xl border border-slate-200 text-lg font-bold tracking-wider uppercase focus:outline-none focus:border-red-800 mb-2 bg-inner text-main">
+    
+    <p id="key-error-msg" class="text-xs text-red-500 font-bold mb-4 hidden">กรอกรหัสก่อนนะครับ</p>
+
+    <button id="btn-verify" onclick="verifyLicenseKey()" class="w-full py-3.5 bg-primary-btn font-bold rounded-2xl shadow-lg transition active:scale-95 text-sm border-0 mb-4">
+      ตรวจสอบและเปิดใช้งาน
+    </button>
+
+    <p class="text-[11px] text-sub text-slate-400 leading-relaxed">
+      รหัสนี้ผูกกับเครื่องนี้หลังเปิดใช้งาน<br>ถ้ารหัสมีปัญหา ติดต่อเจ้าของเว็บไซต์
+    </p>
   </section>
 
-  <!-- Exam Content (Hidden by default) -->
-  <div id="exam-container" class="hidden">
-    <!-- Question Area -->
-    <div class="card bg-white p-5 rounded-2xl shadow-sm border mb-4">
-      <div class="flex justify-between text-xs font-bold text-slate-400 mb-4">
-        <span id="q-subject">หมวดวิชา</span>
-        <span id="q-number">1 / 150</span>
-      </div>
-      <div id="q-text" class="text-base font-semibold mb-6"></div>
-      <div id="q-choices" class="space-y-2 mb-4"></div>
-      
-      <!-- Utility Buttons inside Question -->
-      <div class="flex justify-between items-center pt-2 mb-4">
-        <button onclick="clearChoice()" class="text-xs text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg font-bold transition-all">🗑️ ล้างคำตอบข้อนี้</button>
-      </div>
-
-      <div class="flex justify-between items-center pt-4 border-t">
-        <button onclick="prevQ()" class="text-slate-500 font-bold px-4 py-2 hover:bg-slate-100 rounded-xl transition-all">◀ ก่อนหน้า</button>
-        <button onclick="toggleMark()" id="btn-mark" class="px-3 py-2 bg-yellow-100 text-yellow-700 rounded-xl font-bold text-xs transition-all">🚩 ทำเครื่องหมาย</button>
-        <button onclick="nextQ()" class="text-theme font-bold px-4 py-2 hover:bg-red-50 rounded-xl transition-all">ถัดไป ▶</button>
-      </div>
-    </div>
+  <!-- 1. Welcome / Start Screen -->
+  <section id="start-screen" class="hidden bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 text-center max-w-xl mx-auto my-4">
+    <img src="logo.PNG" alt="PolicewithArm Logo" class="w-24 h-24 object-contain mx-auto mb-4 p-1 bg-white border border-slate-200 rounded-2xl shadow-sm">
     
-    <!-- Navigation Grid -->
-    <div class="card bg-white p-4 rounded-2xl shadow-sm border mb-6">
-      <div class="text-xs font-bold text-slate-500 mb-3 flex justify-between items-center">
-        <span>ตารางข้อสอบทั้งหมด</span>
-        <span id="progress-text" class="text-theme">ทำแล้ว 0/0 ข้อ</span>
-      </div>
-      <div id="q-grid" class="grid grid-cols-6 sm:grid-cols-10 gap-2 max-h-48 overflow-y-auto p-1 scrollbar-hide"></div>
+    <h2 class="text-xl font-bold text-main text-slate-900 mb-2">PolicewithArm คลังข้อสอบตำรวจ (150 ข้อ)</h2>
+    <p class="text-sub text-slate-600 text-xs md:text-sm mb-4 leading-relaxed">
+      จัดเรียงตามหมวดวิชาสอบจริง 6 วิชา พร้อมระบบคำนวณคะแนนและเฉลยรายละเอียด
+    </p>
+
+    <div class="bg-inner bg-indigo-50 border border-indigo-200 rounded-xl p-3.5 mb-5 text-center">
+      <p class="text-xs md:text-sm text-theme font-bold">
+        💙 "ตั้งสติให้ดี ค่อยๆ อ่านโจทย์ ฝึกฝนอย่างต่อเนื่องกับ PolicewithArm สอบผ่านแน่นอน!" 💙
+      </p>
     </div>
 
-    <!-- Submit Section -->
-    <button onclick="confirmSubmit()" class="w-full py-4 bg-emerald-600 text-white font-bold rounded-2xl shadow-lg hover:bg-emerald-700 active:scale-95 transition-all text-base">ส่งคำตอบทั้งหมด</button>
+    <!-- ส่วนเลือกโหมดทำข้อสอบ -->
+    <div class="mb-5">
+      <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">เลือกรูปแบบการทำข้อสอบ</label>
+      <div class="flex gap-2 justify-center">
+        <button type="button" onclick="setExamMode('normal')" id="mode-normal-btn" class="flex-1 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-xs shadow-sm">
+          📚 แบบเรียงข้อทั้งหมด
+        </button>
+        <button type="button" onclick="setExamMode('random')" id="mode-random-btn" class="flex-1 py-2.5 bg-slate-200 text-slate-700 font-bold rounded-xl text-xs shadow-sm">
+          🔀 สุ่มหมวดหมู่ + สลับตัวเลือก
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-inner bg-amber-50 border border-amber-200 rounded-xl p-3.5 mb-6 max-w-xs mx-auto">
+      <span class="text-xs text-amber-800 font-bold block">🎯 เกณฑ์การผ่าน</span>
+      <span class="text-2xl font-black text-amber-600">80% (120 ข้อขึ้นไป)</span>
+    </div>
+
+    <div class="grid grid-cols-2 gap-2 mb-6 text-xs font-semibold text-sub text-slate-600 text-left">
+      <div class="bg-inner bg-slate-50 p-2.5 rounded-lg border border-slate-200">1. ความสามารถทั่วไป (1-30)</div>
+      <div class="bg-inner bg-slate-50 p-2.5 rounded-lg border border-slate-200">2. ภาษาไทย (31-55)</div>
+      <div class="bg-inner bg-slate-50 p-2.5 rounded-lg border border-slate-200">3. คอมพิวเตอร์ (56-80)</div>
+      <div class="bg-inner bg-slate-50 p-2.5 rounded-lg border border-slate-200">4. ภาษาอังกฤษ (81-110)</div>
+      <div class="bg-inner bg-slate-50 p-2.5 rounded-lg border border-slate-200">5. สังคม/อาเซียน (111-130)</div>
+      <div class="bg-inner bg-slate-50 p-2.5 rounded-lg border border-slate-200">6. กฎหมายควรรู้ (131-150)</div>
+    </div>
+
+    <div class="flex justify-center">
+      <button id="btn-start" onclick="startExamWithRandomization()" class="w-full py-3.5 bg-primary-btn font-bold rounded-xl shadow-lg transition active:scale-95 text-sm border-0">
+        🚀 เริ่มทำข้อสอบ
+      </button>
+    </div>
+  </section>
+
+  <!-- 2. Testing Screen -->
+  <section id="exam-screen" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
+    <div class="lg:col-span-2 bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6 flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center mb-4">
+          <span id="q-subject" class="bg-inner bg-indigo-50 text-theme font-bold text-xs px-3 py-1 rounded-full border border-indigo-100">หมวดหมู่</span>
+          <span id="q-number" class="text-xs text-sub text-slate-400 font-semibold">ข้อ 1 / 150</span>
+        </div>
+
+        <div id="q-text" class="text-base md:text-lg font-bold text-main text-slate-800 mb-6 leading-snug">
+          กำลังโหลดข้อสอบ...
+        </div>
+
+        <div id="q-choices" class="space-y-3 mb-6"></div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+        <button id="btn-prev" onclick="prevQ()" class="px-3.5 py-2 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 text-xs md:text-sm disabled:opacity-40">
+          ◀ ก่อนหน้า
+        </button>
+        <button id="btn-mark" onclick="toggleMark()" class="px-3.5 py-2 bg-yellow-400 hover:bg-yellow-500 text-amber-950 font-bold rounded-xl shadow-sm hover:shadow transition active:scale-95 text-xs md:text-sm border border-yellow-500">
+          🚩 ทำเครื่องหมาย
+        </button>
+        <button id="btn-next" onclick="nextQ()" class="px-3.5 py-2 bg-primary-btn font-bold rounded-xl text-xs md:text-sm disabled:opacity-40 transition active:scale-95 border-0">
+          ถัดไป ▶
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col justify-between h-fit">
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <span class="font-bold text-main text-slate-700 text-xs">ภาพรวมการทำข้อสอบ</span>
+          <span id="progress-text" class="text-[11px] font-semibold text-sub text-slate-500">ตอบแล้ว 0/150</span>
+        </div>
+        
+        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-4">
+          <div id="progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <div id="q-grid" class="grid grid-cols-7 gap-1.5 max-h-56 lg:max-h-80 overflow-y-auto p-1 mb-4 border rounded-xl bg-inner bg-slate-50"></div>
+      </div>
+
+      <button onclick="confirmSubmit()" class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl shadow transition text-xs md:text-sm border-0">
+        ส่งข้อสอบ
+      </button>
+    </div>
+  </section>
+
+  <!-- 3. Result Screen -->
+  <section id="result-screen" class="hidden max-w-2xl mx-auto bg-card bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+    <div class="text-center mb-6">
+      <div id="pass-status" class="inline-block px-4 py-2 rounded-full text-xs md:text-sm font-bold mb-3 shadow-sm"></div>
+      <h2 class="text-xl font-bold text-main text-slate-800 mb-1">ผลการทดสอบของคุณ (PolicewithArm)</h2>
+      <div id="score-main" class="text-5xl font-black text-theme my-3">0 / 150</div>
+      <div id="score-pct" class="text-base font-bold text-sub text-slate-500">คิดเป็น 0%</div>
+      <p class="text-xs text-sub text-slate-400 mt-1">(เกณฑ์การผ่าน 80% หรือ 120 ข้อขึ้นไป)</p>
+    </div>
+
+    <div id="subject-breakdown" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6"></div>
+
+    <div class="flex flex-col sm:flex-row gap-3">
+      <button id="btn-review-toggle" onclick="toggleReview()" class="flex-1 py-3 bg-primary-btn font-bold rounded-xl transition text-xs md:text-sm border-0">
+        ดูเฉลยพร้อมคำอธิบาย
+      </button>
+      <button onclick="location.reload()" class="py-3 px-6 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition text-xs md:text-sm border-0">
+        ทำใหม่อีกครั้ง
+      </button>
+    </div>
+
+    <div id="review-container" class="hidden mt-6 pt-6 border-t border-slate-200 space-y-4"></div>
+  </section>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-card bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200">
+      <div class="flex justify-between items-center mb-4 pb-2 border-b">
+        <h3 class="text-lg font-bold text-main text-slate-800 flex items-center gap-2">⚙️ ตั้งค่าการแสดงผล</h3>
+        <button onclick="toggleSettingsModal()" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+      </div>
+
+      <div class="space-y-6">
+        <div>
+          <label class="block text-xs font-bold text-sub text-slate-700 mb-2">1. ปุ่มปรับสี (Theme)</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button onclick="setTheme('theme-maroon', '#800000')" class="p-2.5 rounded-xl border border-slate-200 flex flex-col items-center gap-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50">
+              <span class="w-5 h-5 rounded-full bg-red-900 inline-block shadow-sm"></span> แดงเลือดหมู
+            </button>
+            <button onclick="setTheme('theme-navy', '#1e3a8a')" class="p-2.5 rounded-xl border border-slate-200 flex flex-col items-center gap-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50">
+              <span class="w-5 h-5 rounded-full bg-blue-900 inline-block shadow-sm"></span> กรมท่า
+            </button>
+            <button onclick="setTheme('theme-emerald', '#065f46')" class="p-2.5 rounded-xl border border-slate-200 flex flex-col items-center gap-1.5 text-xs font-bold text-slate-700 hover:bg-slate-50">
+              <span class="w-5 h-5 rounded-full bg-emerald-800 inline-block shadow-sm"></span> เขียวพรีเมียม
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-sub text-slate-700 mb-2">2. ปุ่มปรับโทน (Dark / Light Mode)</label>
+          <div class="flex items-center justify-between p-3 bg-inner bg-slate-50 rounded-xl border border-slate-200">
+            <span class="text-xs font-bold text-main">สลับการแสดงผลโหมดมืด</span>
+            <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-lg text-xs transition">
+              ☀️ สว่าง
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <button onclick="toggleSettingsModal()" class="w-full py-2.5 bg-primary-btn font-bold rounded-xl text-xs md:text-sm transition border-0">
+          เสร็จสิ้น
+        </button>
+      </div>
+    </div>
   </div>
+
 </main>
 
 <script>
-  // ตัวอย่างข้อมูลข้อสอบและระบบจำลอง (สามารถปรับเปลี่ยนเชื่อมต่อ Google Apps Script ของท่านได้ตามต้องการ)
-  const SCRIPT_URL = ""; // ใส่ URL Google Apps Script ของท่านตรงนี้
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwpEcURwWvI05DmVauO5Yfl2GMMs6vcG0XyKYHOUR8Pj8DpNCV8KzDFOS4Jaj6oPLGbmA/exec";
+
+function getOrCreateDeviceId() {
+  let deviceId = localStorage.getItem('app_device_id');
+  if (!deviceId) {
+    deviceId = 'dev_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+    localStorage.setItem('app_device_id', deviceId);
+  }
+  return deviceId;
+}
+
+function fastCheckActivationState() {
+  const savedKey = localStorage.getItem('activated_key');
+  if (!savedKey) {
+    document.getElementById('activation-screen').classList.remove('hidden');
+    document.getElementById('start-screen').classList.add('hidden');
+    return;
+  }
+
+  document.getElementById('activation-screen').classList.add('hidden');
+  document.getElementById('start-screen').classList.remove('hidden');
+
+  setTimeout(() => {
+    backgroundVerifyKey(savedKey);
+  }, 500);
+}
+
+async function backgroundVerifyKey(savedKey) {
+  try {
+    const deviceId = getOrCreateDeviceId();
+    const response = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'checkStatus', key: savedKey, deviceId: deviceId })
+    });
+    const result = await response.json();
+    if (result.status !== "success") {
+      localStorage.removeItem('activated_key');
+      document.getElementById('activation-screen').classList.remove('hidden');
+      document.getElementById('start-screen').classList.add('hidden');
+      alert("รหัสนี้ถูกรีเซ็ตออกจากระบบโดยเจ้าของเว็บแล้ว");
+    }
+  } catch (error) {
+    console.error("Background check skipped:", error);
+  }
+}
+
+// คลังข้อสอบ 150 ข้อ
+var originalQ = [
+  {"id":1,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 2, 5, 10, 17, 26, ... ตัวเลขถัดไปคืออะไร?","choices":["33","35","37","39"],"answer":2,"explain":"ผลต่างเพิ่มทีละคี่: +3, +5, +7, +9, ตัวถัดไป +11 -> 26 + 11 = 37"},
+  {"id":2,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 3, 6, 12, 24, 48, ... ตัวเลขถัดไปคืออะไร?","choices":["60","72","96","108"],"answer":2,"explain":"คูณด้วย 2 ทุกครั้ง -> 48 * 2 = 96"},
+  {"id":3,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 100, 95, 85, 70, 50, ... ตัวเลขถัดไปคืออะไร?","choices":["25","30","20","15"],"answer":0,"explain":"ผลต่างลบเพิ่มขึ้น: -5, -10, -15, -20, ตัวถัดไป -25 -> 50 - 25 = 25"},
+  {"id":4,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 1, 4, 9, 16, 25, ... ตัวเลขถัดไปคืออะไร?","choices":["30","35","36","40"],"answer":2,"explain":"กำลังสองของลำดับธรรมดา 1^2, 2^2, 3^2, 4^2, 5^2, ตัวถัดไป 6^2 = 36"},
+  {"id":5,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 5, 10, 8, 13, 11, 16, ... ตัวเลขถัดไปคืออะไร?","choices":["13","14","15","18"],"answer":1,"explain":"สลับ +5 แล้ว -2 -> 16 - 2 = 14"},
+  {"id":6,"subject":"1. ความสามารถทั่วไป","q":"นก : ท้องฟ้า :: ปลา : ?","choices":["แม่น้ำ","รัง","ปีก","คลื่น"],"answer":0,"explain":"ความสัมพันธ์เปรียบเทียบที่อยู่อาศัยหรือการเคลื่อนที่ นกบินในท้องฟ้า ปลาว่ายในแม่น้ำ"},
+  {"id":7,"subject":"1. ความสามารถทั่วไป","q":"หมอ : โรงพยาบาล :: ครู : ?","choices":["หนังสือ","นักเรียน","โรงเรียน","กระดานดำ"],"answer":2,"explain":"สถานที่ทำงานของอาชีพ"},
+  {"id":8,"subject":"1. ความสามารถทั่วไป","q":"แว่นตา : ดวงตา :: หูฟัง : ?","choices":["ดนตรี","หู","วิทยุ","เสียง"],"answer":1,"explain":"อุปกรณ์ที่ใช้อวัยวะรับสัมผัส"},
+  {"id":9,"subject":"1. ความสามารถทั่วไป","q":"ถ้า กุ้ง สูงกว่า หมึก และ หมึก สูงกว่า ปู ใครเตี้ยที่สุด?","choices":["กุ้ง","หมึก","ปู","เท่ากันหมด"],"answer":2,"explain":"เรียงลำดับความสูง: กุ้ง > หมึก > ปู ดังนั้น ปู เตี้ยที่สุด"},
+  {"id":10,"subject":"1. ความสามารถทั่วไป","q":"ซื้อสินค้ามา 500 บาท ขายไป 600 บาท ได้กำไรร้อยละเท่าใด?","choices":["10%","15%","20%","25%"],"answer":2,"explain":"กำไร = 100 บาท; คิดเป็น (100 / 500) * 100 = 20%"},
+  {"id":11,"subject":"1. ความสามารถทั่วไป","q":"เงินต้น 10,000 บาท อัตราดอกเบี้ย 5% ต่อปี ฝาก 2 ปี จะได้ดอกเบี้ยเชิงเดี่ยวรวมเท่าใด?","choices":["500 บาท","1,000 บาท","1,500 บาท","2,000 บาท"],"answer":1,"explain":"ดอกเบี้ย = 10,000 * 0.05 * 2 = 1,000 บาท"},
+  {"id":12,"subject":"1. ความสามารถทั่วไป","q":"ระยะทาง 120 กิโลเมตร ขับรถด้วยความเร็ว 60 กม./ชม. ใช้เวลากี่ชั่วโมง?","choices":["1 ชั่วโมง","1.5 ชั่วโมง","2 ชั่วโมง","2.5 ชั่วโมง"],"answer":2,"explain":"เวลา = ระยะทาง / ความเร็ว = 120 / 60 = 2 ชั่วโมง"},
+  {"id":13,"subject":"1. ความสามารถทั่วไป","q":"ข้อใดคือค่าเฉลี่ยของ 10, 20, 30, 40, 50?","choices":["25","30","35","40"],"answer":1,"explain":"ผลรวม = 150 / 5 = 30"},
+  {"id":14,"subject":"1. ความสามารถทั่วไป","q":"ถ้า 2x + 5 = 15 ค่าของ x คือเท่าใด?","choices":["3","4","5","6"],"answer":2,"explain":"2x = 10 -> x = 5"},
+  {"id":15,"subject":"1. ความสามารถทั่วไป","q":"อัตราส่วน ชาย : หญิง คือ 3 : 2 ถ้ามีชาย 15 คน มีหญิงกี่คน?","choices":["8 คน","10 คน","12 คน","14 คน"],"answer":1,"explain":"3 ส่วน = 15 (ส่วนละ 5) ดังนั้น 2 ส่วน = 10 คน"},
+  {"id":16,"subject":"1. ความสามารถทั่วไป","q":"ผลรวมของมุมภายในของรูปสามเหลี่ยมเท่ากับกี่องศา?","choices":["90 องศา","180 องศา","270 องศา","360 องศา"],"answer":1,"explain":"มุมภายในรูปสามเหลี่ยมรวมกันได้ 180 องศาเสมอ"},
+  {"id":17,"subject":"1. ความสามารถทั่วไป","q":"สี่เหลี่ยมผืนผ้ากว้าง 5 ซม. ยาว 10 ซม. มีพื้นที่เท่าใด?","choices":["30 ตร.ซม.","40 ตร.ซม.","50 ตร.ซม.","60 ตร.ซม."],"answer":2,"explain":"พื้นที่ = กว้าง x ยาว = 5 x 10 = 50 ตร.ซม."},
+  {"id":18,"subject":"1. ความสามารถทั่วไป","q":"จงหาค่าของ 15% ของ 200","choices":["20","25","30","35"],"answer":2,"explain":"(15/100) * 200 = 30"},
+  {"id":19,"subject":"1. ความสามารถทั่วไป","q":"จำนวนใดเป็นจำนวนเฉพาะ (Prime Number)?","choices":["9","15","17","21"],"answer":2,"explain":"17 มีแค่ 1 และตัวมันเองที่หารลงตัว"},
+  {"id":20,"subject":"1. ความสามารถทั่วไป","q":"อนุกรม 1, 1, 2, 3, 5, 8, ... ตัวเลขถัดไปคืออะไร?","choices":["11","12","13","15"],"answer":2,"explain":"ลำดับฟีโบนักชี (Fibonacci): ตัวถัดไปเกิดจาก 2 ตัวหน้าบวกกัน 5 + 8 = 13"},
+  {"id":21,"subject":"1. ความสามารถทั่วไป","q":"คน 4 คน ทำงานเสร็จใน 6 วัน ถ้ามีคน 8 คน จะทำงานเสร็จในกี่วัน (ประสิทธิภาพเท่ากัน)?","choices":["2 วัน","3 วัน","4 วัน","5 วัน"],"answer":1,"explain":"คนเพิ่มขึ้น 2 เท่า เวลาจะลดลงครึ่งหนึ่ง -> 6 / 2 = 3 วัน"},
+  {"id":22,"subject":"1. ความสามารถทั่วไป","q":"เลขจำนวนหนึ่งเพิ่มขึ้น 20% แล้วเท่ากับ 120 เลขนั้นคืออะไร?","choices":["90","100","110","115"],"answer":1,"explain":"120% ของ x = 120 -> x = 100"},
+  {"id":23,"subject":"1. ความสามารถทั่วไป","q":"มุมฉากมีขนาดกี่องศา?","choices":["45 องศา","60 องศา","90 องศา","120 องศา"],"answer":2,"explain":"มุมฉากคือ 90 องศา"},
+  {"id":24,"subject":"1. ความสามารถทั่วไป","q":"ผลบวกของเลข 1 ถึง 10 เท่ากับเท่าใด?","choices":["45","50","55","60"],"answer":2,"explain":"สูตร n(n+1)/2 -> 10(11)/2 = 55"},
+  {"id":25,"subject":"1. ความสามารถทั่วไป","q":"ถ้านาฬิกาบอกเวลา 15:00 น. เข็มสั้นและเข็มยาวทำมุมกันกี่องศา?","choices":["45 องศา","60 องศา","90 องศา","180 องศา"],"answer":2,"explain":"15:00 น. เข็มสั้นตั้งฉากกับเข็มยาว ทำมุม 90 องศา"},
+  {"id":26,"subject":"1. ความสามารถทั่วไป","q":"แม่ค้าลดราคาเสื้อ 10% จากราคาป้าย 300 บาท เสื้อราคาเท่าใด?","choices":["250 บาท","260 บาท","270 บาท","280 บาท"],"answer":2,"explain":"ลด 10% ของ 300 คือ 30 บาท -> 300 - 30 = 270 บาท"},
+  {"id":27,"subject":"1. ความสามารถทั่วไป","q":"ถ้า A > B และ B > C ข้อใดถูกต้องที่สุด?","choices":["A < C","A = C","A > C","สรุปไม่ได้"],"answer":2,"explain":"การถ่ายทอดสมบัติความเหลื่อมล้ำ A มากกว่า C"},
+  {"id":28,"subject":"1. ความสามารถทั่วไป","q":"ลูกเต๋า 1 ลูก โยน 1 ครั้ง โอกาสที่จะได้แต้มคู่คือเท่าใด?","choices":["1/6","1/3","1/2","2/3"],"answer":2,"explain":"แต้มคู่มี 2, 4, 6 (3 กรณีจากทั้งหมด 6) -> 3/6 = 1/2"},
+  {"id":29,"subject":"1. ความสามารถทั่วไป","q":"2^3 มีค่าเท่ากับเท่าใด?","choices":["6","8","9","12"],"answer":1,"explain":"2 x 2 x 2 = 8"},
+  {"id":30,"subject":"1. ความสามารถทั่วไป","q":"30% ของ 50 รวมกับ 50% ของ 30 ได้เท่าใด?","choices":["15","20","30","45"],"answer":2,"explain":"15 + 15 = 30"},
+  {"id":31,"subject":"2. ภาษาไทย","q":"คำในข้อใดสะกดถูกต้องตามหลักราชบัณฑิตยสภา?","choices":["อนุญาต","อนุญาติ","สังเกตุ","คำนวณถุก"],"answer":0,"explain":"'อนุญาต' ไม่มีสระอิ (ส่วน 'ญาติ' ถึงจะมีสระอิ)"},
+  {"id":32,"subject":"2. ภาษาไทย","q":"ข้อใดสะกดผิด?","choices":["สังเกต","กราฟิก","บล็อก","คลินิค"],"answer":3,"explain":"คำที่ถูกต้องตามหลักคือ 'คลินิก' (ไม่มี ค การันต์)"},
+  {"id":33,"subject":"2. ภาษาไทย","q":"คำว่า 'วัฒนธรรม' อ่านอย่างไร?","choices":["วัด-ทะ-นะ-ทำ","วัด-น-ทำ","วัด-ทะ-ทำ","วัด-ตะ-นะ-ทำ"],"answer":0,"explain":"อ่านออกเสียงสะกดสมาสว่า วัด-ทะ-นะ-ทำ"},
+  {"id":34,"subject":"2. ภาษาไทย","q":"ข้อใดเป็นคำประธานในประโยค 'ตำรวจจับคนร้ายได้อย่างรวดเร็ว'?","choices":["ตำรวจ","จับ","คนร้าย","อย่างรวดเร็ว"],"answer":0,"explain":"'ตำรวจ' เป็นผู้กระทำ จึงเป็นประธานของประโยค"},
+  {"id":35,"subject":"2. ภาษาไทย","q":"สำนวน 'จับปลาสองมือ' หมายถึงอะไร?","choices":["ขยันทำงานหลายอย่าง","มุ่งหวังสองสิ่งพร้อมกันจนอาจไม่ได้สักอย่าง","มีความสามารถสูง","ความอดทนอดกลั้น"],"answer":1,"explain":"หมายถึงทำสองอย่างพร้อมกันจนล้มเหลวทั้งคู่"},
+  {"id":36,"subject":"2. ภาษาไทย","q":"สำนวน 'ขี่ช้างจับตั๊กแตน' หมายถึงข้อใด?","choices":["ลงทุนมากแต่ได้ผลตอบแทนน้อย","ทำงานใหญ่สำเร็จ","ใช้ความพยายามสูง","รอบคอบรอบด้าน"],"answer":0,"explain":"ลงทุนหรือทำงานใหญ่โตเพื่อสิ่งที่ไร้ประโยชน์หรือได้น้อย"},
+  {"id":37,"subject":"2. ภาษาไทย","q":"คำตรงข้ามของ 'ขยัน' คือข้อใด?","choices":["อดทน","เกียจคร้าน","เฉยเมย","เชื่องช้า"],"answer":1,"explain":"เกียจคร้าน ตรงข้ามกับ ขยัน"},
+  {"id":38,"subject":"2. ภาษาไทย","q":"คำราชาศัพท์ 'พระโอรส' หมายถึงข้อใด?","choices":["ลูกชาย","ลูกสาว","พี่ชาย","น้องสาว"],"answer":0,"explain":"พระราชโอรส / พระโอรส หมายถึง ลูกชาย"},
+  {"id":39,"subject":"2. ภาษาไทย","q":"คำราชาศัพท์สำหรับ 'ทรงพระกรุณาโปรดเกล้าฯ' มักใช้กับระดับใด?","choices":["พระมหากษัตริย์","พระราชินี","พระบรมวงศานุวงศ์","ถูกทุกข้อ"],"answer":3,"explain":"เป็นคำสรรพนามใช้การสั่งการปฏิบัติการระดับพระมหากษัตริย์และพระบรมวงศานุวงศ์"},
+  {"id":40,"subject":"2. ภาษาไทย","q":"ข้อใดใช้ประโยคได้ถูกต้องตามหลักภาษา?","choices":["เขากินข้าวแล้วเสร็จ","เขากินข้าวเสร็จแล้ว","เสร็จแล้วเขากินข้าว","ข้าวเขากินเสร็จแล้ว"],"answer":1,"explain":"เรียงลำดับประธาน กริยา กรรม และกริยาวิเศษณ์ขยายอย่างเหมาะสม"},
+  {"id":41,"subject":"2. ภาษาไทย","q":"'แก้วหน้าม้า' จัดเป็นวรรณคดีประเภทใด?","choices":["นิทานพื้นบ้าน / นิทานประรำประรา","มหาชาติ","นิราศ","ศิลาจารึก"],"answer":0,"explain":"จัดอยู่ในหมู่นิทานพื้นบ้านและวรรณคดีการละคร"},
+  {"id":42,"subject":"2. ภาษาไทย","q":"คำว่า 'วิสัยทัศน์' ตรงกับคำภาษาอังกฤษว่าอะไร?","choices":["Mission","Vision","Action","Value"],"answer":1,"explain":"Vision = วิสัยทัศน์ (Mission = พันธกิจ)"},
+  {"id":43,"subject":"2. ภาษาไทย","q":"ข้อใดคือคำลักษณนามของ 'ช้างป่า'?","choices":["เชือก","ตัว","โขลง","ชิ้น"],"answer":1,"explain":"ช้างบ้านใช้ 'เชือก' แต่ช้างป่าใช้ 'ตัว' (ถ้ามาหลายตัวรวมกันเรียก 'โขลง')"},
+  {"id":44,"subject":"2. ภาษาไทย","q":"คำลักษณนามของ 'พระพุทธรูป' คืออะไร?","choices":["องค์","รูป","ชิ้น","ตน"],"answer":0,"explain":"พระพุทธรูปใช้ลักษณนามว่า 'องค์'"},
+  {"id":45,"subject":"2. ภาษาไทย","q":"ข้อใดสะกดถูกต้อง?","choices":["ผัดวันประกันพุ่ง","ผัดวันประกันพรุ่ง","กระทันหัน","กะทันหัน"],"answer":1,"explain":"คำที่ถูกต้องคือ 'ผัดวันประกันพรุ่ง' และ 'กะทันหัน'"},
+  {"id":46,"subject":"2. ภาษาไทย","q":"ประโยคใดมีเจตนา 'ถาม'?","choices":["เธอจะไปไหน","ฉันไม่รู้ว่าเธอจะไปไหน","ใครๆ ก็ชอบเขา","เขากินข้าวหมดแล้ว"],"answer":0,"explain":"'เธอจะไปไหน' ต้องการคำตอบ"},
+  {"id":47,"subject":"2. ภาษาไทย","q":"ข้อใดเป็นคำควบกล้ำแท้?","choices":["จริง","สร้าง","ปรับปรุง","เสริม"],"answer":2,"explain":"'ปรับปรุง' ออกเสียง ปร และ ปร พร้อมกัน ส่วนจริง สร้าง เสริม เป็นควบไม่แท้"},
+  {"id":48,"subject":"2. ภาษาไทย","q":"ข้อใดคำคู่มีความหมายตรงข้ามกัน?","choices":["ดี - เลว","กว้าง - ใหญ่","รวดเร็ว - ว่องไว","เงียบ - สงบ"],"answer":0,"explain":"ดี ตรงข้ามกับ เลว"},
+  {"id":49,"subject":"2. ภาษาไทย","q":"'น้ำซึมบ่อทราย' หมายถึงข้อใด?","choices":["การมีรายได้เข้ามาเรื่อยๆ ไม่หยุดหย่อน","ความขยัน","การทำลายล้าง","อดทนอดกลั้น"],"answer":0,"explain":"เปรียบเหมือนรายได้หรือโชคลาภที่ได้มาเรื่อยๆ อย่างสม่ำเสมอ"},
+  {"id":50,"subject":"2. ภาษาไทย","q":"คำว่า 'สมาส' ในภาษาไทยรับมาจากภาษาใด?","choices":["จีน","บาลี-สันสกฤต","อังกฤษ","เขมร"],"answer":1,"explain":"การสมาส-สนธิ รับมาจากภาษาบาลีและสันสกฤต"},
+  {"id":51,"subject":"2. ภาษาไทย","q":"คำว่า 'กราบเรียน' ใช้ขึ้นต้นจดหมายถึงใคร?","choices":["บุคคลทั่วไป","ผู้ใหญ่ระดับสูง/นายกรัฐมนตรี/ประธานศาล","เพื่อน","น้อง"],"answer":1,"explain":"ใช้กับบุคคลสำคัญ/ตำแหน่งสูง เช่น นายกรัฐมนตรี ประธานรัฐสภา"},
+  {"id":52,"subject":"2. ภาษาไทย","q":"คำลงท้ายจดหมายถึงพระสงฆ์ทั่วไปคือข้อใด?","choices":["ขอนมัสการด้วยความเคารพ","ด้วยความเคารพอย่างสูง","ขอนมัสการด้วยความเคารพอย่างสูง","นิมนต์ด้วยความเคารพ"],"answer":0,"explain":"ขอนมัสการด้วยความเคารพ"},
+  {"id":53,"subject":"2. ภาษาไทย","q":"พยัญชนะไทยมีกี่รูป กี่เสียง?","choices":["44 รูป 21 เสียง","44 รูป 32 เสียง","32 รูป 44 เสียง","44 รูป 44 เสียง"],"answer":0,"explain":"พยัญชนะไทยมี 44 รูป และมี 21 หน่วยเสียง"},
+  {"id":54,"subject":"2. ภาษาไทย","q":"วรรณยุกต์ไทยมีกี่รูป กี่เสียง?","choices":["4 รูป 5 เสียง","5 รูป 4 เสียง","4 รูป 4 เสียง","5 รูป 5 เสียง"],"answer":0,"explain":"มี 4 รูป (่ ้ ๊ ๋) และ 5 เสียง (สามัญ เอก โท ตรี จัตวา)"},
+  {"id":55,"subject":"2. ภาษาไทย","q":"ข้อใดสะกดถูกต้อง?","choices":["โอกาส","โอกาศ","โอภาศ","โอกาศิ"],"answer":0,"explain":"โอกาส สะกดด้วย ส เสือ"},
+  {"id":56,"subject":"3. คอมพิวเตอร์","q":"อุปกรณ์ใดทำหน้าที่เป็นสมองของคอมพิวเตอร์?","choices":["RAM","Hard Disk","CPU","GPU"],"answer":2,"explain":"CPU (Central Processing Unit) ทำหน้าที่ประมวลผลหลัก"},
+  {"id":57,"subject":"3. คอมพิวเตอร์","q":"หน่วยความจำชั่วคราวของคอมพิวเตอร์คือข้อใด?","choices":["ROM","RAM","SSD","Hard Disk"],"answer":1,"explain":"RAM (Random Access Memory) คือหน่วยความจำชั่วคราว ข้อมูลหายเมื่อปิดเครื่อง"},
+  {"id":58,"subject":"3. คอมพิวเตอร์","q":"ข้อใดเป็นหน่วยส่งออกข้อมูล (Output Device)?","choices":["Keyboard","Mouse","Monitor","Scanner"],"answer":2,"explain":"Monitor (จอภาพ) แสดงผลออกทางหน้าจอ"},
+  {"id":59,"subject":"3. คอมพิวเตอร์","q":"1 Gigabyte (GB) เท่ากับกี่ Megabytes (MB) โดยประมาณ?","choices":["100 MB","500 MB","1,024 MB","2,048 MB"],"answer":2,"explain":"1 GB = 1,024 MB"},
+  {"id":60,"subject":"3. คอมพิวเตอร์","q":"โปรแกรมใดใช้สำหรับการพิมพ์งานเอกสาร?","choices":["Microsoft Excel","Microsoft PowerPoint","Microsoft Word","Microsoft Access"],"answer":2,"explain":"Microsoft Word ใช้สำหรับพิมพ์งานเอกสาร"},
+  {"id":61,"subject":"3. คอมพิวเตอร์","q":"ข้อใดไม่ใช่ระบบปฏิบัติการ (Operating System)?","choices":["Windows","macOS","Linux","Google Chrome"],"answer":3,"explain":"Google Chrome เป็น Web Browser ไม่ใช่ OS"},
+  {"id":62,"subject":"3. คอมพิวเตอร์","q":"URL หมายถึงข้อใด?","choices":["ที่อยู่ของเว็บไซต์","โปรแกรมต่ออินเทอร์เน็ต","สายแลน","ภาษาเขียนเว็บ"],"answer":0,"explain":"URL (Uniform Resource Locator) คือที่อยู่อ้างอิงตำแหน่งเว็บไซต์ในอินเทอร์เน็ต"},
+  {"id":63,"subject":"3. คอมพิวเตอร์","q":"การบันทึกไฟล์ทับไฟล์เดิมใช้คีย์ลัดใดใน Windows?","choices":["Ctrl + C","Ctrl + V","Ctrl + S","Ctrl + Z"],"answer":2,"explain":"Ctrl + S ใช้สำหรับ Save"},
+  {"id":64,"subject":"3. คอมพิวเตอร์","q":"คีย์ลัด Ctrl + C มีหน้าที่อะไร?","choices":["ตัด (Cut)","คัดลอก (Copy)","วาง (Paste)","ยกเลิก (Undo)"],"answer":1,"explain":"Ctrl + C คือ Copy"},
+  {"id":65,"subject":"3. คอมพิวเตอร์","q":"ข้อใดคือภัยคุกคามทางไซเบอร์ที่หลอกลวงให้กรอกรหัสผ่านผ่านเว็บปลอม?","choices":["Phishing","Virus","Worm","Trojan"],"answer":0,"explain":"Phishing คือการหลอกลวงเพื่อเอาข้อมูลส่วนตัวผ่านช่องทางออนไลน์"},
+  {"id":66,"subject":"3. คอมพิวเตอร์","q":"ข้อใดคือมัลแวร์ที่ทำการเข้ารหัสไฟล์เพื่อเรียกเงินไถ่?","choices":["Spyware","Ransomware","Adware","Rootkit"],"answer":1,"explain":"Ransomware คือมัลแวร์เรียกค่าไถ่"},
+  {"id":67,"subject":"3. คอมพิวเตอร์","q":"โปรแกรมบราวเซอร์ใดเป็นของบริษัท Google?","choices":["Safari","Firefox","Edge","Chrome"],"answer":3,"explain":"Google Chrome เป็นบราวเซอร์ของ Google"},
+  {"id":68,"subject":"3. คอมพิวเตอร์","q":"ซอฟต์แวร์ประยุกต์ใดใช้สำหรับการจัดการตารางคำนวณ?","choices":["Word","Excel","PowerPoint","Photoshop"],"answer":1,"explain":"Excel ใช้สำหรับการคำนวณและตาราง"},
+  {"id":69,"subject":"3. คอมพิวเตอร์","q":"ข้อใดเป็นการเชื่อมต่อเครือข่ายไร้สายระยะสั้น?","choices":["LAN","Fiber Optic","Bluetooth","Satellite"],"answer":2,"explain":"Bluetooth เป็นเทคโนโลยีรับส่งข้อมูลไร้สายระยะสั้น"},
+  {"id":70,"subject":"3. คอมพิวเตอร์","q":"IP Address มีหน้าที่อะไร?","choices":["ระบุตัวตนและที่อยู่ของอุปกรณ์บนเครือข่าย","วัดความเร็วอินเทอร์เน็ต","ป้องกันไวรัส","เก็บข้อมูลส่วนตัว"],"answer":0,"explain":"IP Address ใช้ระบุตัวตนอุปกรณ์ในระบบเครือข่าย"},
+  {"id":71,"subject":"3. คอมพิวเตอร์","q":"โปรโตคอลความปลอดภัยสำหรับการใช้งานเว็บไซต์คือข้อใด?","choices":["HTTP","HTTPS","FTP","SMTP"],"answer":1,"explain":"HTTPS มี S (Secure) มีการเข้ารหัสข้อมูลปลอดภัยกว่า HTTP"},
+  {"id":72,"subject":"3. คอมพิวเตอร์","q":"อุปกรณ์ใดใช้เชื่อมต่อสัญญาณอินเทอร์เน็ตเข้าบ้าน?","choices":["Router / Modem","Printer","RAM","GPU"],"answer":0,"explain":"Router/Modem ทำหน้าที่รับส่งสัญญาณอินเทอร์เน็ต"},
+  {"id":73,"subject":"3. คอมพิวเตอร์","q":"Cloud Storage หมายถึงอะไร?","choices":["ฮาร์ดดิสก์พกพา","การฝากข้อมูลไว้บนเครื่องเซิร์ฟเวอร์ผ่านอินเทอร์เน็ต","แฟลชไดรฟ์","การสำรองข้อมูลในแผ่นซีดี"],"answer":1,"explain":"การเก็บข้อมูลออนไลน์ผ่านระบบคลาวด์"},
+  {"id":74,"subject":"3. คอมพิวเตอร์","q":"ข้อใดเป็นสื่อบันทึกข้อมูลแบบแฟลช (Flash Memory)?","choices":["Handy Drive / Flash Drive","Floppy Disk","CD-ROM","Magnetic Tape"],"answer":0,"explain":"Flash Drive ใช้หน่วยความจำแบบ Flash"},
+  {"id":75,"subject":"3. คอมพิวเตอร์","q":"ส่วนใดของคอมพิวเตอร์ทำหน้าที่เก็บข้อมูลถาวรแม้ปิดเครื่อง?","choices":["RAM","Hard Disk / SSD","Cache","Register"],"answer":1,"explain":"Hard Disk หรือ SSD เป็น Non-volatile memory เก็บข้อมูลถาวร"},
+  {"id":76,"subject":"3. คอมพิวเตอร์","q":"ปุ่ม Print Screen บนคีย์บอร์ดมีไว้ทำอะไร?","choices":["พิมพ์เอกสารออกเครื่องพิมพ์","แคปหน้าจอ (จับภาพหน้าจอ)","เปิดโปรแกรม Paint","ปิดหน้าต่าง"],"answer":1,"explain":"ใช้คัดลอกภาพหน้าจอปัจจุบัน"},
+  {"id":77,"subject":"3. คอมพิวเตอร์","q":"ไฟล์นามสกุล .pdf มักเปิดด้วยโปรแกรมใด?","choices":["Adobe Acrobat Reader","Microsoft Excel","WinRAR","Notepad"],"answer":0,"explain":".pdfเปิดอ่านผ่าน PDF Reader เช่น Adobe Acrobat Reader"},
+  {"id":78,"subject":"3. คอมพิวเตอร์","q":"ข้อใดคือลักษณะของรหัสผ่านที่ดี (Strong Password)?","choices":["12345678","password","ผสมตัวอักษรใหญ่ เล็ก ตัวเลข และสัญลักษณ์","วันเดือนปีเกิด"],"answer":2,"explain":"มีความยาวและผสมผสานตัวอักษรหลายรูปแบบเดาได้ยาก"},
+  {"id":79,"subject":"3. คอมพิวเตอร์","q":"ปัญญาประดิษฐ์ มีชื่อย่อภาษาอังกฤษว่าอย่างไร?","choices":["VR","AR","AI","IOT"],"answer":2,"explain":"AI ย่อมาจาก Artificial Intelligence"},
+  {"id":80,"subject":"3. คอมพิวเตอร์","q":"IoT ย่อมาจากคำว่าอะไร?","choices":["Internet of Things","Information of Technology","Input of Text","Internet of Time"],"answer":0,"explain":"Internet of Things การเชื่อมโยงอุปกรณ์ต่างๆ เข้ากับอินเทอร์เน็ต"},
+  {"id":81,"subject":"4. ภาษาอังกฤษ","q":"What is the capital city of Thailand?","choices":["Chiang Mai","Phuket","Bangkok","Pattaya"],"answer":2,"explain":"Bangkok (กรุงเทพมหานคร) เป็นเมืองหลวงของประเทศไทย"},
+  {"id":82,"subject":"4. ภาษาอังกฤษ","q":"She ______ to school every day.","choices":["go","goes","going","gone"],"answer":1,"explain":"Subject เป็น She (เอกพจน์) ใน Present Simple Tense กริยาต้องเติม -es (goes)"},
+  {"id":83,"subject":"4. ภาษาอังกฤษ","q":"They ______ playing football right now.","choices":["is","am","are","was"],"answer":2,"explain":"Subject เป็น They ใช้กับ Present Continuous Tense คู่กับ 'are'"},
+  {"id":84,"subject":"4. ภาษาอังกฤษ","q":"Yesterday, I ______ a new car.","choices":["buy","bought","buying","buys"],"answer":1,"explain":"คำว่า 'Yesterday' บ่งบอก Past Simple Tense กริยาช่อง 2 ของ buy คือ bought"},
+  {"id":85,"subject":"4. ภาษาอังกฤษ","q":"Choose the correct synonym of 'Happy'.","choices":["Sad","Joyful","Angry","Tired"],"answer":1,"explain":"Joyful แปลว่า มีความสุข มีความหมายเหมือนกับ Happy"},
+  {"id":86,"subject":"4. ภาษาอังกฤษ","q":"What is the opposite of 'Big'?","choices":["Huge","Small","Large","Tall"],"answer":1,"explain":"Small (เล็ก) ตรงข้ามกับ Big (ใหญ่)"},
+  {"id":87,"subject":"4. ภาษาอังกฤษ","q":"He is ______ honest man.","choices":["a","an","the","no article"],"answer":1,"explain":"คำว่า 'honest' ออกเสียงตัว h เป็นเสียงสระ (ออน-เนสท์) จึงใช้ 'an'"},
+  {"id":88,"subject":"4. ภาษาอังกฤษ","q":"How ______ students are there in the classroom?","choices":["much","many","long","far"],"answer":1,"explain":"'students' เป็นคำนามนับได้พหูพจน์ ใช้ 'How many'"},
+  {"id":89,"subject":"4. ภาษาอังกฤษ","q":"How ______ sugar do you want in your coffee?","choices":["much","many","few","several"],"answer":0,"explain":"'sugar' เป็นคำนามนับไม่ได้ ใช้ 'How much'"},
+  {"id":90,"subject":"4. ภาษาอังกฤษ","q":"Look at the sky! It ______ rain soon.","choices":["is going to","will be","going","rained"],"answer":0,"explain":"มีหลักฐานให้เห็นชี้ชัด (เมฆครึ้ม) ใช้ 'is going to'"},
+  {"id":91,"subject":"4. ภาษาอังกฤษ","q":"A: 'Thank you very much.' B: '______'","choices":["You're welcome.","Yes, I am.","Never mind.","Fine, thanks."],"answer":0,"explain":"การตอบรับคำขอบคุณที่สุภาพคือ You're welcome."},
+  {"id":92,"subject":"4. ภาษาอังกฤษ","q":"A: 'How are you?' B: '______'","choices":["I am 20 years old.","I am fine, thank you.","I go to work.","I live in Bangkok."],"answer":1,"explain":"เป็นการถามสารทุกข์สุกดิบ ตอบ I am fine, thank you."},
+  {"id":93,"subject":"4. ภาษาอังกฤษ","q":"This book is ______ than that one.","choices":["good","better","best","more good"],"answer":1,"explain":"การเปรียบเทียบขั้นกว่าของ good คือ better"},
+  {"id":94,"subject":"4. ภาษาอังกฤษ","q":"Mount Everest is the ______ mountain in the world.","choices":["high","higher","highest","most high"],"answer":2,"explain":"การเปรียบเทียบขั้นสูงสุด ใช้ 'the highest'"},
+  {"id":95,"subject":"4. ภาษาอังกฤษ","q":"If it rains, we ______ stay at home.","choices":["will","would","did","have"],"answer":0,"explain":"If-clause Structure Type 1: If + Present Simple, Subject + will + V1"},
+  {"id":96,"subject":"4. ภาษาอังกฤษ","q":"The sun ______ in the east.","choices":["rise","rises","rising","rose"],"answer":1,"explain":"ความจริงตามธรรมชาติ ใช้ Present Simple Tense (The sun เป็นเอกพจน์เติม -s)"},
+  {"id":97,"subject":"4. ภาษาอังกฤษ","q":"She has been working here ______ 2020.","choices":["for","since","from","until"],"answer":1,"explain":"ใช้ 'since' บอกจุดเริ่มต้นของเวลาตั้งแต่ปี 2020"},
+  {"id":98,"subject":"4. ภาษาอังกฤษ","q":"They have lived in London ______ 5 years.","choices":["since","for","during","at"],"answer":1,"explain":"ใช้ 'for' ตามด้วยระยะเวลา (5 years)"},
+  {"id":99,"subject":"4. ภาษาอังกฤษ","q":"Which word is a noun?","choices":["Beautiful","Quickly","Happiness","Run"],"answer":2,"explain":"Happiness (ความสุข) เป็นคำนาม (Noun)"},
+  {"id":100,"subject":"4. ภาษาอังกฤษ","q":"Which word is an adverb?","choices":["Slow","Quickly","Good","Happy"],"answer":1,"explain":"Quickly (-ly) เป็นกริยาวิเศษณ์ (Adverb)"},
+  {"id":101,"subject":"4. ภาษาอังกฤษ","q":"Excuse me, where ______ the nearest bank?","choices":["is","are","am","be"],"answer":0,"explain":"bank เป็นเอกพจน์ ใช้ 'is'"},
+  {"id":102,"subject":"4. ภาษาอังกฤษ","q":"My brother is interested ______ learning languages.","choices":["on","in","at","with"],"answer":1,"explain":"สำนวน 'interested in' แปลว่า สนใจใน..."},
+  {"id":103,"subject":"4. ภาษาอังกฤษ","q":"Don't give up! What does 'give up' mean?","choices":["หยุด/ยอมแพ้","เริ่มต้น","ดำเนินการต่อ","ส่งมอบ"],"answer":0,"explain":"give up แปลว่า ยอมแพ้ หรือยกเลิก"},
+  {"id":104,"subject":"4. ภาษาอังกฤษ","q":"Please turn ______ the light before you leave.","choices":["off","out","in","down"],"answer":0,"explain":"turn off แปลว่า ปิด (ไฟ/เครื่องใช้ไฟฟ้า)"},
+  {"id":105,"subject":"4. ภาษาอังกฤษ","q":"Police officer : 'Can I see your driving license?' Driver : '______'","choices":["No way!","Here you are.","I don't care.","Yes, I can."],"answer":1,"explain":"'Here you are.' เป็นคำพูดสุภาพยื่นของให้"},
+  {"id":106,"subject":"4. ภาษาอังกฤษ","q":"She doesn't ______ coffee in the morning.","choices":["like","likes","liked","liking"],"answer":0,"explain":"หลัง Verb to do (doesn't) ต้องตามด้วยกริยาไม่เติมแต่ง (V.inf)"},
+  {"id":107,"subject":"4. ภาษาอังกฤษ","q":"There are seven days in a ______.","choices":["month","year","week","decade"],"answer":2,"explain":"1 สัปดาห์ (week) มี 7 วัน"},
+  {"id":108,"subject":"4. ภาษาอังกฤษ","q":"What color do you get if you mix red and yellow?","choices":["Green","Purple","Orange","Brown"],"answer":2,"explain":"สีแดง ผสม สีเหลือง ได้สีส้ม (Orange)"},
+  {"id":109,"subject":"4. ภาษาอังกฤษ","q":"The cat is sleeping ______ the table.","choices":["under","between","into","for"],"answer":0,"explain":"under แปลว่า ข้างใต้/อยู่ใต้ตารางหรือโต๊ะ"},
+  {"id":110,"subject":"4. ภาษาอังกฤษ","q":"Choose the correct spelling.","choices":["Receive","Recieve","Receve","Receeve"],"answer":0,"explain":"Receive สะกดด้วย e ก่อน i"},
+  {"id":111,"subject":"5. สังคม/อาเซียน","q":"สมาคมประชาชาติแห่งเอเชียตะวันออกเฉียงใต้ (ASEAN) ก่อตั้งขึ้นเมื่อปี พ.ศ. ใด?","choices":["พ.ศ. 2500","พ.ศ. 2510","พ.ศ. 2518","พ.ศ. 2525"],"answer":1,"explain":"ก่อตั้งขึ้นเมื่อวันที่ 8 สิงหาคม พ.ศ. 2510 (ค.ศ. 1967)"},
+  {"id":112,"subject":"5. สังคม/อาเซียน","q":"ประเทศใด ไม่ได้ เป็นผู้ร่วมจัดตั้งอาเซียน 5 ประเทศแรก?","choices":["ไทย","อินโดนีเซีย","เวียดนาม","สิงคโปร์"],"answer":2,"explain":"5 ประเทศก่อตั้งคือ ไทย อินโดนีเซีย มาเลเซีย ฟิลิปปินส์ สิงคโปร์ ส่วนเวียดนามเข้าทีหลัง"},
+  {"id":113,"subject":"5. สังคม/อาเซียน","q":"สำนักงานใหญ่สถาบันเลขานุการอาเซียนตั้งอยู่ที่เมืองใด?","choices":["กรุงเทพฯ","จาการ์ตา","กัวลาลัมเปอร์","สิงคโปร์"],"answer":1,"explain":"สำนักเลขาธิการอาเซียนตั้งอยู่ที่กรุงจาการ์ตา ประเทศอินโดนีเซีย"},
+  {"id":114,"subject":"5. สังคม/อาเซียน","q":"คำขวัญของอาเซียนคือข้อใด?","choices":["One Vision, One Identity, One Community","Unity in Diversity","Peace and Prosperity","One Asia, One World"],"answer":0,"explain":"หนึ่งวิสัยทัศน์ หนึ่งอัตลักษณ์ หนึ่งประชาคม"},
+  {"id":115,"subject":"5. สังคม/อาเซียน","q":"สัญลักษณ์รวงข้าว 10 ต้นมัดรวมกันของอาเซียน หมายถึงอะไร?","choices":["ประเทศสมาชิก 10 ประเทศผูกพันกันด้วยมิตรภาพ","ความมั่งคั่งทางเกษตรกรรม","การส่งออกข้าว","ความสงบสุข"],"answer":0,"explain":"หมายถึงประเทศสมาชิกในภูมิภาคเอเชียตะวันออกเฉียงใต้ 10 ประเทศรวมกันเพื่อมิตรภาพและความเป็นน้ำหนึ่งใจเดียว"},
+  {"id":116,"subject":"5. สังคม/อาเซียน","q":"วันอาเซียน (ASEAN Day) ตรงกับวันที่เท่าใดของทุกปี?","choices":["1 สิงหาคม","8 สิงหาคม","12 สิงหาคม","5 ธันวาคม"],"answer":1,"explain":"วันที่ 8 สิงหาคม ของทุกปี"},
+  {"id":117,"subject":"5. สังคม/อาเซียน","q":"หลักธรรมสำคัญที่เป็นหัวใจของพระพุทธศาสนาคือข้อใด?","choices":["โอวาทปาติโมกข์","อริยสัจ 4","อิทธิบาท 4","พรหมวิหาร 4"],"answer":0,"explain":"โอวาทปาติโมกข์ คือ ละชั่ว ทำดี ทำจิตใจให้บริสุทธิ์"},
+  {"id":118,"subject":"5. สังคม/อาเซียน","q":"การไม่ทำบาปทั้งปวง ทำกุศลให้ถึงพร้อม ทำจิตใจให้บริสุทธิ์ ตรงกับข้อใด?","choices":["อริยสัจ 4","โอวาท 3","มรรค 8","ขันธ์ 5"],"answer":1,"explain":"หลักโอวาท 3 ในพระพุทธศาสนา"},
+  {"id":119,"subject":"5. สังคม/อาเซียน","q":"วันสำคัญทางศาสนาใดที่เกิด 'พระรัตนตรัย' ครบ 3 ประการ?","choices":["วันมาฆบูชา","วันวิสาขบูชา","วันอาสาฬหบูชา","วันเข้าพรรษา"],"answer":2,"explain":"วันอาสาฬหบูชา เกิดพระสงฆ์องค์แรก ทำให้มี พระพุทธ พระธรรม พระสงฆ์ ครบองค์ 3"},
+  {"id":120,"subject":"5. สังคม/อาเซียน","q":"วันมาฆบูชา ตรงกับวันเพ็ญขึ้น 15 ค่ำ เดือนใด?","choices":["เดือน 3","เดือน 6","เดือน 8","เดือน 11"],"answer":0,"explain":"วันมาฆบูชาตรงกับวันขึ้น 15 ค่ำ เดือน 3"},
+  {"id":121,"subject":"5. สังคม/อาเซียน","q":"รัชกาลปัจจุบันของประเทศไทยคือพระมหากษัตริย์องค์ใด?","choices":["พระบาทสมเด็จพระพุทธยอดฟ้าจุฬาโลกมหาราช","พระบาทสมเด็จพระจุลจอมเกล้าเจ้าอยู่หัว","พระมหาภูมิพลอดุลยเดชมหาราช บรมนาถบพิตร","พระบาทสมเด็จพระวชิรเกล้าเจ้าอยู่หัว"],"answer":3,"explain":"พระบาทสมเด็จพระปรเมนทรรามาธิบดีศรีสินทรมหาวชิราลงกรณ พระวชิรเกล้าเจ้าอยู่หัว (รัชกาลที่ 10)"},
+  {"id":122,"subject":"5. สังคม/อาเซียน","q":"ระบอบการปกครองของประเทศไทยคือระบอบใด?","choices":["ประชาธิปไตยอันมีพระมหากษัตริย์ทรงเป็นประธาน","ประธานาธิบดี","เผด็จการ","สังคมนิยม"],"answer":0,"explain":"ระบอบประชาธิปไตยอันมีพระมหากษัตริย์ทรงเป็นประธาน"},
+  {"id":123,"subject":"5. สังคม/อาเซียน","q":"อำนาจอธิปไตยแบ่งออกเป็น 3 ฝ่าย ได้แก่อะไรบ้าง?","choices":["นิติบัญญัติ, บริหาร, ตุลาการ","ทหาร, ตำรวจ, พลเรือน","รัฐบาล, สภา, ประชาชน","นายกรัฐมนตรี, รัฐมนตรี, ส.ส."],"answer":0,"explain":"อำนาจอธิปไตยประกอบด้วย นิติบัญญัติ (รัฐสภา), บริหาร (คณะรัฐมนตรี), ตุลาการ (ศาล)"},
+  {"id":124,"subject":"5. สังคม/อาเซียน","q":"ผู้ทำหน้าที่ออกกฎหมายระดับประเทศคือฝ่ายใด?","choices":["ฝ่ายบริหาร","ฝ่ายนิติบัญญัติ","ฝ่ายตุลาการ","องค์กรอิสระ"],"answer":1,"explain":"ฝ่ายนิติบัญญัติ (รัฐสภา) ทำหน้าที่ออกกฎหมาย"},
+  {"id":125,"subject":"5. สังคม/อาเซียน","q":"ปรัชญาเศรษฐกิจพอเพียงเป็นแนวพระราชดำริของรัชกาลใด?","choices":["รัชกาลที่ 5","รัชกาลที่ 7","รัชกาลที่ 9","รัชกาลที่ 10"],"answer":2,"explain":"พระบาทสมเด็จพระบรมชนกาธิเบศร มหาภูมิพลอดุลยเดชมหาราช บรมนาถบพิตร (รัชกาลที่ 9)"},
+  {"id":126,"subject":"5. สังคม/อาเซียน","q":"หลักการของเศรษฐกิจพอเพียงประกอบด้วยกี่ห่วง กี่เงื่อนไข?","choices":["2 ห่วง 2 เงื่อนไข","3 ห่วง 2 เงื่อนไข","3 ห่วง 3 เงื่อนไข","4 ห่วง 2 เงื่อนไข"],"answer":1,"explain":"3 ห่วง (พอประมาณ, มีเหตุผล, มีภูมิคุ้มกัน) 2 เงื่อนไข (ความรู้, คุณธรรม)"},
+  {"id":127,"subject":"5. สังคม/อาเซียน","q":"ประเพณีสงกรานต์ตรงกับเดือนใดของทุกปี?","choices":["มีนาคม","เมษายน","พฤษภาคม","พฤศจิกายน"],"answer":1,"explain":"13-15 เมษายน ของทุกปี"},
+  {"id":128,"subject":"5. สังคม/อาเซียน","q":"เพลงชาติไทยปัจจุบันเริ่มใช้อย่างเป็นทางการเมื่อ พ.ศ. ใด?","choices":["พ.ศ. 2475","พ.ศ. 2482","พ.ศ. 2500","พ.ศ. 2510"],"answer":1,"explain":"เปลี่ยนชื่อประเทศเป็นไทย และใช้เพลงชาติฉบับปัจจุบันเมื่อ พ.ศ. 2482"},
+  {"id":129,"subject":"5. สังคม/อาเซียน","q":"สกุลเงินของประเทศมาเลเซียคืออะไร?","choices":["ดอลลาร์","ดง","ริงกิต","กีบ"],"answer":2,"explain":"มาเลเซียใช้สกุลเงิน 'ริงกิต' (RM)"},
+  {"id":130,"subject":"5. สังคม/อาเซียน","q":"สกุลเงินของประเทศเวียดนามคืออะไร?","choices":["ดง","จ๊าด","เรียล","เปโซ"],"answer":0,"explain":"เวียดนามใช้สกุลเงิน 'ดง'"},
+  {"id":131,"subject":"6. กฎหมายควรรู้","q":"กฎหมายสูงสุดในการปกครองประเทศคือข้อใด?","choices":["พระราชกำหนด","พระราชบัญญัติ","รัฐธรรมนูญ","ประมวลกฎหมายอาญา"],"answer":2,"explain":"รัฐธรรมนูญเป็นกฎหมายสูงสุดของประเทศ"},
+  {"id":132,"subject":"6. กฎหมายควรรู้","q":"บุคคลย่อมตรัสรู้ว่าบรรลุนิติภาวะเมื่อมีอายุครบกี่ปีบริบูรณ์?","choices":["18 ปี","20 ปี","21 ปี","25 ปี"],"answer":1,"explain":"ตามประมวลกฎหมายแพ่งและพาณิชย์ บรรลุนิติภาวะเมื่ออายุครบ 20 ปีบริบูรณ์"},
+  {"id":133,"subject":"6. กฎหมายควรรู้","q":"ผู้แทนโดยชอบธรรมของผู้เยาว์คือใคร?","choices":["บิดามารดา","ครู","เพื่อน","ญาติพี่น้อง"],"answer":0,"explain":"บิดามารดาเป็นผู้ใช้อำนาจปกครองและผู้แทนโดยชอบธรรม"},
+  {"id":134,"subject":"6. กฎหมายควรรู้","q":"การหมั้นจะทำได้ต่อเมื่อชายและหญิงมีอายุเท่าใดขึ้นไป?","choices":["15 ปี","17 ปี","18 ปี","20 ปี"],"answer":1,"explain":"กฎหมายกำหนดให้ชายหญิงต้องมีอายุ 17 ปีบริบูรณ์ขึ้นไปจึงจะหมั้นได้"},
+  {"id":135,"subject":"6. กฎหมายควรรู้","q":"การจดทะเบียนสมรสต้องทำ ณ ที่ใด?","choices":["สถานีตำรวจ","นายทะเบียน ณ อำเภอ/เขต","ศาล","โรงพยาบาล"],"answer":1,"explain":"ทำต่อหน้านายทะเบียน ณ สำนักงานเขตหรือที่ว่าการอำเภอ"},
+  {"id":136,"subject":"6. กฎหมายควรรู้","q":"โทษทางอาญาตามประมวลกฎหมายอาญามีกี่สถาน?","choices":["3 สถาน","4 สถาน","5 สถาน","6 สถาน"],"answer":2,"explain":"5 สถาน ได้แก่ ประหารชีวิต, จำคุก, กักขัง, ปรับ, ริบทรัพย์สิน"},
+  {"id":137,"subject":"6. กฎหมายควรรู้","q":"โทษทางอาญาที่หนักที่สุดคือข้อใด?","choices":["จำคุกตลอดชีวิต","ประหารชีวิต","ปรับ","กักขัง"],"answer":1,"explain":"ประหารชีวิตเป็นโทษสูงสุดทางอาญา"},
+  {"id":138,"subject":"6. กฎหมายควรรู้","q":"ความผิดฐาน 'ลักทรัพย์' หมายถึงข้อใด?","choices":["เอาทรัพย์ผู้อื่นไปโดยทุจริต","ใช้อุบายหลอกลวงเอาทรัพย์","ขู่เข็ญว่าจะทำร้ายเอาทรัพย์","ใช้กำลังประทุษร้ายเอาทรัพย์"],"answer":0,"explain":"การเอาทรัพย์ของผู้อื่นไปโดยทุจริต คือการลักทรัพย์"},
+  {"id":139,"subject":"6. กฎหมายควรรู้","q":"การแย่งชิงทรัพย์โดยใช้กำลังประทุษร้ายเรียกว่าความผิดใด?","choices":["ลักทรัพย์","วิ่งโฉกทรัพย์","ชิงทรัพย์","ปล้นทรัพย์"],"answer":2,"explain":"ลักทรัพย์ + ใช้กำลังประทุษร้ายหรือขู่เข็ญ = ชิงทรัพย์"},
+  {"id":140,"subject":"6. กฎหมายควรรู้","q":"การชิงทรัพย์โดยร่วมกันทำตั้งแต่กี่คนขึ้นไปเรียกว่า 'ปล้นทรัพย์'?","choices":["2 คน","3 คน","4 คน","5 คน"],"answer":1,"explain":"ชิงทรัพย์ร่วมกันตั้งแต่ 3 คนขึ้นไป เป็นความผิดฐาน 'ปล้นทรัพย์'"},
+  {"id":141,"subject":"6. กฎหมายควรรู้","q":"ข้อใดคือความผิดฐาน 'วิ่งฉกทรัพย์'?","choices":["การลักทรัพย์โดยฉกฉวยเอาหน้าต่างหน้า","การหลอกลวง","การใช้อาวุธบังคับ","การงัดแงะบ้าน"],"answer":0,"explain":"การลักทรัพย์โดยฉกฉวยเอาซึ่งหน้า"},
+  {"id":142,"subject":"6. กฎหมายควรรู้","q":"ตำรวจสามารถทำการจับกุมบุคคลโดยไม่มีหมายจับได้ในกรณีใด?","choices":["สงสัยว่าทำผิด","ความผิดซึ่งหน้า","รับแจ้งจากชาวบ้าน","ทำผิดเมื่อสัปดาห์ก่อน"],"answer":1,"explain":"กรณีพบเห็นการกระทำความผิดซึ่งหน้า เจ้าพนักงานสามารถจับกุมได้ทันทีโดยไม่ต้องมีหมายจับ"},
+  {"id":143,"subject":"6. กฎหมายควรรู้","q":"การควบคุมตัวผู้ต้องหาของตำรวจตามกฎหมายโดยทั่วไปไม่เกินกี่ชั่วโมง (ไม่รวมเวลาเดินทาง)?","choices":["12 ชั่วโมง","24 ชั่วโมง","48 ชั่วโมง","72 ชั่วโมง"],"answer":2,"explain":"ควบคุมได้ไม่เกิน 48 ชั่วโมง นับแต่เวลาที่ผู้ถูกจับมาถึงสถานีตำรวจ"},
+  {"id":144,"subject":"6. กฎหมายควรรู้","q":"สิทธิขั้นพื้นฐานของผู้ถูกจับกุมตามกฎหมายคือข้อใด?","choices":["สิทธิที่จะไม่พูดหรือให้การ","สิทธิที่จะพบและปรึกษาทนายความ","สิทธิแจ้งให้ญาติทราบ","ถูกทุกข้อ"],"answer":3,"explain":"ผู้ถูกจับมีสิทธิพื้นฐานครบทุกข้อดังกล่าว"},
+  {"id":145,"subject":"6. กฎหมายควรรู้","q":"กฎหมายจราจรทางบก กำหนดให้ผู้ขับขี่ขี่รถจักรยานยนต์ต้องสวมใส่อะไร?","choices":["หมวกนิรภัย (หมวกกันน็อก)","หมวกผ้า","หมวกแก๊ป","ไม่ต้องสวมถ้าขี่ใกล้ๆ"],"answer":0,"explain":"ต้องสวมหมวกนิรภัยเพื่อความปลอดภัย"},
+  {"id":146,"subject":"6. กฎหมายควรรู้","q":"ระดับแอลกอฮอล์ในเลือดของผู้ขับขี่เกินกี่มิลลิกรัมเปอร์เซ็นต์ ถือว่าเมาสุรา (ผู้มีใบขับขี่เกิน 2 ปี)?","choices":["20 มิลลิกรัมเปอร์เซ็นต์","50 มิลลิกรัมเปอร์เซ็นต์","80 มิลลิกรัมเปอร์เซ็นต์","100 มิลลิกรัมเปอร์เซ็นต์"],"answer":1,"explain":"เกณฑ์มาตรฐานทั่วไปคือเกิน 50 มิลลิกรัมเปอร์เซ็นต์"},
+  {"id":147,"subject":"6. กฎหมายควรรู้","q":"อายุความในการฟ้องคดีอาญามีไว้เพื่ออะไร?","choices":["คุ้มครองจำเลยไม่ให้ถูกฟ้องตลอดชีวิตเมื่อเวลาผ่านไปนานตามกำหนด","ยกเลิกโทษ","เพิ่มโทษ","ช่วยเจ้าหน้าที่"],"answer":0,"explain":"จำกัดระยะเวลาการนำคดีมาฟ้องร้องหากล่วงเลยเวลาที่กฎหมายกำหนด"},
+  {"id":148,"subject":"6. กฎหมายควรรู้","q":"การแจ้งความร้องทุกข์คดีความผิดต่อส่วนตัว (ยอมความได้) ต้องทำภายในกี่เดือนนับแต่รู้เรื่องและรู้ตัวผู้กระทำผิด?","choices":["1 เดือน","3 เดือน","6 เดือน","1 ปี"],"answer":1,"explain":"ต้องร้องทุกข์ภายใน 3 เดือนนับแต่วันที่รู้เรื่องความผิดและรู้ตัวผู้กระทำความผิด"},
+  {"id":149,"subject":"6. กฎหมายควรรู้","q":"ข้อใด ไม่ใช่ สัญญาทางแพ่ง?","choices":["สัญญาซื้อขาย","สัญญายืม","สัญญาเช่าทรัพย์","สัญญาทำผิดอาญา"],"answer":3,"explain":"นิติกรรม/สัญญาที่มีวัตถุประสงค์ขัดต่อกฎหมายหรือขัดต่อความสงบเรียบร้อยตกเป็นโมฆะ"},
+  {"id":150,"subject":"6. กฎหมายควรรู้","q":"ข้าราชการตำรวจอยู่ใต้บังคับบัญชาของหน่วยงานใดขึ้นตรงต่อนายกรัฐมนตรี?","choices":["กระทรวงมหาดไทย","กระทรวงยุติธรรม","สำนักงานตำรวจแห่งชาติ","กระทรวงกลาโหม"],"answer":2,"explain":"สำนักงานตำรวจแห่งชาติ (สตช.) เป็นส่วนราชการไม่สังกัดกระทรวง ขึ้นตรงต่อนายกรัฐมนตรี"}
+];
+
+var Q = [...originalQ];
+var labels = ["ก", "ข", "ค", "ง"];
+var currIdx = 0;
+var userAnswers = [];
+var markedList = [];
+var timeLeft = 180 * 60;
+var timerInterval = null;
+var currentThemeClass = 'theme-maroon';
+var currentThemeHex = '#800000';
+var selectedExamMode = 'normal';
+
+function setExamMode(mode) {
+  selectedExamMode = mode;
+  var btnNormal = document.getElementById('mode-normal-btn');
+  var btnRandom = document.getElementById('mode-random-btn');
   
-  let questions = [];
-  let userAnswers = [];
-  let markedQuestions = [];
-  let currIdx = 0;
-  let timerInterval;
+  if (mode === 'normal') {
+    btnNormal.className = "flex-1 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-xs shadow-sm";
+    btnRandom.className = "flex-1 py-2.5 bg-slate-200 text-slate-700 font-bold rounded-xl text-xs shadow-sm";
+  } else {
+    btnRandom.className = "flex-1 py-2.5 bg-indigo-600 text-white font-bold rounded-xl text-xs shadow-sm";
+    btnNormal.className = "flex-1 py-2.5 bg-slate-200 text-slate-700 font-bold rounded-xl text-xs shadow-sm";
+  }
+}
 
-  // ฟังก์ชันตรวจสอบรหัสผ่าน (License Key)
-  async function verifyLicenseKey() {
-    const key = document.getElementById('input-license-key').value.trim();
-    if (!key) {
-      alert('กรุณากรอกรหัสผ่าน');
-      return;
-    }
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
-    // ตัวอย่างจำลองการโหลดข้อมูลข้อสอบ (ท่านสามารถเปลี่ยนเป็น fetch ไปยัง Google Apps Script ของท่าน)
-    // สมมติฐานข้อมูลจำลองเพื่อความพร้อมใช้งานทันที
-    loadMockExamData();
+async function verifyLicenseKey() {
+  const keyInput = document.getElementById('input-license-key').value.trim();
+  const errorMsg = document.getElementById('key-error-msg');
+  const verifyBtn = document.getElementById('btn-verify');
+  
+  if (!keyInput) {
+    errorMsg.textContent = "กรอกรหัสก่อนนะครับ";
+    errorMsg.classList.remove('hidden');
+    return;
   }
 
-  function loadMockExamData() {
-    // ข้อมูลจำลองตัวอย่าง 5 ข้อ (สามารถปรับเปลี่ยนเป็นดึงจาก Server จริงได้)
-    questions = [
-      { subject: "ความสามารถทั่วไป", text: "ข้อใดคือผลลัพธ์ของ 5 + 5 * 5 ?", choices: ["30", "50", "25", "10"] },
-      { subject: "ภาษาไทย", text: "คำในข้อใดเขียนถูกต้องทุกคำ", choices: ["อนุญาต, กะเพรา", "อนุญาติ, กะเพรา", "อนุญาต, กระเพรา", "อนุญาติ, กระเพรา"] },
-      { subject: "กฎหมายที่ควรทราบ", text: "รัฐธรรมนูญแห่งราชอาณาจักรไทยฉบับปัจจุบันคือฉบับที่เท่าไหร่?", choices: ["ฉบับที่ 18", "ฉบับที่ 19", "ฉบับที่ 20", "ฉบับที่ 21"] },
-      { subject: "ภาษาอังกฤษ", text: "What is the capital of Thailand?", choices: ["Singapore", "Bangkok", "Kuala Lumpur", "Jakarta"] },
-      { subject: "คอมพิวเตอร์", text: "ข้อใดคือหน่วยความจำหลัก (Primary Memory)", choices: ["Harddisk", "RAM", "Flash Drive", "CD-ROM"] }
-    ];
+  errorMsg.classList.add('hidden');
+  verifyBtn.disabled = true;
+  verifyBtn.textContent = "กำลังตรวจสอบ...";
+  
+  const deviceId = getOrCreateDeviceId();
 
-    // โหลดข้อมูลเดิมจาก LocalStorage (ถ้ามี)
-    const savedAnswers = localStorage.getItem('police_user_answers');
-    if (savedAnswers) {
-      userAnswers = JSON.parse(savedAnswers);
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'verifyKey',
+        key: keyInput,
+        deviceId: deviceId,
+        userAgent: navigator.userAgent
+      })
+    });
+    
+    const result = await res.json();
+
+    if (result.status === "success") {
+      localStorage.setItem('activated_key', keyInput);
+      document.getElementById('activation-screen').classList.add('hidden');
+      document.getElementById('start-screen').classList.remove('hidden');
     } else {
-      userAnswers = new Array(questions.length).fill(null);
+      errorMsg.textContent = result.message || "รหัสไม่ถูกต้อง หรือถูกใช้งานไปแล้ว";
+      errorMsg.classList.remove('hidden');
     }
-
-    markedQuestions = new Array(questions.length).fill(false);
-
-    // ซ่อนหน้าจอใส่รหัส เปิดหน้าจอทำข้อสอบ
-    document.getElementById('activation-screen').classList.add('hidden');
-    document.getElementById('exam-container').classList.remove('hidden');
-    document.getElementById('timer').classList.remove('hidden');
-
-    initExam();
-    startTimer(3 * 3600); // ตั้งเวลา 3 ชั่วโมง
+  } catch (err) {
+    console.error("Connection Error:", err);
+    alert("เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง");
+  } finally {
+    verifyBtn.disabled = false;
+    verifyBtn.textContent = "ตรวจสอบและเปิดใช้งาน";
   }
+}
 
-  function initExam() {
-    renderGrid();
-    renderQ();
-    updateProgress();
+function toggleSettingsModal() {
+  document.getElementById('settings-modal').classList.toggle('hidden');
+}
+
+function initSavedSettings() {
+  var savedTheme = localStorage.getItem('app_theme');
+  var savedHex = localStorage.getItem('app_theme_hex');
+  var savedDarkMode = localStorage.getItem('app_dark_mode');
+
+  if (savedTheme && savedHex) {
+    setTheme(savedTheme, savedHex, false);
   }
+  if (savedDarkMode === 'true') {
+    applyDarkMode(true);
+  }
+}
 
-  function renderQ() {
-    const q = questions[currIdx];
-    document.getElementById('q-subject').innerText = q.subject;
-    document.getElementById('q-number').innerText = `${currIdx + 1} / ${questions.length}`;
-    document.getElementById('q-text').innerText = `${currIdx + 1}. ${q.text}`;
+function setTheme(themeName, themeColorHex, save = true) {
+  currentThemeClass = themeName;
+  currentThemeHex = themeColorHex;
+  var isDark = document.body.classList.contains('dark-mode');
+  document.body.className = themeName + (isDark ? ' dark-mode' : '') + " bg-slate-100 text-slate-800 min-h-screen flex flex-col justify-between";
+  document.getElementById('meta-theme-color').setAttribute('content', themeColorHex);
 
-    const choicesEl = document.getElementById('q-choices');
-    choicesEl.innerHTML = '';
+  if (save) {
+    localStorage.setItem('app_theme', themeName);
+    localStorage.setItem('app_theme_hex', themeColorHex);
+  }
+}
 
-    q.choices.forEach((choice, index) => {
-      const isSelected = userAnswers[currIdx] === index;
-      const btn = document.createElement('button');
-      btn.className = `w-full text-left p-3.5 rounded-xl border font-semibold text-sm transition-all flex items-center justify-between ${
-        isSelected 
-          ? 'bg-red-50 border-red-800 text-red-900 shadow-sm' 
-          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-      }`;
-      
-      btn.innerHTML = `<span><span class="inline-block w-6 font-bold text-theme">${String.fromCharCode(65 + index)}.</span> ${choice}</span>
-                       <span class="text-xs">${isSelected ? '✅ เลือกแล้ว' : ''}</span>`;
-      
-      btn.onclick = () => selectChoice(index);
-      choicesEl.appendChild(btn);
+function toggleDarkMode() {
+  var isDark = !document.body.classList.contains('dark-mode');
+  applyDarkMode(isDark);
+  localStorage.setItem('app_dark_mode', isDark);
+}
+
+function applyDarkMode(isDark) {
+  var btn = document.getElementById('dark-mode-toggle');
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+    if (btn) {
+      btn.innerHTML = '🌙 มืด';
+      btn.className = "px-4 py-2 bg-indigo-900 text-indigo-100 font-bold rounded-lg text-xs transition";
+    }
+  } else {
+    document.body.classList.remove('dark-mode');
+    if (btn) {
+      btn.innerHTML = '☀️ สว่าง';
+      btn.className = "px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-lg text-xs transition";
+    }
+  }
+  updateGridHighlight();
+}
+
+function startExamWithRandomization() {
+  let processedQuestions = [];
+
+  if (selectedExamMode === 'random') {
+    let categories = {};
+    originalQ.forEach(item => {
+      let cat = item.subject || "ทั่วไป";
+      if (!categories[cat]) {
+        categories[cat] = [];
+      }
+      categories[cat].push(item);
     });
 
-    // อัปเดตสถานะปุ่ม Mark
-    const markBtn = document.getElementById('btn-mark');
-    if (markedQuestions[currIdx]) {
-      markBtn.className = "px-3 py-2 bg-red-600 text-white rounded-xl font-bold text-xs transition-all";
-      markBtn.innerText = "🚩 เอาเครื่องหมายออก";
-    } else {
-      markBtn.className = "px-3 py-2 bg-yellow-100 text-yellow-700 rounded-xl font-bold text-xs transition-all";
-      markBtn.innerText = "🚩 ทำเครื่องหมาย";
+    for (let cat in categories) {
+      let shuffledCatQuestions = [...categories[cat]];
+      shuffleArray(shuffledCatQuestions);
+      processedQuestions = processedQuestions.concat(shuffledCatQuestions);
     }
-
-    updateGridHighlight();
+    shuffleArray(processedQuestions);
+  } else {
+    processedQuestions = originalQ.map(q => ({ ...q }));
   }
 
-  function selectChoice(index) {
-    if (userAnswers[currIdx] === index) {
-      userAnswers[currIdx] = null; // กดซ้ำเพื่อยกเลิกคำตอบ
-    } else {
-      userAnswers[currIdx] = index;
-    }
-    
-    // บันทึกลง LocalStorage ป้องกันข้อมูลหาย
-    localStorage.setItem('police_user_answers', JSON.stringify(userAnswers));
+  Q = processedQuestions.map(item => {
+    let choicesWithIndex = item.choices.map((choice, index) => ({
+      text: choice,
+      isOriginalCorrect: (index === item.answer)
+    }));
 
-    renderQ();
-    updateProgress();
-  }
+    shuffleArray(choicesWithIndex);
 
-  function clearChoice() {
-    userAnswers[currIdx] = null;
-    localStorage.setItem('police_user_answers', JSON.stringify(userAnswers));
-    renderQ();
-    updateProgress();
-  }
+    let newAnswerIndex = choicesWithIndex.findIndex(c => c.isOriginalCorrect);
 
-  function nextQ() {
-    if (currIdx < questions.length - 1) {
-      currIdx++;
-      renderQ();
-    }
-  }
+    return {
+      ...item,
+      choices: choicesWithIndex.map(c => c.text),
+      answer: newAnswerIndex
+    };
+  });
 
-  function prevQ() {
-    if (currIdx > 0) {
-      currIdx--;
-      renderQ();
-    }
-  }
+  userAnswers = new Array(Q.length).fill(null);
+  markedList = new Array(Q.length).fill(false);
+  currIdx = 0;
 
-  function toggleMark() {
-    markedQuestions[currIdx] = !markedQuestions[currIdx];
-    renderQ();
-    renderGrid();
-  }
-
-  function renderGrid() {
-    const gridEl = document.getElementById('q-grid');
-    gridEl.innerHTML = '';
-
-    questions.forEach((_, index) => {
-      const isAnswered = userAnswers[index] !== null;
-      const isCurrent = currIdx === index;
-      const isMarked = markedQuestions[index];
-
-      const btn = document.createElement('button');
-      let baseClass = "h-10 rounded-xl font-bold text-xs flex items-center justify-center transition-all ";
-      
-      if (isCurrent) {
-        baseClass += "ring-2 ring-red-800 ring-offset-2 ";
-      }
-
-      if (isAnswered) {
-        baseClass += "bg-emerald-600 text-white shadow-sm ";
-      } else {
-        baseClass += "bg-slate-100 text-slate-600 hover:bg-slate-200 ";
-      }
-
-      if (isMarked) {
-        baseClass += "grid-marked ";
-      }
-
-      btn.className = baseClass;
-      btn.innerText = index + 1;
-      btn.onclick = () => {
-        currIdx = index;
-        renderQ();
-      };
-
-      gridEl.appendChild(btn);
-    });
-  }
-
-  function updateGridHighlight() {
-    renderGrid();
-  }
-
-  function updateProgress() {
-    const answeredCount = userAnswers.filter(ans => ans !== null).length;
-    document.getElementById('progress-text').innerText = `ทำแล้ว ${answeredCount}/${questions.length} ข้อ`;
-  }
-
-  function startTimer(duration) {
-    let timer = duration, hours, minutes, seconds;
-    const display = document.getElementById('timer');
-    
-    timerInterval = setInterval(() => {
-      hours = parseInt(timer / 3600, 10);
-      minutes = parseInt((timer % 3600) / 60, 10);
-      seconds = parseInt(timer % 60, 10);
-
-      hours = hours < 10 ? "0" + hours : hours;
-      minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
-
-      display.textContent = `${hours}:${minutes}:${seconds}`;
-
-      if (--timer < 0) {
-        clearInterval(timerInterval);
-        alert('หมดเวลาทำข้อสอบ!');
-        submitExam();
-      }
-    }, 1000);
-  }
-
-  function confirmSubmit() {
-    const answeredCount = userAnswers.filter(ans => ans !== null).length;
-    const confirmMsg = `คุณทำข้อสอบไปแล้ว ${answeredCount} จาก ${questions.length} ข้อ\nต้องการส่งคำตอบทั้งหมดใช่หรือไม่?`;
-    if (confirm(confirmMsg)) {
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('exam-screen').classList.remove('hidden');
+  renderGrid();
+  renderQ();
+  
+  timerInterval = setInterval(function() {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
       submitExam();
     }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  var h = String(Math.floor(timeLeft / 3600)).padStart(2, '0');
+  var m = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
+  var s = String(timeLeft % 60).padStart(2, '0');
+  document.getElementById('timer').textContent = h + ":" + m + ":" + s;
+}
+
+function renderQ() {
+  var item = Q[currIdx];
+  document.getElementById('q-subject').textContent = item.subject;
+  document.getElementById('q-number').textContent = "ข้อ " + (currIdx + 1) + " / " + Q.length;
+  document.getElementById('q-text').textContent = item.q;
+
+  var choicesHtml = "";
+  for (var i = 0; i < item.choices.length; i++) {
+    var isSelected = (userAnswers[currIdx] === i);
+    
+    var containerClass = isSelected 
+      ? "bg-indigo-50 border-indigo-500 text-indigo-900 font-bold ring-2 ring-indigo-400" 
+      : "hover:bg-slate-50 text-slate-700 bg-inner border-slate-200";
+
+    var labelClass = isSelected 
+      ? "bg-indigo-600 text-white font-black" 
+      : "bg-slate-200 text-slate-600";
+
+    choicesHtml += '<button type="button" onclick="selectChoice(' + i + ')" class="w-full text-left flex items-center gap-3 p-3.5 rounded-xl border transition active:scale-[0.99] ' + containerClass + '">' +
+      '<span class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs transition-colors ' + labelClass + '">' + labels[i] + '</span>' +
+      '<span class="text-xs md:text-sm leading-relaxed">' + item.choices[i] + '</span>' +
+    '</button>';
+  }
+  
+  document.getElementById('q-choices').innerHTML = choicesHtml;
+  document.getElementById('btn-prev').disabled = (currIdx === 0);
+  document.getElementById('btn-next').disabled = (currIdx === Q.length - 1);
+  
+  var markBtn = document.getElementById('btn-mark');
+  if (markedList[currIdx]) {
+    markBtn.className = "px-3.5 py-2 bg-yellow-500 hover:bg-yellow-600 text-amber-950 font-black rounded-xl shadow transition active:scale-95 text-xs md:text-sm border-2 border-amber-700 ring-2 ring-yellow-300";
+  } else {
+    markBtn.className = "px-3.5 py-2 bg-yellow-400 hover:bg-yellow-500 text-amber-950 font-bold rounded-xl shadow-sm hover:shadow transition active:scale-95 text-xs md:text-sm border border-yellow-500";
   }
 
-  function submitExam() {
-    clearInterval(timerInterval);
-    localStorage.removeItem('police_user_answers');
-    alert('ส่งข้อสอบเรียบร้อยแล้ว!');
-    // สามารถเพิ่มโค้ดส่งผลคะแนนไปที่ Server หรือเปลี่ยนหน้าแสดงผลสรุปคะแนนตรงนี้
-  }
+  updateGridHighlight();
+}
 
-  // ป้องกันเผลอปิดหน้าต่างระหว่างสอบ
-  window.onbeforeunload = function() {
-    if (!document.getElementById('exam-container').classList.contains('hidden')) {
-      return "หากคุณออกจากหน้านี้ ข้อมูลการทำข้อสอบอาจสูญหาย!";
+function selectChoice(idx) {
+  userAnswers[currIdx] = idx;
+  renderQ();
+  updateProgress();
+}
+
+function prevQ() { if (currIdx > 0) { currIdx--; renderQ(); } }
+function nextQ() { if (currIdx < Q.length - 1) { currIdx++; renderQ(); } }
+function goToQ(idx) { currIdx = idx; renderQ(); }
+
+function toggleMark() {
+  markedList[currIdx] = !markedList[currIdx];
+  renderQ();
+}
+
+function renderGrid() {
+  var gridHtml = "";
+  for (var i = 0; i < Q.length; i++) {
+    gridHtml += '<button id="grid-btn-' + i + '" onclick="goToQ(' + i + ')" class="h-7 text-[10px] font-bold rounded flex items-center justify-center transition border relative overflow-hidden">' + (i + 1) + '</button>';
+  }
+  document.getElementById('q-grid').innerHTML = gridHtml;
+  updateProgress();
+}
+
+function updateGridHighlight() {
+  for (var i = 0; i < Q.length; i++) {
+    var btn = document.getElementById('grid-btn-' + i);
+    if (!btn) continue;
+    
+    btn.className = "h-7 text-[10px] font-bold rounded flex items-center justify-center transition border relative ";
+    if (userAnswers[i] !== null) {
+      btn.classList.add("bg-indigo-600", "text-white", "border-indigo-600");
+    } else {
+      btn.classList.add("grid-btn-unselected");
     }
-  };
-</script>
+    if (markedList[i]) btn.classList.add("grid-marked");
+    if (i === currIdx) btn.classList.add("ring-2", "ring-indigo-600", "ring-offset-1");
+  }
+}
 
+function updateProgress() {
+  var answeredCount = userAnswers.filter(function(x) { return x !== null; }).length;
+  document.getElementById('progress-text').textContent = "ตอบแล้ว " + answeredCount + "/" + Q.length;
+  document.getElementById('progress-bar').style.width = ((answeredCount / Q.length) * 100) + "%";
+}
+
+function confirmSubmit() {
+  var unanswered = userAnswers.filter(function(x) { return x === null; }).length;
+  var msg = unanswered > 0 ? "คุณยังไม่ได้ตอบอีก " + unanswered + " ข้อ ยืนยันการส่งข้อสอบหรือไม่?" : "คุณต้องการส่งข้อสอบเพื่อตรวจผลใช่หรือไม่?";
+  if (confirm(msg)) submitExam();
+}
+
+function submitExam() {
+  clearInterval(timerInterval);
+  document.getElementById('exam-screen').classList.add('hidden');
+  document.getElementById('result-screen').classList.remove('hidden');
+
+  var correctCount = 0;
+  for (var i = 0; i < Q.length; i++) {
+    if (userAnswers[i] === Q[i].answer) correctCount++;
+  }
+  var pct = ((correctCount / Q.length) * 100).toFixed(1);
+
+  document.getElementById('score-main').textContent = correctCount + " / " + Q.length;
+  document.getElementById('score-pct').textContent = "คิดเป็น " + pct + "%";
+
+  var passStatus = document.getElementById('pass-status');
+  if (correctCount >= 120) {
+    passStatus.textContent = "🎉 ยินดีด้วยครับ! คุณสอบผ่านเกณฑ์มาตรฐาน PolicewithArm แล้ว!";
+    passStatus.className = "inline-block px-4 py-2 rounded-full text-xs md:text-sm font-bold mb-3 bg-emerald-100 text-emerald-800 border border-emerald-300";
+  } else {
+    passStatus.textContent = "✌️ พยายามอีกนิดนะ! ลองทบทวนข้อที่ผิดแล้วฝึกทำใหม่อีกครั้ง สู้ๆ ครับ!";
+    passStatus.className = "inline-block px-4 py-2 rounded-full text-xs md:text-sm font-bold mb-3 bg-rose-100 text-rose-800 border border-rose-300";
+  }
+
+  var stats = {};
+  for (var j = 0; j < Q.length; j++) {
+    var item = Q[j];
+    if (!stats[item.subject]) stats[item.subject] = { correct: 0, total: 0 };
+    stats[item.subject].total++;
+    if (userAnswers[j] === item.answer) stats[item.subject].correct++;
+  }
+
+  var breakdownHtml = "";
+  for (var subjName in stats) {
+    var data = stats[subjName];
+    breakdownHtml += '<div class="bg-inner border border-slate-200 p-3 rounded-xl flex justify-between items-center">' +
+      '<span class="font-bold text-main text-xs md:text-sm">' + subjName + '</span>' +
+      '<span class="font-bold text-theme text-xs md:text-sm">' + data.correct + ' / ' + data.total + '</span>' +
+    '</div>';
+  }
+
+  document.getElementById('subject-breakdown').innerHTML = breakdownHtml;
+
+  const savedKey = localStorage.getItem('activated_key') || 'UNKNOWN';
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      action: 'saveResult',
+      key: savedKey,
+      score: `${correctCount}/${Q.length}`,
+      percentage: `${pct}%`,
+      userAgent: navigator.userAgent
+    })
+  }).catch(err => console.error("Save result error:", err));
+}
+
+function toggleReview() {
+  var container = document.getElementById('review-container');
+  if (!container.classList.contains('hidden')) {
+    container.classList.add('hidden');
+    return;
+  }
+
+  var reviewHtml = "";
+  for (var i = 0; i < Q.length; i++) {
+    var item = Q[i];
+    var userAns = userAnswers[i];
+    var isCorrect = (userAns === item.answer);
+
+    reviewHtml += '<div class="p-3.5 rounded-xl border ' + (isCorrect ? 'bg-emerald-50/50 border-emerald-200' : 'bg-red-50/50 border-red-200') + '">' +
+      '<div class="flex items-center justify-between mb-2">' +
+        '<span class="font-bold text-xs ' + (isCorrect ? 'text-emerald-700' : 'text-red-700') + '">ข้อที่ ' + (i + 1) + ' • ' + (isCorrect ? 'ตอบถูกต้อง' : 'ตอบผิด') + '</span>' +
+        '<span class="text-[10px] text-sub font-semibold">' + item.subject + '</span>' +
+      '</div>' +
+      '<p class="font-bold text-main text-xs md:text-sm mb-2">' + item.q + '</p>' +
+      '<div class="text-xs space-y-1 mb-2.5">' +
+        '<div class="' + (userAns === item.answer ? 'text-emerald-700 font-semibold' : 'text-red-600') + '">คำตอบของคุณ: ' + (userAns !== null ? labels[userAns] + '. ' + item.choices[userAns] : 'ไม่ได้ตอบ') + '</div>' +
+        '<div class="text-emerald-700 font-semibold">เฉลยที่ถูกต้อง: ' + labels[item.answer] + '. ' + item.choices[item.answer] + '</div>' +
+      '</div>' +
+      '<div class="bg-inner p-2.5 rounded-lg border border-slate-200 text-xs text-sub leading-relaxed">' +
+        '<span class="font-bold text-theme">คำอธิบาย:</span> ' + item.explain +
+      '</div>' +
+    '</div>';
+  }
+
+  container.innerHTML = reviewHtml;
+  container.classList.remove('hidden');
+}
+</script>
 </body>
-</html>
