@@ -370,7 +370,18 @@ async function backgroundVerifyKey(savedKey) {
 
 // คลังข้อสอบ
 var originalQ = [
-  // วางอาเรย์ข้อสอบของคุณที่นี่
+  {
+    subject: "หมวดวิชาทั่วไป",
+    q: "ข้อสอบชุดจำลอง POLICEWITHARM ข้อนี้ได้ถูกดึงข้อมูลและเตรียมพร้อมระบบให้เรียบร้อยแล้ว",
+    choices: [
+      "ตัวเลือก ก (ตัวอย่าง)",
+      "ตัวเลือก ข (ตัวอย่าง)",
+      "ตัวเลือก ค (ตัวอย่าง)",
+      "ตัวเลือก ง (ตัวอย่าง)"
+    ],
+    answer: 0,
+    explain: "คำอธิบายเฉลย: ระบบพร้อมใช้งานและสามารถนำชุดข้อสอบมาเติมลงในตัวแปร originalQ ได้ทันที"
+  }
 ];
 
 var Q = [...originalQ];
@@ -496,7 +507,6 @@ function applyDarkMode(isDark) {
 function startExamWithMode() {
   let processedQuestions = [];
 
-  // ระบบสุ่มข้อสอบและสลับลำดับข้อ/ตัวเลือกเมื่อเริ่มกดทำข้อสอบอัตโนมัติ
   let categories = {};
   originalQ.forEach(item => {
     let cat = item.subject || "ทั่วไป";
