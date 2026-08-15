@@ -715,331 +715,6 @@
     "explain": "โอกาส สะกดด้วย ส เสือ"
   },
   {
-    "id": 56,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "อุปกรณ์ใดทำหน้าที่เป็นสมองของคอมพิวเตอร์?",
-    "choices": [
-      "RAM",
-      "Hard Disk",
-      "CPU",
-      "GPU"
-    ],
-    "answer": 2,
-    "explain": "CPU (Central Processing Unit) ทำหน้าที่ประมวลผลหลัก"
-  },
-  {
-    "id": 57,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "หน่วยความจำชั่วคราวของคอมพิวเตอร์คือข้อใด?",
-    "choices": [
-      "ROM",
-      "RAM",
-      "SSD",
-      "Hard Disk"
-    ],
-    "answer": 1,
-    "explain": "RAM (Random Access Memory) คือหน่วยความจำชั่วคราว ข้อมูลหายเมื่อปิดเครื่อง"
-  },
-  {
-    "id": 58,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ข้อใดเป็นหน่วยส่งออกข้อมูล (Output Device)?",
-    "choices": [
-      "Keyboard",
-      "Mouse",
-      "Monitor",
-      "Scanner"
-    ],
-    "answer": 2,
-    "explain": "Monitor (จอภาพ) แสดงผลออกทางหน้าจอ"
-  },
-  {
-    "id": 59,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "1 Gigabyte (GB) เท่ากับกี่ Megabytes (MB) โดยประมาณ?",
-    "choices": [
-      "100 MB",
-      "500 MB",
-      "1,024 MB",
-      "2,048 MB"
-    ],
-    "answer": 2,
-    "explain": "1 GB = 1,024 MB"
-  },
-  {
-    "id": 60,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "โปรแกรมใดใช้สำหรับการพิมพ์งานเอกสาร?",
-    "choices": [
-      "Microsoft Excel",
-      "Microsoft PowerPoint",
-      "Microsoft Word",
-      "Microsoft Access"
-    ],
-    "answer": 2,
-    "explain": "Microsoft Word ใช้สำหรับพิมพ์งานเอกสาร"
-  },
-  {
-    "id": 61,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ข้อใดไม่ใช่ระบบปฏิบัติการ (Operating System)?",
-    "choices": [
-      "Windows",
-      "macOS",
-      "Linux",
-      "Google Chrome"
-    ],
-    "answer": 3,
-    "explain": "Google Chrome เป็น Web Browser ไม่ใช่ OS"
-  },
-  {
-    "id": 62,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "URL หมายถึงข้อใด?",
-    "choices": [
-      "ที่อยู่ของเว็บไซต์",
-      "โปรแกรมต่ออินเทอร์เน็ต",
-      "สายแลน",
-      "ภาษาเขียนเว็บ"
-    ],
-    "answer": 0,
-    "explain": "URL (Uniform Resource Locator) คือที่อยู่อ้างอิงตำแหน่งเว็บไซต์ในอินเทอร์เน็ต"
-  },
-  {
-    "id": 63,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "การบันทึกไฟล์ทับไฟล์เดิมใช้คีย์ลัดใดใน Windows?",
-    "choices": [
-      "Ctrl + C",
-      "Ctrl + V",
-      "Ctrl + S",
-      "Ctrl + Z"
-    ],
-    "answer": 2,
-    "explain": "Ctrl + S ใช้สำหรับ Save"
-  },
-  {
-    "id": 64,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "คีย์ลัด Ctrl + C มีหน้าที่อะไร?",
-    "choices": [
-      "ตัด (Cut)",
-      "คัดลอก (Copy)",
-      "วาง (Paste)",
-      "ยกเลิก (Undo)"
-    ],
-    "answer": 1,
-    "explain": "Ctrl + C คือ Copy"
-  },
-  {
-    "id": 65,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ข้อใดคือภัยคุกคามทางไซเบอร์ที่หลอกลวงให้กรอกรหัสผ่านผ่านเว็บปลอม?",
-    "choices": [
-      "Phishing",
-      "Virus",
-      "Worm",
-      "Trojan"
-    ],
-    "answer": 0,
-    "explain": "Phishing คือการหลอกลวงเพื่อเอาข้อมูลส่วนตัวผ่านช่องทางออนไลน์"
-  },
-  {
-    "id": 66,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ข้อใดคือมัลแวร์ที่ทำการเข้ารหัสไฟล์เพื่อเรียกเงินไถ่?",
-    "choices": [
-      "Spyware",
-      "Ransomware",
-      "Adware",
-      "Rootkit"
-    ],
-    "answer": 1,
-    "explain": "Ransomware คือมัลแวร์เรียกค่าไถ่"
-  },
-  {
-    "id": 67,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "โปรแกรมบราวเซอร์ใดเป็นของบริษัท Google?",
-    "choices": [
-      "Safari",
-      "Firefox",
-      "Edge",
-      "Chrome"
-    ],
-    "answer": 3,
-    "explain": "Google Chrome เป็นบราวเซอร์ของ Google"
-  },
-  {
-    "id": 68,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ซอฟต์แวร์ประยุกต์ใดใช้สำหรับการจัดการตารางคำนวณ?",
-    "choices": [
-      "Word",
-      "Excel",
-      "PowerPoint",
-      "Photoshop"
-    ],
-    "answer": 1,
-    "explain": "Excel ใช้สำหรับการคำนวณและตาราง"
-  },
-  {
-    "id": 69,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ข้อใดเป็นการเชื่อมต่อเครือข่ายไร้สายระยะสั้น?",
-    "choices": [
-      "LAN",
-      "Fiber Optic",
-      "Bluetooth",
-      "Satellite"
-    ],
-    "answer": 2,
-    "explain": "Bluetooth เป็นเทคโนโลยีรับส่งข้อมูลไร้สายระยะสั้น"
-  },
-  {
-    "id": 70,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "IP Address มีหน้าที่อะไร?",
-    "choices": [
-      "ระบุตัวตนและที่อยู่ของอุปกรณ์บนเครือข่าย",
-      "วัดความเร็วอินเทอร์เน็ต",
-      "ป้องกันไวรัส",
-      "เก็บข้อมูลส่วนตัว"
-    ],
-    "answer": 0,
-    "explain": "IP Address ใช้ระบุตัวตนอุปกรณ์ในระบบเครือข่าย"
-  },
-  {
-    "id": 71,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "โปรโตคอลความปลอดภัยสำหรับการใช้งานเว็บไซต์คือข้อใด?",
-    "choices": [
-      "HTTP",
-      "HTTPS",
-      "FTP",
-      "SMTP"
-    ],
-    "answer": 1,
-    "explain": "HTTPS มี S (Secure) มีการเข้ารหัสข้อมูลปลอดภัยกว่า HTTP"
-  },
-  {
-    "id": 72,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "อุปกรณ์ใดใช้เชื่อมต่อสัญญาณอินเทอร์เน็ตเข้าบ้าน?",
-    "choices": [
-      "Router / Modem",
-      "Printer",
-      "RAM",
-      "GPU"
-    ],
-    "answer": 0,
-    "explain": "Router/Modem ทำหน้าที่รับส่งสัญญาณอินเทอร์เน็ต"
-  },
-  {
-    "id": 73,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "Cloud Storage หมายถึงอะไร?",
-    "choices": [
-      "ฮาร์ดดิสก์พกพา",
-      "การฝากข้อมูลไว้บนเครื่องเซิร์ฟเวอร์ผ่านอินเทอร์เน็ต",
-      "แฟลชไดรฟ์",
-      "การสำรองข้อมูลในแผ่นซีดี"
-    ],
-    "answer": 1,
-    "explain": "การเก็บข้อมูลออนไลน์ผ่านระบบคลาวด์"
-  },
-  {
-    "id": 74,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ข้อใดเป็นสื่อบันทึกข้อมูลแบบแฟลช (Flash Memory)?",
-    "choices": [
-      "Handy Drive / Flash Drive",
-      "Floppy Disk",
-      "CD-ROM",
-      "Magnetic Tape"
-    ],
-    "answer": 0,
-    "explain": "Flash Drive ใช้หน่วยความจำแบบ Flash"
-  },
-  {
-    "id": 75,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ส่วนใดของคอมพิวเตอร์ทำหน้าที่เก็บข้อมูลถาวรแม้ปิดเครื่อง?",
-    "choices": [
-      "RAM",
-      "Hard Disk / SSD",
-      "Cache",
-      "Register"
-    ],
-    "answer": 1,
-    "explain": "Hard Disk หรือ SSD เป็น Non-volatile memory เก็บข้อมูลถาวร"
-  },
-  {
-    "id": 76,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ปุ่ม Print Screen บนคีย์บอร์ดมีไว้ทำอะไร?",
-    "choices": [
-      "พิมพ์เอกสารออกเครื่องพิมพ์",
-      "แคปหน้าจอ (จับภาพหน้าจอ)",
-      "เปิดโปรแกรม Paint",
-      "ปิดหน้าต่าง"
-    ],
-    "answer": 1,
-    "explain": "ใช้คัดลอกภาพหน้าจอปัจจุบัน"
-  },
-  {
-    "id": 77,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ไฟล์นามสกุล .pdf มักเปิดด้วยโปรแกรมใด?",
-    "choices": [
-      "Adobe Acrobat Reader",
-      "Microsoft Excel",
-      "WinRAR",
-      "Notepad"
-    ],
-    "answer": 0,
-    "explain": ".pdfเปิดอ่านผ่าน PDF Reader เช่น Adobe Acrobat Reader"
-  },
-  {
-    "id": 78,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ข้อใดคือลักษณะของรหัสผ่านที่ดี (Strong Password)?",
-    "choices": [
-      "12345678",
-      "password",
-      "ผสมตัวอักษรใหญ่ เล็ก ตัวเลข และสัญลักษณ์",
-      "วันเดือนปีเกิด"
-    ],
-    "answer": 2,
-    "explain": "มีความยาวและผสมผสานตัวอักษรหลายรูปแบบเดาได้ยาก"
-  },
-  {
-    "id": 79,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "ปัญญาประดิษฐ์ มีชื่อย่อภาษาอังกฤษว่าอย่างไร?",
-    "choices": [
-      "VR",
-      "AR",
-      "AI",
-      "IOT"
-    ],
-    "answer": 2,
-    "explain": "AI ย่อมาจาก Artificial Intelligence"
-  },
-  {
-    "id": 80,
-    "subject": "3. คอมพิวเตอร์",
-    "q": "IoT ย่อมาจากคำว่าอะไร?",
-    "choices": [
-      "Internet of Things",
-      "Information of Technology",
-      "Input of Text",
-      "Internet of Time"
-    ],
-    "answer": 0,
-    "explain": "Internet of Things การเชื่อมโยงอุปกรณ์ต่างๆ เข้ากับอินเทอร์เน็ต"
-  },
-  {
     "id": 81,
     "subject": "4. ภาษาอังกฤษ",
     "q": "What is the capital city of Thailand?",
@@ -1053,8 +728,333 @@
     "explain": "Bangkok (กรุงเทพมหานคร) เป็นเมืองหลวงของประเทศไทย"
   },
   {
+    "id": 56,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "อุปกรณ์ใดทำหน้าที่เป็นสมองของคอมพิวเตอร์?",
+    "choices": [
+      "RAM",
+      "Hard Disk",
+      "CPU",
+      "GPU"
+    ],
+    "answer": 2,
+    "explain": "CPU (Central Processing Unit) ทำหน้าที่ประมวลผลหลัก"
+  },
+  {
+    "id": 57,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "หน่วยความจำชั่วคราวของคอมพิวเตอร์คือข้อใด?",
+    "choices": [
+      "ROM",
+      "RAM",
+      "SSD",
+      "Hard Disk"
+    ],
+    "answer": 1,
+    "explain": "RAM (Random Access Memory) คือหน่วยความจำชั่วคราว ข้อมูลหายเมื่อปิดเครื่อง"
+  },
+  {
+    "id": 58,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ข้อใดเป็นหน่วยส่งออกข้อมูล (Output Device)?",
+    "choices": [
+      "Keyboard",
+      "Mouse",
+      "Monitor",
+      "Scanner"
+    ],
+    "answer": 2,
+    "explain": "Monitor (จอภาพ) แสดงผลออกทางหน้าจอ"
+  },
+  {
+    "id": 59,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "1 Gigabyte (GB) เท่ากับกี่ Megabytes (MB) โดยประมาณ?",
+    "choices": [
+      "100 MB",
+      "500 MB",
+      "1,024 MB",
+      "2,048 MB"
+    ],
+    "answer": 2,
+    "explain": "1 GB = 1,024 MB"
+  },
+  {
+    "id": 60,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "โปรแกรมใดใช้สำหรับการพิมพ์งานเอกสาร?",
+    "choices": [
+      "Microsoft Excel",
+      "Microsoft PowerPoint",
+      "Microsoft Word",
+      "Microsoft Access"
+    ],
+    "answer": 2,
+    "explain": "Microsoft Word ใช้สำหรับพิมพ์งานเอกสาร"
+  },
+  {
+    "id": 61,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ข้อใดไม่ใช่ระบบปฏิบัติการ (Operating System)?",
+    "choices": [
+      "Windows",
+      "macOS",
+      "Linux",
+      "Google Chrome"
+    ],
+    "answer": 3,
+    "explain": "Google Chrome เป็น Web Browser ไม่ใช่ OS"
+  },
+  {
+    "id": 62,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "URL หมายถึงข้อใด?",
+    "choices": [
+      "ที่อยู่ของเว็บไซต์",
+      "โปรแกรมต่ออินเทอร์เน็ต",
+      "สายแลน",
+      "ภาษาเขียนเว็บ"
+    ],
+    "answer": 0,
+    "explain": "URL (Uniform Resource Locator) คือที่อยู่อ้างอิงตำแหน่งเว็บไซต์ในอินเทอร์เน็ต"
+  },
+  {
+    "id": 63,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "การบันทึกไฟล์ทับไฟล์เดิมใช้คีย์ลัดใดใน Windows?",
+    "choices": [
+      "Ctrl + C",
+      "Ctrl + V",
+      "Ctrl + S",
+      "Ctrl + Z"
+    ],
+    "answer": 2,
+    "explain": "Ctrl + S ใช้สำหรับ Save"
+  },
+  {
+    "id": 64,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "คีย์ลัด Ctrl + C มีหน้าที่อะไร?",
+    "choices": [
+      "ตัด (Cut)",
+      "คัดลอก (Copy)",
+      "วาง (Paste)",
+      "ยกเลิก (Undo)"
+    ],
+    "answer": 1,
+    "explain": "Ctrl + C คือ Copy"
+  },
+  {
+    "id": 65,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ข้อใดคือภัยคุกคามทางไซเบอร์ที่หลอกลวงให้กรอกรหัสผ่านผ่านเว็บปลอม?",
+    "choices": [
+      "Phishing",
+      "Virus",
+      "Worm",
+      "Trojan"
+    ],
+    "answer": 0,
+    "explain": "Phishing คือการหลอกลวงเพื่อเอาข้อมูลส่วนตัวผ่านช่องทางออนไลน์"
+  },
+  {
+    "id": 66,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ข้อใดคือมัลแวร์ที่ทำการเข้ารหัสไฟล์เพื่อเรียกเงินไถ่?",
+    "choices": [
+      "Spyware",
+      "Ransomware",
+      "Adware",
+      "Rootkit"
+    ],
+    "answer": 1,
+    "explain": "Ransomware คือมัลแวร์เรียกค่าไถ่"
+  },
+  {
+    "id": 67,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "โปรแกรมบราวเซอร์ใดเป็นของบริษัท Google?",
+    "choices": [
+      "Safari",
+      "Firefox",
+      "Edge",
+      "Chrome"
+    ],
+    "answer": 3,
+    "explain": "Google Chrome เป็นบราวเซอร์ของ Google"
+  },
+  {
+    "id": 68,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ซอฟต์แวร์ประยุกต์ใดใช้สำหรับการจัดการตารางคำนวณ?",
+    "choices": [
+      "Word",
+      "Excel",
+      "PowerPoint",
+      "Photoshop"
+    ],
+    "answer": 1,
+    "explain": "Excel ใช้สำหรับการคำนวณและตาราง"
+  },
+  {
+    "id": 69,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ข้อใดเป็นการเชื่อมต่อเครือข่ายไร้สายระยะสั้น?",
+    "choices": [
+      "LAN",
+      "Fiber Optic",
+      "Bluetooth",
+      "Satellite"
+    ],
+    "answer": 2,
+    "explain": "Bluetooth เป็นเทคโนโลยีรับส่งข้อมูลไร้สายระยะสั้น"
+  },
+  {
+    "id": 70,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "IP Address มีหน้าที่อะไร?",
+    "choices": [
+      "ระบุตัวตนและที่อยู่ของอุปกรณ์บนเครือข่าย",
+      "วัดความเร็วอินเทอร์เน็ต",
+      "ป้องกันไวรัส",
+      "เก็บข้อมูลส่วนตัว"
+    ],
+    "answer": 0,
+    "explain": "IP Address ใช้ระบุตัวตนอุปกรณ์ในระบบเครือข่าย"
+  },
+  {
+    "id": 71,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "โปรโตคอลความปลอดภัยสำหรับการใช้งานเว็บไซต์คือข้อใด?",
+    "choices": [
+      "HTTP",
+      "HTTPS",
+      "FTP",
+      "SMTP"
+    ],
+    "answer": 1,
+    "explain": "HTTPS มี S (Secure) มีการเข้ารหัสข้อมูลปลอดภัยกว่า HTTP"
+  },
+  {
+    "id": 72,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "อุปกรณ์ใดใช้เชื่อมต่อสัญญาณอินเทอร์เน็ตเข้าบ้าน?",
+    "choices": [
+      "Router / Modem",
+      "Printer",
+      "RAM",
+      "GPU"
+    ],
+    "answer": 0,
+    "explain": "Router/Modem ทำหน้าที่รับส่งสัญญาณอินเทอร์เน็ต"
+  },
+  {
+    "id": 73,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "Cloud Storage หมายถึงอะไร?",
+    "choices": [
+      "ฮาร์ดดิสก์พกพา",
+      "การฝากข้อมูลไว้บนเครื่องเซิร์ฟเวอร์ผ่านอินเทอร์เน็ต",
+      "แฟลชไดรฟ์",
+      "การสำรองข้อมูลในแผ่นซีดี"
+    ],
+    "answer": 1,
+    "explain": "การเก็บข้อมูลออนไลน์ผ่านระบบคลาวด์"
+  },
+  {
+    "id": 74,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ข้อใดเป็นสื่อบันทึกข้อมูลแบบแฟลช (Flash Memory)?",
+    "choices": [
+      "Handy Drive / Flash Drive",
+      "Floppy Disk",
+      "CD-ROM",
+      "Magnetic Tape"
+    ],
+    "answer": 0,
+    "explain": "Flash Drive ใช้หน่วยความจำแบบ Flash"
+  },
+  {
+    "id": 75,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ส่วนใดของคอมพิวเตอร์ทำหน้าที่เก็บข้อมูลถาวรแม้ปิดเครื่อง?",
+    "choices": [
+      "RAM",
+      "Hard Disk / SSD",
+      "Cache",
+      "Register"
+    ],
+    "answer": 1,
+    "explain": "Hard Disk หรือ SSD เป็น Non-volatile memory เก็บข้อมูลถาวร"
+  },
+  {
+    "id": 76,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ปุ่ม Print Screen บนคีย์บอร์ดมีไว้ทำอะไร?",
+    "choices": [
+      "พิมพ์เอกสารออกเครื่องพิมพ์",
+      "แคปหน้าจอ (จับภาพหน้าจอ)",
+      "เปิดโปรแกรม Paint",
+      "ปิดหน้าต่าง"
+    ],
+    "answer": 1,
+    "explain": "ใช้คัดลอกภาพหน้าจอปัจจุบัน"
+  },
+  {
+    "id": 77,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ไฟล์นามสกุล .pdf มักเปิดด้วยโปรแกรมใด?",
+    "choices": [
+      "Adobe Acrobat Reader",
+      "Microsoft Excel",
+      "WinRAR",
+      "Notepad"
+    ],
+    "answer": 0,
+    "explain": ".pdfเปิดอ่านผ่าน PDF Reader เช่น Adobe Acrobat Reader"
+  },
+  {
+    "id": 78,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ข้อใดคือลักษณะของรหัสผ่านที่ดี (Strong Password)?",
+    "choices": [
+      "12345678",
+      "password",
+      "ผสมตัวอักษรใหญ่ เล็ก ตัวเลข และสัญลักษณ์",
+      "วันเดือนปีเกิด"
+    ],
+    "answer": 2,
+    "explain": "มีความยาวและผสมผสานตัวอักษรหลายรูปแบบเดาได้ยาก"
+  },
+  {
+    "id": 79,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "ปัญญาประดิษฐ์ มีชื่อย่อภาษาอังกฤษว่าอย่างไร?",
+    "choices": [
+      "VR",
+      "AR",
+      "AI",
+      "IOT"
+    ],
+    "answer": 2,
+    "explain": "AI ย่อมาจาก Artificial Intelligence"
+  },
+  {
+    "id": 80,
+    "subject": "4. คอมพิวเตอร์",
+    "q": "IoT ย่อมาจากคำว่าอะไร?",
+    "choices": [
+      "Internet of Things",
+      "Information of Technology",
+      "Input of Text",
+      "Internet of Time"
+    ],
+    "answer": 0,
+    "explain": "Internet of Things การเชื่อมโยงอุปกรณ์ต่างๆ เข้ากับอินเทอร์เน็ต"
+  },
+  {
     "id": 82,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "She ______ to school every day.",
     "choices": [
       "go",
@@ -1067,7 +1067,7 @@
   },
   {
     "id": 83,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "They ______ playing football right now.",
     "choices": [
       "is",
@@ -1080,7 +1080,7 @@
   },
   {
     "id": 84,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Yesterday, I ______ a new car.",
     "choices": [
       "buy",
@@ -1093,7 +1093,7 @@
   },
   {
     "id": 85,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Choose the correct synonym of 'Happy'.",
     "choices": [
       "Sad",
@@ -1106,7 +1106,7 @@
   },
   {
     "id": 86,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "What is the opposite of 'Big'?",
     "choices": [
       "Huge",
@@ -1119,7 +1119,7 @@
   },
   {
     "id": 87,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "He is ______ honest man.",
     "choices": [
       "a",
@@ -1132,7 +1132,7 @@
   },
   {
     "id": 88,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "How ______ students are there in the classroom?",
     "choices": [
       "much",
@@ -1145,7 +1145,7 @@
   },
   {
     "id": 89,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "How ______ sugar do you want in your coffee?",
     "choices": [
       "much",
@@ -1158,7 +1158,7 @@
   },
   {
     "id": 90,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Look at the sky! It ______ rain soon.",
     "choices": [
       "is going to",
@@ -1171,7 +1171,7 @@
   },
   {
     "id": 91,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "A: 'Thank you very much.' B: '______'",
     "choices": [
       "You're welcome.",
@@ -1184,7 +1184,7 @@
   },
   {
     "id": 92,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "A: 'How are you?' B: '______'",
     "choices": [
       "I am 20 years old.",
@@ -1197,7 +1197,7 @@
   },
   {
     "id": 93,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "This book is ______ than that one.",
     "choices": [
       "good",
@@ -1210,7 +1210,7 @@
   },
   {
     "id": 94,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Mount Everest is the ______ mountain in the world.",
     "choices": [
       "high",
@@ -1223,7 +1223,7 @@
   },
   {
     "id": 95,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "If it rains, we ______ stay at home.",
     "choices": [
       "will",
@@ -1236,7 +1236,7 @@
   },
   {
     "id": 96,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "The sun ______ in the east.",
     "choices": [
       "rise",
@@ -1249,7 +1249,7 @@
   },
   {
     "id": 97,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "She has been working here ______ 2020.",
     "choices": [
       "for",
@@ -1262,7 +1262,7 @@
   },
   {
     "id": 98,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "They have lived in London ______ 5 years.",
     "choices": [
       "since",
@@ -1275,7 +1275,7 @@
   },
   {
     "id": 99,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Which word is a noun?",
     "choices": [
       "Beautiful",
@@ -1288,7 +1288,7 @@
   },
   {
     "id": 100,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Which word is an adverb?",
     "choices": [
       "Slow",
@@ -1301,7 +1301,7 @@
   },
   {
     "id": 101,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Excuse me, where ______ the nearest bank?",
     "choices": [
       "is",
@@ -1314,7 +1314,7 @@
   },
   {
     "id": 102,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "My brother is interested ______ learning languages.",
     "choices": [
       "on",
@@ -1327,7 +1327,7 @@
   },
   {
     "id": 103,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Don't give up! What does 'give up' mean?",
     "choices": [
       "หยุด/ยอมแพ้",
@@ -1340,7 +1340,7 @@
   },
   {
     "id": 104,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Please turn ______ the light before you leave.",
     "choices": [
       "off",
@@ -1353,7 +1353,7 @@
   },
   {
     "id": 105,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Police officer : 'Can I see your driving license?' Driver : '______'",
     "choices": [
       "No way!",
@@ -1366,7 +1366,7 @@
   },
   {
     "id": 106,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "She doesn't ______ coffee in the morning.",
     "choices": [
       "like",
@@ -1379,7 +1379,7 @@
   },
   {
     "id": 107,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "There are seven days in a ______.",
     "choices": [
       "month",
@@ -1392,7 +1392,7 @@
   },
   {
     "id": 108,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "What color do you get if you mix red and yellow?",
     "choices": [
       "Green",
@@ -1405,7 +1405,7 @@
   },
   {
     "id": 109,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "The cat is sleeping ______ the table.",
     "choices": [
       "under",
@@ -1418,7 +1418,7 @@
   },
   {
     "id": 110,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Choose the correct spelling.",
     "choices": [
       "Receive",
@@ -2209,9 +2209,9 @@
     "answer": 1,
     "explain": "'พระมาลา' หมายถึง หมวก (พระฉาย = กระจก, พระโธรน = เก้าอี้/พระราชอาสน์)"
   },
-  {
+    {
     "id": 171,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ข้อใดคือโปรโตคอลหลักที่ใช้สำหรับการส่งอีเมลบนอินเทอร์เน็ต?",
     "choices": [
       "POP3",
@@ -2224,7 +2224,7 @@
   },
   {
     "id": 172,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ไฟล์ที่มีนามสกุล .png จัดเป็นไฟล์ประเภทใด?",
     "choices": [
       "ไฟล์เอกสาร",
@@ -2237,7 +2237,7 @@
   },
   {
     "id": 173,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ระบบปฏิบัติการ Open Source ที่นิยมใช้บนอุปกรณ์เคลื่อนที่คือข้อใด?",
     "choices": [
       "iOS",
@@ -2250,7 +2250,7 @@
   },
   {
     "id": 174,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "Firewall ในระบบคอมพิวเตอร์มีหน้าที่หลักอย่างไร?",
     "choices": [
       "กำจัดไวรัสในเครื่อง",
@@ -2263,7 +2263,7 @@
   },
   {
     "id": 175,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ข้อใดคือหน่วยวัดความเร็วของหน่วยประมวลผลกลาง (CPU)?",
     "choices": [
       "Byte",
@@ -2276,7 +2276,7 @@
   },
   {
     "id": 176,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "การกดปุ่ม Ctrl + Z บนคีย์บอร์ดมีผลอย่างไร?",
     "choices": [
       "คัดลอกข้อความ",
@@ -2289,7 +2289,7 @@
   },
   {
     "id": 177,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ข้อใดเป็นอุปกรณ์ประมวลผลกราฟิกโดยเฉพาะ?",
     "choices": [
       "CPU",
@@ -2302,7 +2302,7 @@
   },
   {
     "id": 178,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "การทำ 2FA (Two-Factor Authentication) หมายถึงข้อใด?",
     "choices": [
       "การยืนยันตัวตน 2 ขั้นตอน",
@@ -2315,7 +2315,7 @@
   },
   {
     "id": 179,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ข้อใด ไม่ใช่ บริการคลาวด์สตอเรจ (Cloud Storage)?",
     "choices": [
       "Google Drive",
@@ -2328,7 +2328,7 @@
   },
   {
     "id": 180,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ข้อใดคือลักษณะของมัลแวร์ประเภท 'Trojan Horse'?",
     "choices": [
       "แฝงตัวมากับโปรแกรมที่ดูน่าเชื่อถือ",
@@ -2341,7 +2341,7 @@
   },
   {
     "id": 181,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Which sentence is grammatically correct?",
     "choices": [
       "She don't like playing tennis.",
@@ -2354,7 +2354,7 @@
   },
   {
     "id": 182,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "What is the past tense of the verb 'go'?",
     "choices": [
       "Gone",
@@ -2367,7 +2367,7 @@
   },
   {
     "id": 183,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Choose the correct preposition: 'She was born ______ July 15th.'",
     "choices": [
       "in",
@@ -2380,7 +2380,7 @@
   },
   {
     "id": 184,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "What is the synonym of 'Difficult'?",
     "choices": [
       "Easy",
@@ -2393,7 +2393,7 @@
   },
   {
     "id": 185,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "If you study hard, you ______ pass the exam.",
     "choices": [
       "will",
@@ -2406,7 +2406,7 @@
   },
   {
     "id": 186,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "A: 'Could you please pass me the salt?' B: '______'",
     "choices": [
       "No, I don't.",
@@ -2419,7 +2419,7 @@
   },
   {
     "id": 187,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Which word is an adjective?",
     "choices": [
       "Quickly",
@@ -2432,7 +2432,7 @@
   },
   {
     "id": 188,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "He has been living in Chiang Mai ______ ten years.",
     "choices": [
       "since",
@@ -2445,7 +2445,7 @@
   },
   {
     "id": 189,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "What does the idiom 'Piece of cake' mean?",
     "choices": [
       "A slice of cake",
@@ -2458,7 +2458,7 @@
   },
   {
     "id": 190,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Neither Tom nor his friends ______ going to the party.",
     "choices": [
       "is",
@@ -3119,9 +3119,9 @@
     "answer": 2,
     "explain": "รอจนสายเกินแก้"
   },
-  {
+    {
     "id": 241,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "WWW ย่อมาจาก?",
     "choices": [
       "World Wide Web",
@@ -3134,7 +3134,7 @@
   },
   {
     "id": 242,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "อุปกรณ์รับข้อมูลคือ?",
     "choices": [
       "จอภาพ",
@@ -3147,7 +3147,7 @@
   },
   {
     "id": 243,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "หน่วยความจำใดเร็วกว่า RAM?",
     "choices": [
       "HDD",
@@ -3160,7 +3160,7 @@
   },
   {
     "id": 244,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ไฟล์ .mp3 คือไฟล์?",
     "choices": [
       "ภาพ",
@@ -3173,7 +3173,7 @@
   },
   {
     "id": 245,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ระบบปฏิบัติการใดเป็นของ Apple?",
     "choices": [
       "Windows",
@@ -3186,7 +3186,7 @@
   },
   {
     "id": 246,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "คีย์ลัดตัด (Cut) คือ?",
     "choices": [
       "Ctrl+C",
@@ -3199,7 +3199,7 @@
   },
   {
     "id": 247,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ข้อใดเป็นไวรัส?",
     "choices": [
       "Worm",
@@ -3212,7 +3212,7 @@
   },
   {
     "id": 248,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "อินเทอร์เน็ตคือ?",
     "choices": [
       "เครือข่ายคอมพิวเตอร์ทั่วโลก",
@@ -3225,7 +3225,7 @@
   },
   {
     "id": 249,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "เมาส์มีไว้ทำอะไร?",
     "choices": [
       "พิมพ์",
@@ -3238,7 +3238,7 @@
   },
   {
     "id": 250,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ภาษาคอมพิวเตอร์ที่นิยมใช้ทำเว็บ?",
     "choices": [
       "HTML",
@@ -3251,7 +3251,7 @@
   },
   {
     "id": 251,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "การสำรองข้อมูล (Backup) คือ?",
     "choices": [
       "ลบไฟล์",
@@ -3264,7 +3264,7 @@
   },
   {
     "id": 252,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ไวไฟ (Wi-Fi) ใช้เชื่อมต่ออะไร?",
     "choices": [
       "สาย LAN",
@@ -3277,7 +3277,7 @@
   },
   {
     "id": 253,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "ข้อใดคือ Browser?",
     "choices": [
       "Chrome",
@@ -3290,7 +3290,7 @@
   },
   {
     "id": 254,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "หน่วยความจำ 1 TB มีค่าประมาณ?",
     "choices": [
       "1000 GB",
@@ -3303,7 +3303,7 @@
   },
   {
     "id": 255,
-    "subject": "3. คอมพิวเตอร์",
+    "subject": "4. คอมพิวเตอร์",
     "q": "รหัสผ่านที่ดีควรประกอบด้วย?",
     "choices": [
       "ชื่อ",
@@ -3316,7 +3316,7 @@
   },
   {
     "id": 256,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Which is a vowel?",
     "choices": [
       "b",
@@ -3329,7 +3329,7 @@
   },
   {
     "id": 257,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "What is the plural of 'child'?",
     "choices": [
       "childs",
@@ -3342,7 +3342,7 @@
   },
   {
     "id": 258,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "I ______ to the park yesterday.",
     "choices": [
       "go",
@@ -3355,7 +3355,7 @@
   },
   {
     "id": 259,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "He is ______ taller than me.",
     "choices": [
       "more",
@@ -3368,7 +3368,7 @@
   },
   {
     "id": 260,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Opposite of 'Hot' is?",
     "choices": [
       "Warm",
@@ -3381,7 +3381,7 @@
   },
   {
     "id": 261,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "What time is it?",
     "choices": [
       "I am fine",
@@ -3394,7 +3394,7 @@
   },
   {
     "id": 262,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Which is a fruit?",
     "choices": [
       "Carrot",
@@ -3407,7 +3407,7 @@
   },
   {
     "id": 263,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "We ______ friends.",
     "choices": [
       "is",
@@ -3420,7 +3420,7 @@
   },
   {
     "id": 264,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Look! The bird ______.",
     "choices": [
       "fly",
@@ -3433,7 +3433,7 @@
   },
   {
     "id": 265,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "How ______ water do you need?",
     "choices": [
       "much",
@@ -3446,7 +3446,7 @@
   },
   {
     "id": 266,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "She ______ study every day.",
     "choices": [
       "do",
@@ -3459,7 +3459,7 @@
   },
   {
     "id": 267,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "I am ______ school.",
     "choices": [
       "in",
@@ -3472,7 +3472,7 @@
   },
   {
     "id": 268,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "What is 10 + 10?",
     "choices": [
       "Ten",
@@ -3485,7 +3485,7 @@
   },
   {
     "id": 269,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "Thanks for your help. Answer?",
     "choices": [
       "Welcome",
@@ -3498,7 +3498,7 @@
   },
   {
     "id": 270,
-    "subject": "4. ภาษาอังกฤษ",
+    "subject": "3. ภาษาอังกฤษ",
     "q": "I am ______ student.",
     "choices": [
       "a",
