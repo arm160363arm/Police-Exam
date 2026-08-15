@@ -108,6 +108,7 @@
     
     initSavedSettings();
     fastCheckActivationState();
+    loadExternalQuestions(); // เพิ่มฟังก์ชันโหลดข้อสอบภายนอกตรงนี้
   });
 
   if ('serviceWorker' in navigator) {
@@ -368,21 +369,34 @@ async function backgroundVerifyKey(savedKey) {
   }
 }
 
-// คลังข้อสอบ
-var originalQ = [
-  {
-    subject: "หมวดวิชาทั่วไป",
-    q: "ข้อสอบชุดจำลอง POLICEWITHARM ข้อนี้ได้ถูกดึงข้อมูลและเตรียมพร้อมระบบให้เรียบร้อยแล้ว",
-    choices: [
-      "ตัวเลือก ก (ตัวอย่าง)",
-      "ตัวเลือก ข (ตัวอย่าง)",
-      "ตัวเลือก ค (ตัวอย่าง)",
-      "ตัวเลือก ง (ตัวอย่าง)"
-    ],
-    answer: 0,
-    explain: "คำอธิบายเฉลย: ระบบพร้อมใช้งานและสามารถนำชุดข้อสอบมาเติมลงในตัวแปร originalQ ได้ทันที"
+// คลังข้อสอบ (ดึงข้อมูลอัตโนมัติจากไฟล์ภายนอก เช่น questions.json)
+var originalQ = [];
+
+async function loadExternalQuestions() {
+  try {
+    // เปลี่ยนชื่อไฟล์ 'questions.json' เป็นชื่อไฟล์ข้อสอบจริงของคุณ
+    const response = await fetch('policewitharm-exam.html'); 
+    if (!response.ok) throw new Error('ไม่สามารถโหลดไฟล์ข้อสอบได้');
+    const data = await response.json();
+    if (Array.isArray(data) && data.length > 0) {
+      originalQ = data;
+      Q = [...originalQ];
+    }
+  } catch (error) {
+    console.warn("ใช้ข้อสอบสำรองเนื่องจากไม่พบไฟล์ภายนอก:", error);
+    // ข้อสอบสำรองกรณีโหลดไฟล์ภายนอกไม่สำเร็จ
+    originalQ = [
+      {
+        subject: "หมวดวิชาทั่วไป",
+        q: "ข้อสอบสำรอง (กรุณาสร้างไฟล์ questions.json หรือตรวจสอบเส้นทางไฟล์ข้อสอบ)",
+        choices: ["ตัวเลือก ก", "ตัวเลือก ข", "ตัวเลือก ค", "ตัวเลือก ง"],
+        answer: 0,
+        explain: "คำอธิบายเฉลยสำรอง"
+      }
+    ];
+    Q = [...originalQ];
   }
-];
+}
 
 var Q = [...originalQ];
 var labels = ["ก", "ข", "ค", "ง"];
@@ -505,8 +519,12 @@ function applyDarkMode(isDark) {
 }
 
 function startExamWithMode() {
-  let processedQuestions = [];
+  if (!originalQ || originalQ.length === 0) {
+    alert("กำลังโหลดชุดข้อสอบ กรุณารอสักครู่แล้วลองใหม่อีกครั้ง");
+    return;
+  }
 
+  let processedQuestions = [];
   let categories = {};
   originalQ.forEach(item => {
     let cat = item.subject || "ทั่วไป";
