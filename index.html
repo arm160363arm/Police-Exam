@@ -108,7 +108,7 @@
     
     initSavedSettings();
     fastCheckActivationState();
-    loadExternalQuestions(); // เพิ่มฟังก์ชันโหลดข้อสอบภายนอกตรงนี้
+    loadExternalQuestions();
   });
 
   if ('serviceWorker' in navigator) {
@@ -374,7 +374,6 @@ var originalQ = [];
 
 async function loadExternalQuestions() {
   try {
-    // เปลี่ยนชื่อไฟล์ 'questions.json' เป็นชื่อไฟล์ข้อสอบจริงของคุณ
     const response = await fetch('questions.json'); 
     if (!response.ok) throw new Error('ไม่สามารถโหลดไฟล์ข้อสอบได้');
     const data = await response.json();
@@ -384,10 +383,9 @@ async function loadExternalQuestions() {
     }
   } catch (error) {
     console.warn("ใช้ข้อสอบสำรองเนื่องจากไม่พบไฟล์ภายนอก:", error);
-    // ข้อสอบสำรองกรณีโหลดไฟล์ภายนอกไม่สำเร็จ
     originalQ = [
       {
-        subject: "หมวดวิชาทั่วไป",
+        subject: "ความสามารถทั่วไป",
         q: "ข้อสอบสำรอง (กรุณาสร้างไฟล์ questions.json หรือตรวจสอบเส้นทางไฟล์ข้อสอบ)",
         choices: ["ตัวเลือก ก", "ตัวเลือก ข", "ตัวเลือก ค", "ตัวเลือก ง"],
         answer: 0,
@@ -524,21 +522,69 @@ function startExamWithMode() {
     return;
   }
 
-  let processedQuestions = [];
+  // 1. กำหนดลำดับหมวดหมู่ 1 ถึง 6 อย่างเคร่งครัด
+  const categoryOrder = [
+    "ความสามารถทั่วไป",
+    "ภาษาไทย",
+    "ภาษาอังกฤษ",
+    "คอมพิวเตอร์",
+    "สังคม/อาเซียน",
+    "กฎหมายควรรู้"
+  ];
+
+  // 2. จัดกลุ่มข้อสอบตามหมวดหมู่
   let categories = {};
   originalQ.forEach(item => {
-    let cat = item.subject || "ทั่วไป";
+    let cat = item.subject || "ความสามารถทั่วไป";
     if (!categories[cat]) categories[cat] = [];
     categories[cat].push(item);
   });
 
-  for (let cat in categories) {
-    let shuffledCatQuestions = [...categories[cat]];
-    shuffleArray(shuffledCatQuestions);
-    processedQuestions = processedQuestions.concat(shuffledCatQuestions);
+  let processedQuestions = [];
+  let totalTarget = 150; // กำหนดเป้าหมายดึงข้อสอบรวม 150 ข้อ
+  let activeCategories = categoryOrder.filter(cat => categories[cat] && categories[cat].length > 0);
+  
+  if (activeCategories.length === 0) {
+    activeCategories = Object.keys(categories);
   }
-  shuffleArray(processedQuestions);
 
+  let baseCountPerCat = Math.floor(totalTarget / activeCategories.length);
+  let remainder = totalTarget % activeCategories.length;
+
+  // 3. สุ่มข้อสอบ (Shuffle) ภายในหมวดหมู่ของตัวเอง และแบ่งโควตาข้อสอบ
+  activeCategories.forEach((cat, index) => {
+    let catQuestions = [...categories[cat]];
+    shuffleArray(catQuestions);
+
+    let targetCountForThisCat = baseCountPerCat + (index < remainder ? 1 : 0);
+    let selectedCatQuestions = catQuestions.slice(0, Math.min(targetCountForThisCat, catQuestions.length));
+    
+    processedQuestions = processedQuestions.concat(selectedCatQuestions);
+  });
+
+  // เติมข้อสอบให้ครบ 150 ข้อ หากคลังมีข้อสอบไม่พอในบางหมวด
+  if (processedQuestions.length < totalTarget) {
+    let remainingPool = originalQ.filter(q => !processedQuestions.includes(q));
+    shuffleArray(remainingPool);
+    let needed = totalTarget - processedQuestions.length;
+    processedQuestions = processedQuestions.concat(remainingPool.slice(0, needed));
+  }
+
+  // ตัดให้เหลือ 150 ข้อพอดี
+  if (processedQuestions.length > totalTarget) {
+    processedQuestions = processedQuestions.slice(0, totalTarget);
+  }
+
+  // 4. จัดเรียงลำดับหมวดหมู่ตามโครงสร้าง 1 ถึง 6
+  processedQuestions.sort((a, b) => {
+    let indexA = categoryOrder.indexOf(a.subject);
+    let indexB = categoryOrder.indexOf(b.subject);
+    if (indexA === -1) indexA = 99;
+    if (indexB === -1) indexB = 99;
+    return indexA - indexB;
+  });
+
+  // 5. สุ่มสลับตัวเลือก (Choices) และปรับตำแหน่งเฉลยให้ถูกต้อง
   Q = processedQuestions.map(item => {
     let choicesWithIndex = item.choices.map((choice, index) => ({
       text: choice,
@@ -558,7 +604,7 @@ function startExamWithMode() {
   userAnswers = new Array(Q.length).fill(null);
   markedList = new Array(Q.length).fill(false);
   currIdx = 0;
-  timeLeft = Q.length * 72;
+  timeLeft = Q.length * 72; // 72 วินาทีต่อข้อ (หรือปรับตามเวลาที่ต้องการ)
 
   document.getElementById('start-screen').classList.add('hidden');
   document.getElementById('exam-screen').classList.remove('hidden');
