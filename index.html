@@ -375,7 +375,7 @@ var originalQ = [];
 async function loadExternalQuestions() {
   try {
     // เปลี่ยนชื่อไฟล์ 'questions.json' เป็นชื่อไฟล์ข้อสอบจริงของคุณ
-    const response = await fetch('policewitharm-exam.html'); 
+    const response = await fetch('questions.json'); 
     if (!response.ok) throw new Error('ไม่สามารถโหลดไฟล์ข้อสอบได้');
     const data = await response.json();
     if (Array.isArray(data) && data.length > 0) {
